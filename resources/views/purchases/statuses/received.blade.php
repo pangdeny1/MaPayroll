@@ -1,0 +1,1 @@
+<span class="list-icon"><i class="fas fa-arrow-alt-circle-down"></i></span> {{ $purchase->status }}

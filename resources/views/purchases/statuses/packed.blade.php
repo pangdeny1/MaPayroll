@@ -1,0 +1,1 @@
+<span class="list-icon"><i class="fas fa-inbox text-warning"></i></span> {{ $purchase->status }}

@@ -64,14 +64,14 @@
                     </a>
                     @endcan
 
-                    <div class="menu-header">Farmers</div>
-                    <a href="{{ route("farmers.index")}}" class="menu-link mb-2">
+                    <div class="menu-header">Employees</div>
+                    <a href="{{ route("employees.index")}}" class="menu-link mb-2">
                         <i class="fas fa-user-friends text-muted mr-2"></i>
                         <span class="menu-text">Browse a list</span>
                     </a>
 
                     @can("create", \App\Farmer::class)
-                    <a href="{{ route("farmers.create")}}" class="menu-link mb-2">
+                    <a href="{{ route("employee.create")}}" class="menu-link mb-2">
                         <i class="fas fa-plus text-muted mr-2"></i>
                         <span class="menu-text">Register new</span>
                     </a>

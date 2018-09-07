@@ -139,6 +139,8 @@ Route::get("farmers/{farmer}/settings", [
 Route::resource("farmers", "FarmersController");
 Route::post("farmers/{farmer}", "FarmersController@update");
 
+
+
 Route::resource("purchases", "PurchasesController");
 
 Route::get("clusters", [
@@ -256,5 +258,25 @@ Route::prefix('settings')->group(function () {
   ]);
   Route::resource("changepassword", "Auth\ChangePasswordController");
  Route::post("changepassword/{user}","Auth\ChangePasswordController@update");
+
+
+ Route::resource("employees","EmployeesController");
+
+ Route::get("employee/create", [
+     "as" => "employee.create",
+      "uses" => "EmployeesController@create"
+  ]);
+
+ Route::get("employee/store", [
+     "as" => "employee.store",
+      "uses" => "EmployeesController@store"
+  ]);
+
+  Route::get("employee/store", [
+     "as" => "employee.store",
+      "uses" => "EmployeesController@store"
+  ]);
+
+
 
 

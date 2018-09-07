@@ -13,3 +13,4 @@ Route::get("farms/{farm}/blocks",   "Api\FarmBlocksController@index");
 Route::get("farms/{farm}/crops",    "Api\FarmCropsController@index");
 
 Route::get("farmers", "Api\FarmersController@index");
+Route::get("employees", "Api\EmployeesController@index");

@@ -4,23 +4,21 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEmployeesTable extends Migration
+class CreatePrltransactionsTable extends Migration
 {
-   /**
+    /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('employees', function (Blueprint $table) {
+        Schema::create('prltransactions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('other_name');
-            $table->string('phone');
-            $table->string('email')->nullable();
-            $table->enum('gender', ["male", "female"]);
+            $table->unsignedInteger('employee_id')->nullable();
+            $table->double('basicpay');
+            $table->double('grosspay');
+            $table->double('netpay');
             $table->unsignedInteger('creator_id')->nullable();
             $table->timestamps();
         });
@@ -33,6 +31,6 @@ class CreateEmployeesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employees');
+        Schema::dropIfExists('prltransactions');
     }
 }

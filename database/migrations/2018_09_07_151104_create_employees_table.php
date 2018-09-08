@@ -20,7 +20,7 @@ class CreateEmployeesTable extends Migration
             $table->string('phone');
             $table->string('email')->nullable();
             $table->enum('gender', ["male", "female"]);
-            $table->double('periodrate')->nullable();
+            $table->double('period_rate')->nullable();
             $table->unsignedInteger('creator_id')->nullable();
             $table->timestamps();
         });

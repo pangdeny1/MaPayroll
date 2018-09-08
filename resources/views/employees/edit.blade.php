@@ -13,7 +13,7 @@
                     </li>
                 </ol>
                 </nav>
-                <h1 class="page-title"> Farmer registration </h1>
+                <h1 class="page-title"> Employee registration </h1>
             </header>
             <div class="page-section">
                 <div class="row">
@@ -127,6 +127,27 @@
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
+                            <header class="card-header border-bottom-0">
+                               Salary information
+                            </header>
+                            <div class="card-body">
+                                  <div class="col-md-3 mb-3">
+                                            <label for="period_rate">Period rate</label>
+                                            <input type="text"
+                                                   name="period_rate"
+                                                   class="form-control {{ $errors->has('period_rate') ? 'is-invalid' : '' }}"
+                                                   id="period_rate"
+                                                   value="{{ old("period_rate", optional($employee->address)->period_rate) }}"
+                                            >
+                                            @if ($errors->has('period_rate'))
+                                                <span class="invalid-feedback">
+                                                    <strong>{{ $errors->first('period_rate') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                            </div>
+
                            <hr>
                             <header class="card-header border-bottom-0">
                                Grower Group information

@@ -31,7 +31,7 @@
                                 @can("create", \App\Farmer::class)
                                 <a href="{{ route("employees.create") }}" class="btn btn-primary">
                                     <span class="fas fa-plus mr-1"></span>
-                                    New farmer
+                                    New employee
                                 </a>
                                 @endcan
                             </div>
@@ -101,7 +101,7 @@
                                                 <td>{{ $employee->phone }}</td>
                                                 <td>{{ $employee->email }}</td>
                                                 <td></td>
-                                                <td></td>
+                                                <td>{{ optional($employee->address)->state }}</td>
                                                 <td class="align-middle text-right">
                                                     @can("edit", \App\Farmer::class)
                                                     <a href="{{ route("employees.edit", $employee) }}" class="btn btn-sm btn-secondary">

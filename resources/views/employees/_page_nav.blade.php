@@ -3,30 +3,30 @@
     <div class="nav-scroller">
         <!-- .nav -->
         <div class="nav nav-center nav-tabs">
-            <a class="nav-link" href="{{ route("farmers.show", $farmer) }}">
+            <a class="nav-link" href="{{ route("farmers.show", $employee) }}">
                 Overview
             </a>
-            <a class="nav-link" href="{{ route("farmers.farms.index", $farmer) }}">
+            <a class="nav-link" href="{{ route("farmers.farms.index", $employee) }}">
                 Farmland blocks
-                <span class="badge">{{ $farmer->farms->count() }}</span>
+                <span class="badge"></span>
             </a>
-            <a class="nav-link" href="{{ route("farmers.household_blocks.index", $farmer) }}">
+            <a class="nav-link" href="{{ route("farmers.household_blocks.index", $employee) }}">
                 Household Blocks
-                <span class="badge">{{ $farmer->householdBlocks->count() }}</span>
+                <span class="badge"></span>
             </a>
-            <a class="nav-link" href="{{ route("farmers.sales.index", $farmer) }}">
+            <a class="nav-link" href="{{ route("farmers.sales.index", $employee) }}">
                 Sales
-                <span class="badge">{{ $farmer->sales->count() }}</span>
+                <span class="badge"></span>
             </a>
-            <a class="nav-link" href="{{ route("farmers.batches.index", $farmer) }}">
+            <a class="nav-link" href="{{ route("farmers.batches.index", $employee) }}">
                 Batches
-                <span class="badge">{{ $farmer->batches->count() }}</span>
+                <span class="badge"></span>
             </a>
-            <a class="nav-link" href="{{ route("farmers.harvests.index", $farmer) }}">
+            <a class="nav-link" href="{{ route("farmers.harvests.index", $employee) }}">
                 Harvests
-                <span class="badge">{{ $farmer->harvests->count() }}</span>
+                <span class="badge"></span>
             </a>
-            <a class="nav-link" href="{{ route("farmers.settings.index", $farmer) }}">
+            <a class="nav-link" href="{{ route("farmers.settings.index", $employee) }}">
                 Settings
             </a>
         </div>

@@ -66,16 +66,17 @@ class EmployeesController extends Controller
     {
         $this->authorize("create", Employee::class);
 
-        $Employee = Employee::create([
+        $employee = Employee::create([
             "first_name" => request("first_name"),
             "last_name" => request("last_name"),
             "phone" => request("phone"),
             "email" => request("email"),
             "gender" => request("gender"),
+            "period_rate" =>request("period_rate"),
             "creator_id" => auth()->id(),
         ]);
 
-        $Employee->address()->create($request->only([
+        $employee->address()->create($request->only([
             "street",
             "address",
             "state",
@@ -83,7 +84,7 @@ class EmployeesController extends Controller
             "postal_code",
         ]));
 
-       // $Employee->groups()->attach($request->group_id);
+       // $employee->groups()->attach($request->group_id);
         
         /* \Sms::send(phone(request("phone"), "TZ"), $this->messageBody(
             request("first_name"),
@@ -91,37 +92,37 @@ class EmployeesController extends Controller
             request("phone")
         ));
         */
-        return redirect()->route("employees.show", $Employee);
+        return redirect()->route("employees.show", $employee);
     }
 
     /**
-     * @param Employee $Employee
+     * @param Employee $employee
      * @return RedirectResponse
      * @throws AuthorizationException
      */
 
-    public function edit(Employee $Employee)
+    public function edit(Employee $employee)
     {
         $this->authorize("edit", Employee::class);
 
         return view("employees.edit", [
             "states" => State::getCountryName("Tanzania"),
-            "Employee" =>$Employee,
+            "employee" =>$employee,
             "groups" =>Group::All(),
             "groupmember"=>GroupMember::All(),
            
         ]);
-    }
-/* public function update(Employee $Employee)
+    } 
+/* public function update(Employee $employee)
     {
-        $this->authorize("edit", $Employee);
+        $this->authorize("edit", $employee);
 
-        $Employee->update([
-            "first_name" => request("first_name", $Employee->first_name),
-            "last_name" => request("last_name", $Employee->last_name),
-            "phone" => request("phone", $Employee->phone),
-            "email" => request("email", $Employee->email),
-            "gender" => request("gender", $Employee->gender),
+        $employee->update([
+            "first_name" => request("first_name", $employee->first_name),
+            "last_name" => request("last_name", $employee->last_name),
+            "phone" => request("phone", $employee->phone),
+            "email" => request("email", $employee->email),
+            "gender" => request("gender", $employee->gender),
         ]);
 
         return redirect()->back();
@@ -129,9 +130,9 @@ class EmployeesController extends Controller
 
 */
 
-    public function update(Request $request,Employee $Employee)
+    public function update(Request $request,Employee $employee)
     {
-        $this->authorize("update", $Employee);
+        $this->authorize("update", $employee);
         $this->validate($request, [
             "first_name" => "required",
             "last_name" => "required",
@@ -140,24 +141,25 @@ class EmployeesController extends Controller
             "gender" => ["required", Rule::in(["male","female"])],
         ]);
 
-        $Employee->update([
+        $employee->update([
             "first_name" => request("first_name"),
             "last_name" => request("last_name"),
             "email" => request("email"),
             "phone" => request("phone"),
             "gender" => request("gender"),
+            "period_rate" => request("period_rate"),
         ]);
 
-        if ($Employee->address()->exists()){
-            $Employee->address()->update([
-                "street" => request("street", optional($Employee->address)->street),
-                "address" => request("address", optional($Employee->address)->address),
-                "state" => request("state", optional($Employee->address)->state),
-                "country" => request("country", optional($Employee->address)->country),
-                "postal_code" => request("postal_code", optional($Employee->address)->postal_code),
+        if ($employee->address()->exists()){
+            $employee->address()->update([
+                "street" => request("street", optional($employee->address)->street),
+                "address" => request("address", optional($employee->address)->address),
+                "state" => request("state", optional($employee->address)->state),
+                "country" => request("country", optional($employee->address)->country),
+                "postal_code" => request("postal_code", optional($employee->address)->postal_code),
             ]);
         } else {
-            $Employee->address()->create([
+            $employee->address()->create([
                 "street" => request("street"),
                 "address" => request("address", ""),
                 "state" => request("state"),
@@ -166,30 +168,30 @@ class EmployeesController extends Controller
             ]);
         }
 
-        $Employee->groups()->sync($request->group_id);
+        //$employee->groups()->sync($request->group_id);
         return redirect()->route("employees.index");
         //return redirect()->back();
     }
     /**
-     * @param Employee $Employee
+     * @param Employee $employee
      * @return View
      * @throws AuthorizationException
      */
-    public function show(Employee $Employee)
+    public function show(Employee $employee)
     {
-        $this->authorize("view", $Employee);
+        $this->authorize("view", $employee);
 
-        return view("employees.show", compact("Employee"));
+        return view("employees.show", compact("employee"));
     }
 
     /**
-     * @param Employee $Employee
+     * @param Employee $employee
      * @return RedirectResponse
      * @throws \Exception
      */
-    public function destroy(Employee $Employee)
+    public function destroy(Employee $employee)
     {
-        $Employee->delete();
+        $employee->delete();
 
         return redirect()->route("employees.index");
     }

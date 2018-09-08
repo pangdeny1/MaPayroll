@@ -267,15 +267,17 @@ Route::prefix('settings')->group(function () {
       "uses" => "EmployeesController@create"
   ]);
 
- Route::get("employee/store", [
+ Route::post("employee/store", [
      "as" => "employee.store",
       "uses" => "EmployeesController@store"
   ]);
 
-  Route::get("employee/store", [
-     "as" => "employee.store",
-      "uses" => "EmployeesController@store"
+  Route::post("employees/{employee}", [
+     "as" => "employees.update",
+      "uses" => "EmployeesController@update"
   ]);
+
+ 
 
 
 

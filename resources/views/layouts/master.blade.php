@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Begin SEO tag -->
-    <title>{{ config('app.name', 'HomeVerge') }}</title>
+    <title>{{ config('app.name', 'MaPayroll') }}</title>
 
     <!-- FAVICONS -->
     <link rel="apple-touch-icon-precomposed"

@@ -277,6 +277,183 @@ Route::prefix('settings')->group(function () {
       "uses" => "EmployeesController@update"
   ]);
 
+
+    Route::get('employeemaster','employee\employeemaster@index');
+    Route::get('addemployee','employee\employeemaster@addemployee');
+    Route::post('employeestore','employee\employeemaster@store');
+    //Route::get('editemployee/{employeeid}/edit','employee\employeemaster@edit');
+    Route::get('editemployee/{id}','employee\employeemaster@edit');
+    Route::post('employeeupdate/{id}','employee\employeemaster@update');
+    Route::get('employeedelete/{id}','employee\employeemaster@destroy');
+    Route::get('prlpayroll','employee\employeemaster@prlpayroll');
+    Route::get('editemployeedetail/{id}','employee\employeemaster@editemployeedetail');
+
+    Route::get('jobs','job\JobsController@index');
+    Route::get('addjob','job\JobsController@create');
+    Route::post('new_job','job\JobsController@store');
+    Route::get('showjob/{id}','job\JobsController@show');
+    Route::get('editjob/{id}','job\JobsController@edit');
+    Route::post('update_job/{id}','job\JobsController@update');
+    Route::get('deletejob/{id}','job\JobsController@destroy');
+
+    Route::get('viewjobgroups','job\jobgroupsController@index');
+    Route::get('createjobgroup','job\jobgroupsController@create');
+    Route::post('addjobgroup','job\jobgroupsController@store');
+    Route::get('showjobgroup/{id}','job\jobgroupsController@show');
+    Route::get('editjobgroup/{id}','job\jobgroupsController@edit');
+    Route::post('updatejobgroup/{id}','job\jobgroupsController@update');
+    Route::get('deletejobgroup/{id}','job\jobgroupsController@destroy');
+
+    Route::post('addbranch','branch\branchcontroller@store');
+    Route::get('createbranch','branch\branchcontroller@create');
+    Route::get('viewbranches','branch\branchcontroller@index');
+    Route::get('editbranch/{id}','branch\branchcontroller@edit');
+    Route::post('updatebranch/{id}','branch\branchcontroller@update');
+    Route::get('deletebranch/{id}','branch\branchcontroller@destroy');
+    Route::get('showbranch/{id}','branch\branchcontroller@show');
+
+    Route::post('adddepartment','department\DepartmentsController@store');
+    Route::get('createdepartment','department\DepartmentsController@create');
+    Route::get('viewdepartments','department\DepartmentsController@index');
+    Route::get('editdepartment/{id}','department\DepartmentsController@edit');
+    Route::post('updatedepartment/{id}','department\DepartmentsController@update');
+    Route::get('deletedepartment/{id}','department\DepartmentsController@destroy');
+    Route::get('showdepartment/{id}','department\DepartmentsController@show');
+
+    Route::post('addcompany','company\companiesController@store');
+    Route::get('createcompany','company\companiesController@create');
+
+    Route::post('addsss','sss\SssController@store');
+    Route::get('createsss','sss\SssController@create');
+
+    Route::post('addsalary','salary\SalariesController@store');
+    Route::get('createsalary','salary\SalariesController@create');
+
+    Route::post('addpayrollperiod','payroll\payrollsController@store');
+    Route::get('showpayroll/{id}','payroll\payrollsController@show');
+    Route::get('editpayroll/{id}','payroll\payrollsController@edit');
+    Route::post('updatepayroll/{id}','payroll\payrollsController@update');
+    Route::get('deletepayroll/{id}','payroll\payrollsController@destroy');
+    Route::get('createpayrollperiod','payroll\PayrollsController@create');
+    Route::get('viewpayrollperiods','payroll\PayrollsController@index');
+    Route::post('generate/{id}','payroll\payrollsController@generate');
+    Route::post('void/{id}','payroll\payrollsController@void');
+    Route::post('close/{id}','payroll\payrollsController@close');
+    Route::post('open/{id}','payroll\payrollsController@open');
+
+    //qualifications
+
+    Route::post('addqualification','qualification\qualificationscontroller@store');
+    Route::get('showqualification/{id}','qualification\qualificationscontroller@show');
+    Route::get('editqualification/{id}','qualification\qualificationscontroller@edit');
+    Route::post('updatequalification/{id}','qualification\qualificationscontroller@update');
+    Route::get('deletequalification/{id}','qualification\qualificationscontroller@destroy');
+    Route::get('createqualification','qualification\qualificationscontroller@create');
+    Route::get('viewqualifications','qualification\qualificationscontroller@index');
+
+    //employee qualifications
+
+    Route::post('addemployeequalification','qualification\employeequalificationscontroller@store');
+    Route::get('showemployeequalification/{id}','qualification\employeequalificationscontroller@show');
+    Route::get('editemployeequalification/{id}','qualification\employeequalificationscontroller@edit');
+    Route::post('updateemployeequalification/{id}','qualification\employeequalificationscontroller@update');
+    Route::get('deleteemployeequalification/{id}','qualification\employeequalificationscontroller@destroy');
+    Route::get('createemployeequalification','qualification\employeequalificationscontroller@create');
+    Route::get('viewemployeequalifications','qualification\employeequalificationscontroller@index');
+
+    //qualification level
+
+    Route::post('addqualificationlevel','qualification\qualificationlevelscontroller@store');
+    Route::get('showqualificationlevel/{id}','qualification\qualificationlevelscontroller@show');
+    Route::get('editqualificationlevel/{id}','qualification\qualificationlevelscontroller@edit');
+    Route::post('updatequalificationlevel/{id}','qualification\qualificationlevelscontroller@update');
+    Route::get('deletequalificationlevel/{id}','qualification\qualificationlevelscontroller@destroy');
+    Route::get('createqualificationlevel','qualification\qualificationlevelscontroller@create');
+    Route::get('viewqualificationlevels','qualification\qualificationlevelscontroller@index');
+
+    //institution
+    Route::post('addinstitution','institution\institutescontroller@store');
+    Route::get('showinstitution/{id}','institution\institutescontroller@show');
+    Route::get('editinstitution/{id}','institution\institutescontroller@edit');
+    Route::post('updateinstitution/{id}','institution\institutescontroller@update');
+    Route::get('deleteinstitution/{id}','institution\institutescontroller@destroy');
+    Route::get('createinstitution','institution\institutescontroller@create');
+    Route::get('viewinstitutions','institution\institutescontroller@index');
+//dependants
+    Route::post('adddependant','dependant\dependantscontroller@store');
+     Route::post('addemployeedependant','dependant\dependantscontroller@storeemployeedependant');
+    Route::get('showdependant/{id}','dependant\dependantscontroller@show');
+    Route::get('editdependant/{id}','dependant\dependantscontroller@edit');
+    Route::post('updatedependant/{id}','dependant\dependantscontroller@update');
+    Route::get('deletedependant/{id}','dependant\dependantscontroller@destroy');
+    Route::get('createdependant','dependant\dependantscontroller@create');
+    
+    Route::get('createdependant/{id}','dependant\dependantscontroller@createemployeedependant');
+    Route::get('viewdependants','dependant\dependantscontroller@index');
+
+    //work Experience
+    Route::post('addworkexperience','workexperience\workexperiencecontroller@store');
+    Route::get('showworkexperience/{id}','workexperience\workexperiencecontroller@show');
+    Route::get('editworkexperience/{id}','workexperience\workexperiencecontroller@edit');
+    Route::post('updateworkexperience/{id}','workexperience\workexperiencecontroller@update');
+    Route::get('deleteworkexperience/{id}','workexperience\workexperiencecontroller@destroy');
+    Route::get('createworkexperience','workexperience\workexperiencecontroller@create');
+    Route::get('viewworkexpiriences','workexperience\workexperiencecontroller@index');
+
+
+    Route::get('testreport','report\reportcontroller@test');
+
+    Route::get('testpdf','report\reportcontroller@testpdf');
+
+
+     Route::post('employeebio','report\reportscontroller@employeebio');
+     Route::get('reportform','report\reportscontroller@reportform');
+     Route::get('payslipform','report\reportscontroller@payslipform');
+     Route::post('payslip','report\reportscontroller@payslip');
+     Route::get('payrollregisterform','report\reportscontroller@payrollregisterform');
+     Route::post('payrollregister','report\reportscontroller@payrollregister');
+
+     Route::get('payrollregisterformpdf','report\reportscontroller@payrollregisterformpdf');
+     Route::post('payrollregisterpdf','report\reportscontroller@payrollregisterpdf');
+     
+
+     Route::get('form','form\FormController@create');
+     Route::post('form','form\FormController@store');
+     Route::get('formlist','form\FormController@index');
+     Route::get('createimage/{id}','form\FormController@createimage');
+     Route::post('updateimage','form\FormController@updateimage');
+
+
+     //payrolls
+
+    Route::post('addotherdeduction','otherdeduction\otherdeductionscontroller@store');
+    Route::get('showotherdeduction/{id}','otherdeduction\otherdeductionscontroller@show');
+    Route::get('editotherdeduction/{id}','otherdeduction\otherdeductionscontroller@edit');
+    Route::post('updateotherdeduction/{id}','otherdeduction\otherdeductionscontroller@update');
+    Route::get('deleteotherdeduction/{id}','otherdeduction\otherdeductionscontroller@destroy');
+    Route::get('createotherdeduction','otherdeduction\otherdeductionscontroller@create');
+    Route::get('viewotherdeductions','otherdeduction\otherdeductionscontroller@index');
+
+    Route::post('addotherincome','otherincome\otherincomescontroller@store');
+    Route::get('showotherincome/{id}','otherincome\otherincomescontroller@show');
+    Route::get('editotherincome/{id}','otherincome\otherincomescontroller@edit');
+    Route::post('updateotherincome/{id}','otherincome\otherincomescontroller@update');
+    Route::get('deleteotherincome/{id}','otherincome\otherincomescontroller@destroy');
+    Route::get('createotherincome','otherincome\otherincomescontroller@create');
+    Route::get('viewotherincomes','otherincome\otherincomescontroller@index');
+
+
+     Route::post('addloan','loan\loanscontroller@store');
+    Route::get('showloan/{id}','loan\loanscontroller@show');
+    Route::get('editloan/{id}','loan\loanscontroller@edit');
+    Route::post('updateloan/{id}','loan\loanscontroller@update');
+    Route::get('deleteloan/{id}','loan\loanscontroller@destroy');
+    Route::get('createloan','loan\loanscontroller@create');
+    Route::get('viewloans','loan\loanscontroller@index');
+     
+     
+
+
  
 
 

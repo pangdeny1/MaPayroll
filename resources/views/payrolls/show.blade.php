@@ -22,10 +22,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <div class="panel-title-box">
-                             
-                   
-                   
-
+                      @include('includes.flash');
                           <table>
                                  <tr>
                                   <td>

@@ -97,45 +97,35 @@ class payrollsController extends Controller
 
     public function generate($payroll_id)
     {
-        $payroll= payroll::where('id', $payroll_id)->firstOrFail();
-        $payroll_trans=prltransaction::where("payroll_id",$payroll);
-        $payroll_trans->delete();
-
-
-        $pagetitle="Generating payroll Data";
-        $payperiods     =Payperiod::where('payperiodid',$payroll->payperiodid)->firstOrFail();
         $employees=Employee::All();
 
-        $a= new payrollsController();
-        $a->destroyTrans($payroll_id);
-
-            
-       $a->prepareData($employees,$payroll);
-           
-              
-              return view('payrolls.generate',compact('pagetitle','payroll','payperiods'));
+        $payrollObj= new payrollsController();
+        $payrollObj->destroyTrans($payroll_id);
+        $payrollObj->prepareData($employees,$payroll_id);
+        return redirect()->back()->with("status", "payroll successfully generated");
     }
 
-    public function prepareData($employees,$payroll)
+    public function prepareData($employees,$payroll_id)
     {
 
      foreach($employees as $employee) {
                   $inserts[] = [ 'basicpay' => $employee->period_rate,
                                  'employee_id' => $employee->id,
-                                 'payroll_id' =>$payroll->id,
+                                 'payroll_id' =>$payroll_id,
                                  "creator_id" => auth()->id()
                                ]; 
                        }
 
               DB::table('prltransactions')->insert($inserts);
+              return redirect()->back()->with("status", "payroll data prepared successfully!");
     }
 
      public function void($payroll_id)
     {
-        $payroll= payroll::where('id', $payroll_id)->firstOrFail();
-        $pagetitle="Generating payroll Data";
-        $payperiods     =Payperiod::where('payperiodid',$payroll->payperiodid)->firstOrFail();
-        return view('payrolls.void',compact('pagetitle','payroll','payperiods'));
+        
+        $payrollObj= new payrollsController();
+        $payrollObj->destroyTrans($payroll_id);
+        return redirect()->back()->with("status", "payroll successfully voided!");
     }
 
      public function close($payroll_id)
@@ -232,9 +222,11 @@ class payrollsController extends Controller
             foreach ($payrolls as $payroll)
                {
    
-        $payroll->delete();
+            $payroll->delete();
     
                  }
+
+                   return redirect()->back()->with("status", "payroll successfully voided!");
      
      }
    

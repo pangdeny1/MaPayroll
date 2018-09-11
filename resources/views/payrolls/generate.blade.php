@@ -4,11 +4,10 @@
     
 
     <?php
-    //$db="medahr";
     $PayrollID=$payroll->id;
 
 
-       echo "The Payroll".$PayrollID." is about to be processes";
+       echo "The Payroll". $PayrollID." processeed successfully" ;
 
         
 

@@ -107,7 +107,8 @@ class payrollsController extends Controller
         $employees=Employee::All();
 
         $a= new payrollsController();
-        $a->destroyTrans($payroll);
+        $a->destroyTrans($payroll_id);
+
             
        $a->prepareData($employees,$payroll);
            
@@ -228,12 +229,12 @@ class payrollsController extends Controller
         {
     $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
      
-foreach ($payrolls as $payroll)
-{
+            foreach ($payrolls as $payroll)
+               {
    
         $payroll->delete();
     
-  }
+                 }
      
      }
    

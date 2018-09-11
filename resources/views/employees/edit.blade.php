@@ -138,7 +138,7 @@
                                                    name="period_rate"
                                                    class="form-control {{ $errors->has('period_rate') ? 'is-invalid' : '' }}"
                                                    id="period_rate"
-                                                   value="{{ old("period_rate", optional($employee->address)->period_rate) }}"
+                                                   value="{{ old("period_rate", $employee->period_rate)  }}"
                                             >
                                             @if ($errors->has('period_rate'))
                                                 <span class="invalid-feedback">

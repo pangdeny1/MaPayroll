@@ -84,7 +84,7 @@
                     </a>
 
                     @can("create", \App\Farmer::class)
-                    <a href="{{ route("employee.create")}}" class="menu-link mb-2">
+                    <a href="{{url('createpayrollperiod')}}" class="menu-link mb-2">
                         <i class="fas fa-plus text-muted mr-2"></i>
                         <span class="menu-text">Register new</span>
                     </a>

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\payroll;
 
 use Illuminate\Http\Request;
-use App\Models\Employee;
+//use App\Models\Employee;
 use App\Models\Payroll;
 use App\Models\Salary;
+use App\prltransaction;
+use App\Employee;
 use App\Mailers\AppMailer;
 use App\Models\YesOrNo;
 use App\Models\Year;
+use DB;
 use App\Models\Month;
 use App\Models\Payperiod;
 use App\Http\Controllers\Controller;
@@ -84,7 +87,8 @@ class payrollsController extends Controller
     {   
     	$pagetitle="Payroll Records Maintenance";
         $payroll= payroll::where('id', $payroll_id)->firstOrFail();
-        $employees= Employee::where('active', 1)->where('payperiodid',$payroll->payperiodid)->get();
+        //$employees= Employee::where('active', 1)->where('payperiodid',$payroll->payperiodid)->get();
+        $employees=Employee::all();
         $payperiods     =Payperiod::All();
          //$employees= Employee::All();
 
@@ -94,9 +98,35 @@ class payrollsController extends Controller
     public function generate($payroll_id)
     {
         $payroll= payroll::where('id', $payroll_id)->firstOrFail();
+        $payroll_trans=prltransaction::where("payroll_id",$payroll);
+        $payroll_trans->delete();
+
+
         $pagetitle="Generating payroll Data";
         $payperiods     =Payperiod::where('payperiodid',$payroll->payperiodid)->firstOrFail();
-        return view('payrolls.generate',compact('pagetitle','payroll','payperiods'));
+        $employees=Employee::All();
+
+        $a= new payrollsController();
+        $a->destroyTrans($payroll);
+            
+       $a->prepareData($employees,$payroll);
+           
+              
+              return view('payrolls.generate',compact('pagetitle','payroll','payperiods'));
+    }
+
+    public function prepareData($employees,$payroll)
+    {
+
+     foreach($employees as $employee) {
+                  $inserts[] = [ 'basicpay' => $employee->period_rate,
+                                 'employee_id' => $employee->id,
+                                 'payroll_id' =>$payroll->id,
+                                 "creator_id" => auth()->id()
+                               ]; 
+                       }
+
+              DB::table('prltransactions')->insert($inserts);
     }
 
      public function void($payroll_id)
@@ -192,4 +222,19 @@ class payrollsController extends Controller
       // return redirect()->route('tasks.index');
      return redirect()->back()->with("status", "payroll successfully deleted!");
            }
+
+            public function destroyTrans($payroll_id)
+        
+        {
+    $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
+     
+foreach ($payrolls as $payroll)
+{
+   
+        $payroll->delete();
+    
+  }
+     
+     }
+   
 }

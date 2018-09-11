@@ -79,8 +79,9 @@
                                                 <th>Gender</th>
                                                 <th>Phone</th>
                                                 <th>Email</th>
-                                                <th>Group</th>
+                                                <th>Department</th>
                                                 <th>Region</th>
+                                                <th>Salary</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -102,6 +103,7 @@
                                                 <td>{{ $employee->email }}</td>
                                                 <td></td>
                                                 <td>{{ optional($employee->address)->state }}</td>
+                                                <td>{{ $employee->period_rate }}</td>
                                                 <td class="align-middle text-right">
                                                     @can("edit", \App\Farmer::class)
                                                     <a href="{{ route("employees.edit", $employee) }}" class="btn btn-sm btn-secondary">

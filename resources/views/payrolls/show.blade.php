@@ -112,8 +112,8 @@
                                             <tbody>
                                        @foreach($employees as $employee)
                                                 <tr>
-                                                    <td><strong>{{$employee->firstname." ".$employee->lastname}}</strong></td>
-                                                    <td><strong>{{$employee->periodrate}}</strong></td>
+                                                    <td><strong>{{$employee->first_name." ".$employee->last_name}}</strong></td>
+                                                    <td><strong>{{$employee->period_rate}}</strong></td>
                                                     <td><span class="label label-danger">Eligible</span></td>
                                                     
                                                 </tr>

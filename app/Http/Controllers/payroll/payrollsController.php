@@ -131,17 +131,21 @@ class payrollsController extends Controller
      public function close($payroll_id)
     {
         $payroll= payroll::where('id', $payroll_id)->firstOrFail();
-        $pagetitle="Generating payroll Data";
-        $payperiods     =Payperiod::where('payperiodid',$payroll->payperiodid)->firstOrFail();
-        return view('payrolls.close',compact('pagetitle','payroll','payperiods'));
+
+        $payroll->update([
+            "payclosed" =>2
+            ]);
+        return redirect()->back()->with("status", "payroll Closed successfully!");
     }
 
      public function open($payroll_id)
     {
         $payroll= payroll::where('id', $payroll_id)->firstOrFail();
-        $pagetitle="Generating payroll Data";
-        $payperiods     =Payperiod::where('payperiodid',$payroll->payperiodid)->firstOrFail();
-        return view('payrolls.open',compact('pagetitle','payroll','payperiods'));
+
+        $payroll->update([
+            "payclosed" =>1
+            ]);
+        return redirect()->back()->with("status", "payroll Opened successfully!");
     }
 
 

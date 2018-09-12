@@ -103,7 +103,7 @@
                                                 <td>{{ $employee->email }}</td>
                                                 <td></td>
                                                 <td>{{ optional($employee->address)->state }}</td>
-                                                <td>{{ $employee->period_rate }}</td>
+                                                <td>{{ number_format($employee->period_rate,2) }}</td>
                                                 <td class="align-middle text-right">
                                                     @can("edit", \App\Farmer::class)
                                                     <a href="{{ route("employees.edit", $employee) }}" class="btn btn-sm btn-secondary">

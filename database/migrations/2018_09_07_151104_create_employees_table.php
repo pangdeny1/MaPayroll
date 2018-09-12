@@ -21,6 +21,9 @@ class CreateEmployeesTable extends Migration
             $table->string('email')->nullable();
             $table->enum('gender', ["male", "female"]);
             $table->double('period_rate')->nullable();
+            $table->double('hourly_rate')->nullable();
+            $table->integer('active')->nullable();
+            $table->integer('employmentid')->nullable();
             $table->unsignedInteger('creator_id')->nullable();
             $table->timestamps();
         });

@@ -127,27 +127,87 @@
                                         </div>
                                     </div>
                                 </div>
-                                <hr>
+                                 <hr>
                             <header class="card-header border-bottom-0">
-                               Salary information
+                                Salary Information
                             </header>
                             <div class="card-body">
-                                  <div class="col-md-3 mb-3">
-                                            <label for="period_rate">Period rate</label>
-                                            <input type="text"
-                                                   name="period_rate"
-                                                   class="form-control {{ $errors->has('period_rate') ? 'is-invalid' : '' }}"
-                                                   id="period_rate"
-                                                   value="{{ old("period_rate", $employee->period_rate)  }}"
-                                            >
-                                            @if ($errors->has('period_rate'))
-                                                <span class="invalid-feedback">
-                                                    <strong>{{ $errors->first('period_rate') }}</strong>
+                             <div class="form-row">
+                                    <div class="col-md-5 mb-3">
+                                        <label for="pay_period">Pay Period</label>
+                                        <select name="pay_period"
+                                                 class="form-control {{ $errors->has('pay_period') ? 'is-invalid' : '' }}"
+                                                id="pay_period"
+                                        >   <option value="">select--</option>
+                                            <option value="Monthly">Monthly</option>
+                                            <option value="Hourly">Hourly</option>
+                                        </select>
+                                         @if ($errors->has('pay_period'))
+                                            <span class="invalid-feedback">
+                                                    <strong>{{ $errors->first('pay_period') }}</strong>
                                                 </span>
-                                            @endif
+                                        @endif
+                                       
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="period_rate">Period rate</label>
+                                        <input type="text"
+                                               name="period_rate"
+                                               class="form-control {{ $errors->has('period_rate') ? 'is-invalid' : '' }}"
+                                               id="period_rate"
+                                               value="{{ old("period_rate", optional($employee)->period_rate) }}"
+                                        >
+                                        @if ($errors->has('period_rate'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('period_rate') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="hourly_rate">Hourly rate</label>
+                                        <input type="text"
+                                               name="hourly_rate"
+                                               class="form-control {{ $errors->has('hourly_rate') ? 'is-invalid' : '' }}"
+                                               id="hourly_rate"
+                                               value="{{ old("hourly_rate", optional($employee)->hourly_rate) }}"
+                                        >
+                                        @if ($errors->has('hourly_rate'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('hourly_rate') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="d-block">Include in Payroll?</label>
+                                        <div class="custom-control custom-control-inline custom-radio">
+                                            <input type="radio"
+                                                   class="custom-control-input"
+                                                   name="active"
+                                                   id="yes"
+                                                   value="yes"
+                                                   {{ old("active", $employee->active) === "yes" ? "checked" : "" }}
+                                                       value="yes"
+                                            >
+                                            <label class="custom-control-label" for="yes">yes</label>
                                         </div>
-                            </div>
-
+                                        <div class="custom-control custom-control-inline custom-radio">
+                                            <input type="radio"
+                                                   class="custom-control-input"
+                                                   name="active"
+                                                   id="no"
+                                                   value="no"
+                                                    {{ old("active", $employee->active) === "no" ? "checked" : "" }}
+                                                       value="no"
+                                            >
+                                            <label class="custom-control-label" for="no">no</label>
+                                             @if ($errors->has('active'))
+                                            <span class="invalid-feedback">
+                                                    <strong>{{ $errors->first('active') }}</strong>
+                                                </span>
+                                        @endif
+                                        </div>
+                                    </div>
+                                </div>
                            <hr>
                             <header class="card-header border-bottom-0">
                                Grower Group information

@@ -30,7 +30,8 @@ class EmployeeCreateRequest extends FormRequest
             "phone" => "required|phone:TZ",
             "email" => "nullable|email",
             "gender" => ["required", Rule::in(["male","female"])],
-
+            "active" => ["required", Rule::in(["yes","no"])],
+            "pay_period" => "required",
             "street" => "required",
             "country" => "required",
 

@@ -153,7 +153,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <hr class="mb-4">
+                            <hr>
                             <header class="card-header border-bottom-0">
                                 Salary Information
                             </header>
@@ -162,13 +162,18 @@
                                     <div class="col-md-5 mb-3">
                                         <label for="pay_period">Pay Period</label>
                                         <select name="pay_period"
-                                                class="custom-select d-block w-100"
+                                                 class="form-control {{ $errors->has('pay_period') ? 'is-invalid' : '' }}"
                                                 id="pay_period"
                                         >   <option value="">select--</option>
                                             <option value="Monthly">Monthly</option>
                                             <option value="Hourly">Hourly</option>
                                         </select>
-                                        <div class="invalid-feedback"> Please select a valid pay period. </div>
+                                         @if ($errors->has('pay_period'))
+                                            <span class="invalid-feedback">
+                                                    <strong>{{ $errors->first('pay_period') }}</strong>
+                                                </span>
+                                        @endif
+                                       
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <label for="period_rate">Period rate</label>
@@ -199,7 +204,7 @@
                                         @endif
                                     </div>
                                     <div class="form-group col-md-12">
-                                        <label class="d-block">Include in Payroll</label>
+                                        <label class="d-block">Include in Payroll?</label>
                                         <div class="custom-control custom-control-inline custom-radio">
                                             <input type="radio"
                                                    class="custom-control-input"
@@ -219,6 +224,11 @@
                                                     {{ old("active") == "no" ? "checked" : "" }}
                                             >
                                             <label class="custom-control-label" for="no">no</label>
+                                             @if ($errors->has('active'))
+                                            <span class="invalid-feedback">
+                                                    <strong>{{ $errors->first('active') }}</strong>
+                                                </span>
+                                        @endif
                                         </div>
                                     </div>
                                 </div>

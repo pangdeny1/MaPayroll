@@ -88,7 +88,7 @@ class payrollsController extends Controller
     	$pagetitle="Payroll Records Maintenance";
         $payroll= payroll::where('id', $payroll_id)->firstOrFail();
         //$employees= Employee::where('active', 1)->where('payperiodid',$payroll->payperiodid)->get();
-        $employees=Employee::all();
+        $employees=Employee::where("active","yes")->get();
         $payperiods     =Payperiod::All();
          //$employees= Employee::All();
 
@@ -97,7 +97,7 @@ class payrollsController extends Controller
 
     public function generate($payroll_id)
     {
-        $employees=Employee::All();
+        $employees=Employee::where("active","yes")->get();
 
          $payrollObj= new payrollsController();
         if($payrollObj->closedOpenedStatusCheck($payroll_id)=="Closed")

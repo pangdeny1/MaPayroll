@@ -73,6 +73,9 @@ class EmployeesController extends Controller
             "email" => request("email"),
             "gender" => request("gender"),
             "period_rate" =>request("period_rate"),
+            "pay_period"  =>request("pay_period"),
+            "hourly_rate" =>request("hourly_rate"),
+            "active"      =>request("active"),
             "creator_id" => auth()->id(),
         ]);
 
@@ -138,6 +141,8 @@ class EmployeesController extends Controller
             "last_name" => "required",
             "phone" => "required",
             "country" => "required",
+            "pay_period" => "required",
+            "active" => ["required", Rule::in(["yes","no"])],
             "gender" => ["required", Rule::in(["male","female"])],
         ]);
 
@@ -147,6 +152,9 @@ class EmployeesController extends Controller
             "email" => request("email"),
             "phone" => request("phone"),
             "gender" => request("gender"),
+            "active" => request("active"),
+            "pay_period"=>request("pay_period"),
+            "hourly_rate" =>request("hourly_rate"),
             "period_rate" => request("period_rate"),
         ]);
 

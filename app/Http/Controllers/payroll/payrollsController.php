@@ -99,10 +99,15 @@ class payrollsController extends Controller
     {
         $employees=Employee::All();
 
-        $payrollObj= new payrollsController();
+         $payrollObj= new payrollsController();
+        if($payrollObj->closedOpenedStatusCheck($payroll_id)=="Closed")
+        {
+          return redirect()->back()->with("status_error", "Cannot Generate payroll data, Payroll is already closed!"); 
+            
+        }
         $payrollObj->destroyTrans($payroll_id);
         $payrollObj->prepareData($employees,$payroll_id);
-        return redirect()->back()->with("status", "payroll successfully generated");
+        return redirect()->back()->with("status", "Payroll data successfully generated");
     }
 
     public function prepareData($employees,$payroll_id)
@@ -121,15 +126,28 @@ class payrollsController extends Controller
     }
 
      public function void($payroll_id)
-    {
-        
+    {  
         $payrollObj= new payrollsController();
+        if($payrollObj->closedOpenedStatusCheck($payroll_id)=="Closed")
+        {
+          return redirect()->back()->with("status_error", "Cannot Void Payroll is closed!"); 
+            
+        }
+            
         $payrollObj->destroyTrans($payroll_id);
         return redirect()->back()->with("status", "payroll successfully voided!");
     }
 
      public function close($payroll_id)
     {
+         $payrollObj= new payrollsController();
+        if($payrollObj->closedOpenedStatusCheck($payroll_id)=="Closed")
+        {
+          return redirect()->back()->with("status_error", "Cannot Close Payroll is already closed!"); 
+            
+        }
+       //put validation  to check if Payroll is first generated because you cant close open payroll
+
         $payroll= payroll::where('id', $payroll_id)->firstOrFail();
 
         $payroll->update([
@@ -147,7 +165,19 @@ class payrollsController extends Controller
             ]);
         return redirect()->back()->with("status", "payroll Opened successfully!");
     }
+   
+   public function closedOpenedStatusCheck($payroll_id)
+   {
+     $payroll= payroll::where('id', $payroll_id)->firstOrFail();
+     if($payroll->payclosed==1)
 
+        return "Open";
+    else if($payroll->payclosed==2)
+        return "Closed";
+    else 
+        return "Not Applicable";
+
+   }
 
 
      public function edit($payroll_id)

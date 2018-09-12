@@ -1,19 +1,10 @@
 
 
-@if (session('status'))
-    <div class="alert alert-success">
-        {{ session('status') }}
-    </div>
-    @endif
-
-    @if (session('status_error'))
+@if (session('status_error'))
     <div class="alert alert-danger">
         {{ session('status_error') }}
     </div>
-
 @endif
-
-
 <!--
 <div class="alert alert-primary" role="alert">
   This is a primary alert—check it out!

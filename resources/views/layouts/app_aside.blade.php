@@ -79,7 +79,7 @@
                     <hr>
                     <div class="menu-header">Payroll</div>
                     <a href="{{url('viewpayrollperiods')}}" class="menu-link mb-2">
-                        <i class="fas fa-user-friends text-muted mr-2"></i>
+                        <i class="fa fa-paypal" aria-hidden="true"></i>
                         <span class="menu-text">Browse a list</span>
                     </a>
 

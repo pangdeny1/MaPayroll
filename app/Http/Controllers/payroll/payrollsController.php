@@ -179,6 +179,18 @@ class payrollsController extends Controller
 
    }
 
+   public function payrollGenerated($payroll_id)
+   {
+     $payrollTrans= prltransaction::where('payroll_id', $payroll_id)->firstOrFail();
+     if($payrollTrans->count > 0)
+
+        return "Generated";
+    
+    else 
+        return "NotGenerated";
+
+   }
+
 
      public function edit($payroll_id)
     {   
@@ -239,28 +251,38 @@ class payrollsController extends Controller
 
 
      public function destroy($payroll_id)
-        {
-    $payrolls = payroll::findOrFail($payroll_id);
 
-    $payrolls->delete();
+        {
+         $payrollObj= new payrollsController();
+        if($payrollObj->closedOpenedStatusCheck($payroll_id)=="Closed")
+        {
+          return redirect()->back()->with("status_error", "Cannot delete,Payroll is Closed!"); 
+            
+        }
+       
+            $payrolls = payroll::findOrFail($payroll_id);
+
+            $payrolls->delete();
 
       // return redirect()->route('tasks.index');
      return redirect()->back()->with("status", "payroll successfully deleted!");
+        
+    
            }
 
             public function destroyTrans($payroll_id)
         
         {
-    $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
+           $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
      
-            foreach ($payrolls as $payroll)
+     foreach ($payrolls as $payroll)
                {
    
             $payroll->delete();
     
-                 }
+            }
 
-                   return redirect()->back()->with("status", "payroll successfully voided!");
+        return redirect()->back()->with("status", "payroll successfully voided!");
      
      }
    

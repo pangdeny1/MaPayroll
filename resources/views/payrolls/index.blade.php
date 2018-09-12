@@ -21,6 +21,7 @@
                         <div class="d-sm-flex align-items-sm-center">
                             <h1 class="page-title mr-sm-auto mb-0">
                                 Payrolls
+                                 @include('includes.flash')
                             </h1>
                             <div class="btn-toolbar">
                                 <a href="" class="btn btn-light">

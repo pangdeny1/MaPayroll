@@ -123,7 +123,7 @@ class payrollsController extends Controller
                                  'hourly_rate' => $employee->hourly_rate,
                                  'employee_id' => $employee->id,
                                  'payroll_id' =>$payroll_id,
-                                 'reg_hours'  =>$payrollObj->calculateEmployeeDailyTrans($payroll_id,$employee->id),
+                                 'reg_hours'  =>$payrollObj->calculateTotalEmployeeDailyTrans($payroll_id,$employee->id),
                                  'pay_type' =>$employee->pay_type,
                                  "creator_id" => auth()->id()
                                ]; 
@@ -328,7 +328,7 @@ class payrollsController extends Controller
         return redirect()->back()->with("status", "payroll successfully voided!");
      
      }
-     public function calculateEmployeeDailyTrans($payroll_id,$employee_id)
+     public function calculateTotalEmployeeDailyTrans($payroll_id,$employee_id)
      {
         $dailyTrans=Prldailytran::where("employee_id",$employee_id)->where("payroll_id",$payroll_id)->get();
          $reg_hours=0;

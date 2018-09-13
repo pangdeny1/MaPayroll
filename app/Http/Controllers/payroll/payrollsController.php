@@ -12,6 +12,7 @@ use App\Mailers\AppMailer;
 use App\Models\YesOrNo;
 use App\Models\Year;
 use DB;
+use App\Models\Prldailytran;
 use App\Models\Month;
 use App\Models\Payperiod;
 use App\Http\Controllers\Controller;
@@ -107,16 +108,23 @@ class payrollsController extends Controller
         }
         $payrollObj->destroyTrans($payroll_id);
         $payrollObj->prepareData($employees,$payroll_id);
+
+        $payrollObj->calculateBasicPay($payroll_id);
         return redirect()->back()->with("status", "Payroll data successfully generated");
     }
 
     public function prepareData($employees,$payroll_id)
     {
+        $payrollObj= new payrollsController();
+        
 
      foreach($employees as $employee) {
-                  $inserts[] = [ 'basicpay' => $employee->period_rate,
+                  $inserts[] = [ 'period_rate' => $employee->period_rate,
+                                 'hourly_rate' => $employee->hourly_rate,
                                  'employee_id' => $employee->id,
                                  'payroll_id' =>$payroll_id,
+                                 'reg_hours'  =>$payrollObj->calculateEmployeeDailyTrans($payroll_id,$employee->id),
+                                 'pay_type' =>$employee->pay_type,
                                  "creator_id" => auth()->id()
                                ]; 
                        }
@@ -272,10 +280,10 @@ class payrollsController extends Controller
 
             public function destroyTrans($payroll_id)
         
-        {
+                 {
            $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
      
-     foreach ($payrolls as $payroll)
+            foreach ($payrolls as $payroll)
                {
    
             $payroll->delete();
@@ -284,6 +292,52 @@ class payrollsController extends Controller
 
         return redirect()->back()->with("status", "payroll successfully voided!");
      
+     }
+
+         public function calculateBasicPay($payroll_id)
+        
+                 {
+                    
+           $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
+            
+     
+            foreach ($payrolls as $payroll)
+               {
+            if($payroll->pay_type=="Hourly")
+            {
+                $payroll->update([
+            "basicpay" =>($payroll->hourly_rate * $payroll->reg_hours)
+                 ]);
+            }
+            else if($payroll->pay_type=="Salary")
+            {
+               $payroll->update([
+            "basicpay" =>$payroll->period_rate
+                 ]);  
+            }
+            else
+            {
+                  $payroll->update([
+            "basicpay" =>0
+                 ]);  
+            }
+           
+    
+            }
+
+        return redirect()->back()->with("status", "payroll successfully voided!");
+     
+     }
+     public function calculateEmployeeDailyTrans($payroll_id,$employee_id)
+     {
+        $dailyTrans=Prldailytran::where("employee_id",$employee_id)->where("payroll_id",$payroll_id)->get();
+         $reg_hours=0;
+         foreach ($dailyTrans as $dailyTran) {
+           
+            $reg_hours+=$dailyTran->reg_hours;
+        }
+
+        return $reg_hours;
      }
    
 }

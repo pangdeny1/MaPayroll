@@ -31,7 +31,7 @@ class EmployeeCreateRequest extends FormRequest
             "email" => "nullable|email",
             "gender" => ["required", Rule::in(["male","female"])],
             "active" => ["required", Rule::in(["yes","no"])],
-            "pay_period" => "required",
+            "pay_type" => "required",
             "street" => "required",
             "country" => "required",
 

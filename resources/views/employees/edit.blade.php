@@ -134,17 +134,17 @@
                             <div class="card-body">
                              <div class="form-row">
                                     <div class="col-md-5 mb-3">
-                                        <label for="pay_period">Pay Period</label>
-                                        <select name="pay_period"
-                                                 class="form-control {{ $errors->has('pay_period') ? 'is-invalid' : '' }}"
-                                                id="pay_period"
+                                        <label for="pay_type">Pay Type</label>
+                                        <select name="pay_type"
+                                                 class="form-control {{ $errors->has('pay_type') ? 'is-invalid' : '' }}"
+                                                id="pay_type"
                                         >   <option value="">select--</option>
-                                            <option value="Monthly">Monthly</option>
+                                             <option value="Salary">Salary</option>
                                             <option value="Hourly">Hourly</option>
                                         </select>
-                                         @if ($errors->has('pay_period'))
+                                         @if ($errors->has('pay_type'))
                                             <span class="invalid-feedback">
-                                                    <strong>{{ $errors->first('pay_period') }}</strong>
+                                                    <strong>{{ $errors->first('pay_type') }}</strong>
                                                 </span>
                                         @endif
                                        

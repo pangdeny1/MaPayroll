@@ -15,6 +15,9 @@ use DB;
 use App\Models\Prldailytran;
 use App\Models\Month;
 use App\Models\Payperiod;
+use App\Models\Prlothintransaction;
+use App\Models\Prlothinfile;
+use app\Models\Prlothintype;
 use App\Http\Controllers\Controller;
 
 class payrollsController extends Controller
@@ -107,13 +110,14 @@ class payrollsController extends Controller
             
         }
         $payrollObj->destroyTrans($payroll_id);
-        $payrollObj->prepareData($employees,$payroll_id);
+        $payrollObj->preparePayrollData($employees,$payroll_id);
+        $payrollObj->prepareOthInData($payroll_id);
 
         $payrollObj->calculateBasicPay($payroll_id);
         return redirect()->back()->with("status", "Payroll data successfully generated");
     }
 
-    public function prepareData($employees,$payroll_id)
+    public function preparePayrollData($employees,$payroll_id)
     {
         $payrollObj= new payrollsController();
         
@@ -339,5 +343,25 @@ class payrollsController extends Controller
 
         return $reg_hours;
      }
+
+
+     public function prepareOthInData($payroll_id)
+    {
+        $othincfiles=Prlothinfile::where("payroll_id",$payroll_id)->get();
+        
+
+                 foreach($othincfiles as $othincfile) {
+                  $inserts[] = [ 
+                                 'othinc_id' => $othincfile->othinc_id,
+                                 'amount' => $othincfile->amount,
+                                 'employee_id' => $othincfile->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'creator_id' => auth()->id()
+                               ]; 
+                       }
+
+                   DB::table('prlothintransactions')->insert($inserts);
+              return redirect()->back()->with("status", "payroll data prepared successfully!");
+    }
    
 }

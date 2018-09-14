@@ -18,6 +18,9 @@ use App\Models\Payperiod;
 use App\Models\Prlothintransaction;
 use App\Models\Prlothinfile;
 use app\Models\Prlothintype;
+use App\Models\Prlothdedtransaction;
+use App\Models\Prlothdedfile;
+use app\Models\Prlothdedtype;
 use App\Http\Controllers\Controller;
 
 class payrollsController extends Controller
@@ -112,7 +115,7 @@ class payrollsController extends Controller
         $payrollObj->destroyTrans($payroll_id);
         $payrollObj->preparePayrollData($employees,$payroll_id);
         $payrollObj->prepareOthInData($payroll_id);
-
+        $payrollObj->prepareOthDedData($payroll_id);
         $payrollObj->calculateBasicPay($payroll_id);
         return redirect()->back()->with("status", "Payroll data successfully generated");
     }
@@ -303,7 +306,7 @@ class payrollsController extends Controller
                  {
                     
            $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
-            
+           $payrollObj=new payrollsController();
      
             foreach ($payrolls as $payroll)
                {
@@ -344,16 +347,41 @@ class payrollsController extends Controller
         return $reg_hours;
      }
 
+     public function calculateTotalEmployeeOtherIncome($payroll_id,$employee_id)
+     {
+        
+        $employeeOtherIncomes=Prlothintransaction::where("employee_id",$employee_id)->where("payroll_id",$payroll_id)->get();
+         $eotherincome=0;
+         foreach ($employeeOtherIncomes as $employeeOtherIncome) {
+           
+            $eotherincome+=$employeeOtherIncome->amount;
+        }
+
+     
+    return $eotherincome;
+     }
+
+
 
      public function prepareOthInData($payroll_id)
     {
+
+        $othinctrans = Prlothintransaction::where('payroll_id',$payroll_id)->get();
+     
+            foreach ($othinctrans  as $othinctran)
+               {
+   
+            $othinctran->delete();
+    
+            }
+
         $othincfiles=Prlothinfile::where("payroll_id",$payroll_id)->get();
         
 
                  foreach($othincfiles as $othincfile) {
                   $inserts[] = [ 
                                  'othinc_id' => $othincfile->othinc_id,
-                                 'amount' => $othincfile->amount,
+                                 'amount' => $othincfile->othincamount,
                                  'employee_id' => $othincfile->employee_id,
                                  'payroll_id' =>$payroll_id,
                                  'creator_id' => auth()->id()
@@ -361,6 +389,47 @@ class payrollsController extends Controller
                        }
 
                    DB::table('prlothintransactions')->insert($inserts);
+
+                   
+            $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
+           $payrollObj=new payrollsController();
+     
+            foreach ($payrolls as $payroll)
+               {
+                $payroll->update(
+                    ['other_income'=>43]
+                    );
+    
+            }
+             return redirect()->back()->with("status", "payroll data prepared successfully!");
+    }
+
+ public function prepareOthDedData($payroll_id)
+    {
+
+        $othdedtrans = Prlothdedtransaction::where('payroll_id',$payroll_id)->get();
+     
+            foreach ($othdedtrans  as $othdedtran)
+               {
+   
+            $othdedtran->delete();
+    
+            }
+
+        $othdedfiles=Prlothdedfile::where("payroll_id",$payroll_id)->get();
+        
+
+                 foreach($othdedfiles as $othdedfile) {
+                  $inserts[] = [ 
+                                 'othded_id' => $othdedfile->othded_id,
+                                 'amount' => $othdedfile->othdedamount,
+                                 'employee_id' => $othdedfile->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'creator_id' => auth()->id()
+                               ]; 
+                       }
+
+                   DB::table('Prlothdedtransactions')->insert($inserts);
               return redirect()->back()->with("status", "payroll data prepared successfully!");
     }
    

@@ -13,6 +13,8 @@ use App\Models\YesOrNo;
 use App\Models\Year;
 use DB;
 use App\Models\Prldailytran;
+use App\Models\Prlsstransaction;
+use App\Models\Prlssfile;
 use App\Models\Month;
 use App\Models\Payperiod;
 use App\Models\Prlothintransaction;
@@ -118,6 +120,7 @@ class payrollsController extends Controller
         $payrollObj->prepareOthDedData($payroll_id);
         $payrollObj->calculateBasicPay($payroll_id);
         $payrollObj->calculateGrossPay($payroll_id);
+        $payrollObj->prepareSSData($payroll_id);
         return redirect()->back()->with("status", "Payroll data successfully generated");
     }
 
@@ -501,13 +504,13 @@ class payrollsController extends Controller
 
         $ssfiles=Prlssfile::where("active",1)->get();
         
-
+$payrollObj=new payrollsController;
                  foreach($ssfiles as $ssfile) {
                   $inserts[] = [ 
                                  'sstype_id' => $ssfile->sstype_id,
-                                 'employerss' => (($ssfile->employer_percent *200000)/100),
-                                 'employeess' => (($ssfile->employee_percent *200000)/100),
-                                 'total' => (($ssfile->total *200000)/100),
+                                 'employerss' => (($ssfile->employer_percent * $payrollObj->prltransrow($payroll_id,$ssfile->employee_id,"basicpay"))/100),
+                                 'employeess' => (($ssfile->employee_percent * $payrollObj->prltransrow($payroll_id,$ssfile->employee_id,"basicpay"))/100),
+                                 'total' => (($ssfile->total * $payrollObj->prltransrow($payroll_id,$ssfile->employee_id,"basicpay"))/100),
                                  'employee_id' => $ssfile->employee_id,
                                  'payroll_id' =>$payroll_id,
                                  'creator_id' => auth()->id()
@@ -535,15 +538,29 @@ class payrollsController extends Controller
      {
         
         $employeesscontributions=Prlsstransaction::where("employee_id",$employee_id)->where("payroll_id",$payroll_id)->get();
-         $eotherdeduction=0;
+         $sscontribution=0;
          foreach ($employeesscontributions as $employeesscontribution) {
            
-            $eotherdeduction+=$employeesscontribution->amount;
+            $sscontribution+=$employeesscontribution->employeess;
         }
 
      
-    return $eotherdeduction;
+    return $sscontribution;
      }
+     public function prltransrow($payroll_id,$employee_id,$colum)
+     {
+        $payroll=prltransaction::where('employee_id',$employee_id)->where('payroll_id',$payroll_id)->firstOrFail();
+        if($colum == "basicpay")
+         return $payroll->basicpay;
+
+      else if($colum=="grosspay")
+
+         return $payroll->grosspay;
+
+        else return 0;
+
+     } 
+     
 
    
 }

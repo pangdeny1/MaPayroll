@@ -117,6 +117,7 @@ class payrollsController extends Controller
         $payrollObj->prepareOthInData($payroll_id);
         $payrollObj->prepareOthDedData($payroll_id);
         $payrollObj->calculateBasicPay($payroll_id);
+        $payrollObj->calculateGrossPay($payroll_id);
         return redirect()->back()->with("status", "Payroll data successfully generated");
     }
 
@@ -313,13 +314,15 @@ class payrollsController extends Controller
             if($payroll->pay_type=="Hourly")
             {
                 $payroll->update([
-            "basicpay" =>($payroll->hourly_rate * $payroll->reg_hours)
+            "basicpay" =>($payroll->hourly_rate * $payroll->reg_hours),
+            
                  ]);
             }
             else if($payroll->pay_type=="Salary")
             {
                $payroll->update([
-            "basicpay" =>$payroll->period_rate
+            "basicpay" =>$payroll->period_rate,
+           
                  ]);  
             }
             else
@@ -347,6 +350,26 @@ class payrollsController extends Controller
         return $reg_hours;
      }
 
+     //calculate gross
+
+     public function calculateGrossPay($payroll_id)
+     {
+        
+        $payrolls=Prltransaction::where("payroll_id",$payroll_id)->get();
+         
+         foreach ($payrolls as $payroll) {
+           
+            $payroll->update(["grosspay"=>($payroll->basicpay + $payroll->other_income)
+            ]);
+        }
+
+     
+         return redirect()->back()->with("status", "payroll data prepared successfully!");
+    
+     }
+
+     //calculate SS
+
      public function calculateTotalEmployeeOtherIncome($payroll_id,$employee_id)
      {
         
@@ -360,6 +383,21 @@ class payrollsController extends Controller
      
     return $eotherincome;
      }
+
+      public function calculateTotalEmployeeOtherDeduction($payroll_id,$employee_id)
+     {
+        
+        $employeeotherdeductions=Prlothdedtransaction::where("employee_id",$employee_id)->where("payroll_id",$payroll_id)->get();
+         $eotherdeduction=0;
+         foreach ($employeeotherdeductions as $employeeotherdeduction) {
+           
+            $eotherdeduction+=$employeeotherdeduction->amount;
+        }
+
+     
+    return $eotherdeduction;
+     }
+
 
 
 
@@ -391,13 +429,14 @@ class payrollsController extends Controller
                    DB::table('prlothintransactions')->insert($inserts);
 
                    
-            $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
+        $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
+
            $payrollObj=new payrollsController();
      
             foreach ($payrolls as $payroll)
                {
                 $payroll->update(
-                    ['other_income'=>43]
+                    ['other_income'=>$payrollObj->calculateTotalEmployeeOtherIncome($payroll_id,$payroll->employee_id)]
                     );
     
             }
@@ -430,7 +469,81 @@ class payrollsController extends Controller
                        }
 
                    DB::table('Prlothdedtransactions')->insert($inserts);
+
+
+        $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
+
+           $payrollObj=new payrollsController();
+     
+            foreach ($payrolls as $payroll)
+               {
+                $payroll->update(
+                    ['other_deduction'=>$payrollObj->calculateTotalEmployeeOtherDeduction($payroll_id,$payroll->employee_id)]
+                    );
+    
+            }
               return redirect()->back()->with("status", "payroll data prepared successfully!");
     }
+
+    //prepare ss deduction
+
+    public function prepareSSData($payroll_id)
+    {
+
+        $sstrans = Prlsstransaction::where('payroll_id',$payroll_id)->get();
+     
+            foreach ($sstrans  as $sstran)
+               {
+   
+            $sstran->delete();
+    
+            }
+
+        $ssfiles=Prlssfile::where("active",1)->get();
+        
+
+                 foreach($ssfiles as $ssfile) {
+                  $inserts[] = [ 
+                                 'sstype_id' => $ssfile->sstype_id,
+                                 'employerss' => (($ssfile->employer_percent *200000)/100),
+                                 'employeess' => (($ssfile->employee_percent *200000)/100),
+                                 'total' => (($ssfile->total *200000)/100),
+                                 'employee_id' => $ssfile->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'creator_id' => auth()->id()
+                               ]; 
+                       }
+
+                   DB::table('prlsstransactions')->insert($inserts);
+
+
+        $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
+
+           $payrollObj=new payrollsController();
+     
+            foreach ($payrolls as $payroll)
+               {
+                $payroll->update(
+                    ['ss_pay'=>$payrollObj->calculateTotalEmployeeSSContribution($payroll_id,$payroll->employee_id)]
+                    );
+    
+            }
+              return redirect()->back()->with("status", "payroll data prepared successfully!");
+    }
+
+      public function calculateTotalEmployeeSSContribution($payroll_id,$employee_id)
+     {
+        
+        $employeesscontributions=Prlsstransaction::where("employee_id",$employee_id)->where("payroll_id",$payroll_id)->get();
+         $eotherdeduction=0;
+         foreach ($employeesscontributions as $employeesscontribution) {
+           
+            $eotherdeduction+=$employeesscontribution->amount;
+        }
+
+     
+    return $eotherdeduction;
+     }
+
    
 }

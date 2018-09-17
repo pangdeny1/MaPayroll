@@ -121,6 +121,7 @@ class payrollsController extends Controller
         $payrollObj->calculateBasicPay($payroll_id);
         $payrollObj->calculateGrossPay($payroll_id);
         $payrollObj->prepareSSData($payroll_id);
+        $payrollObj->calculateTaxableAmount($payroll_id);
         return redirect()->back()->with("status", "Payroll data successfully generated");
     }
 
@@ -508,9 +509,10 @@ $payrollObj=new payrollsController;
                  foreach($ssfiles as $ssfile) {
                   $inserts[] = [ 
                                  'sstype_id' => $ssfile->sstype_id,
-                                 'employerss' => (($ssfile->employer_percent * $payrollObj->prltransrow($payroll_id,$ssfile->employee_id,"basicpay"))/100),
-                                 'employeess' => (($ssfile->employee_percent * $payrollObj->prltransrow($payroll_id,$ssfile->employee_id,"basicpay"))/100),
-                                 'total' => (($ssfile->total * $payrollObj->prltransrow($payroll_id,$ssfile->employee_id,"basicpay"))/100),
+                                 'grosspay'  => $payrollObj->prltransrow($payroll_id,$ssfile->employee_id,"grosspay"),
+                                 'employerss' => (($ssfile->employer_percent * $payrollObj->prltransrow($payroll_id,$ssfile->employee_id,"grosspay"))/100),
+                                 'employeess' => (($ssfile->employee_percent * $payrollObj->prltransrow($payroll_id,$ssfile->employee_id,"grosspay"))/100),
+                                 'total' => (($ssfile->total * $payrollObj->prltransrow($payroll_id,$ssfile->employee_id,"grosspay"))/100),
                                  'employee_id' => $ssfile->employee_id,
                                  'payroll_id' =>$payroll_id,
                                  'creator_id' => auth()->id()
@@ -560,6 +562,29 @@ $payrollObj=new payrollsController;
         else return 0;
 
      } 
+
+     public function calculateTaxableAmount($payroll_id)
+     {
+        $payrolls=prltransaction::where("payroll_id",$payroll_id)->get();
+        foreach ($payrolls as $payroll) {
+
+            $payroll->update(
+                ["taxable_amount"=>($payroll->grosspay - $payroll->ss_pay)]);
+        }
+        return redirect()->back()->with("status","Payroll data successfully updated");
+     }
+
+     //tax computation
+
+     public function calculateTax($payroll_id)
+     {
+        $payrolls=prltransaction::where("payroll_id")->get();
+        foreach ($payrolls as $payroll) {
+
+            $payroll->update(["tax"=>2300]);
+        }
+        return redirect()->back()->with("status","tax rows updated successfully");
+     }
      
 
    

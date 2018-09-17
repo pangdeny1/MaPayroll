@@ -12,8 +12,10 @@ use App\Mailers\AppMailer;
 use App\Models\YesOrNo;
 use App\Models\Year;
 use DB;
+use App\Prltaxtransaction;
 use App\Models\Prldailytran;
 use App\Models\Prlsstransaction;
+use App\Models\Prltaxtablerate;
 use App\Models\Prlssfile;
 use App\Models\Month;
 use App\Models\Payperiod;
@@ -121,7 +123,10 @@ class payrollsController extends Controller
         $payrollObj->calculateBasicPay($payroll_id);
         $payrollObj->calculateGrossPay($payroll_id);
         $payrollObj->prepareSSData($payroll_id);
-        $payrollObj->calculateTaxableAmount($payroll_id);
+        $payrollObj->computeTaxableIncome($payroll_id);
+        $payrollObj->prepareTaxData($payroll_id);
+        $payrollObj->computeTotalDeduction($payroll_id);
+        $payrollObj->computeNetpay($payroll_id);
         return redirect()->back()->with("status", "Payroll data successfully generated");
     }
 
@@ -563,27 +568,104 @@ $payrollObj=new payrollsController;
 
      } 
 
-     public function calculateTaxableAmount($payroll_id)
+     public function computeTaxableIncome($payroll_id)
      {
         $payrolls=prltransaction::where("payroll_id",$payroll_id)->get();
         foreach ($payrolls as $payroll) {
 
             $payroll->update(
-                ["taxable_amount"=>($payroll->grosspay - $payroll->ss_pay)]);
+                ["taxable_income"=>($payroll->grosspay - $payroll->ss_pay)]);
         }
         return redirect()->back()->with("status","Payroll data successfully updated");
      }
 
      //tax computation
 
-     public function calculateTax($payroll_id)
+
+      public function prepareTaxData($payroll_id)
+    {
+
+        $taxtrans = Prltaxtransaction::where('payroll_id',$payroll_id)->get();
+     
+            foreach ($taxtrans  as $taxtran)
+               {
+   
+            $taxtran->delete();
+    
+            }
+
+        $payrolls=Prltransaction::where("payroll_id",$payroll_id)->get();
+        
+        $payrollObj=new payrollsController;
+                 foreach($payrolls as $payroll) {
+                  $inserts[] = [ 
+                                 'taxable_income'  => $payroll->taxable_income,
+                                 'fsmonth' => $payroll->fsmonth,
+                                 'fsyear' => $payroll->fsyear,
+                                 'tax' => $payrollObj->getMyTax($payroll->taxable_income),
+                                 'employee_id' => $payroll->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'creator_id' => auth()->id()
+                               ]; 
+
+                                $payroll->update(["tax"=>$payrollObj->getMyTax($payroll->taxable_income)]);
+                       }
+
+                   DB::table('prltaxtransactions')->insert($inserts);
+
+
+        $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
+
+        $payrollObj=new payrollsController();
+     
+            foreach ($payrolls as $payroll)
+               {
+                $payroll->update(
+                    ['ss_pay'=>$payrollObj->calculateTotalEmployeeSSContribution($payroll_id,$payroll->employee_id)]
+                    );
+    
+            }
+              return redirect()->back()->with("status", "payroll data prepared successfully!");
+    }
+
+     public function computeNetpay($payroll_id)
      {
-        $payrolls=prltransaction::where("payroll_id")->get();
+       $payrolls=prltransaction::where("payroll_id","$payroll_id")->get();
         foreach ($payrolls as $payroll) {
 
-            $payroll->update(["tax"=>2300]);
+            $payroll->update(["netpay"=>$payroll->grosspay-$payroll->tax-$payroll->ss_pay - $payroll->other_deduction]);
         }
-        return redirect()->back()->with("status","tax rows updated successfully");
+        return redirect()->back()->with("status","Netpayrows updated successfully");
+     }
+
+      public function computeTotalDeduction($payroll_id)
+     {
+        $payrolls=prltransaction::where("payroll_id","$payroll_id")->get();
+        foreach ($payrolls as $payroll) {
+
+            $payroll->update(["total_deduction"=>$payroll->tax + $payroll->ss_pay + $payroll->other_deduction]);
+        }
+        return redirect()->back()->with("status","Netpayrows updated successfully");
+     }
+
+
+     public function getMyTax($taxable_income)
+     {
+        $fixtax=0;
+        $mytax=Prltaxtablerate::where("rangefrom","<=",$taxable_income)->where("rangeto",">=",$taxable_income)->firstOrFail();
+          
+
+          if($mytax->count()>0)
+          {
+                
+                $AA=$mytax->percentofexcessamount/100;
+                $BB=$taxable_income - $mytax->rangefro ;
+                $CC=$AA*$BB;
+                $deduct=$mytax->fixtax  +$CC;
+            //return ($mytax->fixtax + ($taxable_income - $mytax->rangeto)*($mytax->percentofexcessamount/100));
+            return $deduct;   
+          }
+          else return 0;
      }
      
 

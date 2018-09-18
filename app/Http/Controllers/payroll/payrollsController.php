@@ -24,7 +24,11 @@ use App\Models\Prlothinfile;
 use app\Models\Prlothintype;
 use App\Models\Prlothdedtransaction;
 use App\Models\Prlothdedfile;
-use app\Models\Prlothdedtype;
+use App\Models\Prlothdedtype;
+use App\Prlhdmftype;
+use App\Models\Prlhdmftransaction;
+use App\prlhealthtransaction;
+use App\prlhealthtype;
 use App\Http\Controllers\Controller;
 
 class payrollsController extends Controller
@@ -123,6 +127,8 @@ class payrollsController extends Controller
         $payrollObj->calculateBasicPay($payroll_id);
         $payrollObj->calculateGrossPay($payroll_id);
         $payrollObj->prepareSSData($payroll_id);
+        $payrollObj->computeHDMF($payroll_id);
+        $payrollObj->computeHealth($payroll_id);
         $payrollObj->computeTaxableIncome($payroll_id);
         $payrollObj->prepareTaxData($payroll_id);
         $payrollObj->computeTotalDeduction($payroll_id);
@@ -614,17 +620,6 @@ $payrollObj=new payrollsController;
                    DB::table('prltaxtransactions')->insert($inserts);
 
 
-        $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
-
-        $payrollObj=new payrollsController();
-     
-            foreach ($payrolls as $payroll)
-               {
-                $payroll->update(
-                    ['ss_pay'=>$payrollObj->calculateTotalEmployeeSSContribution($payroll_id,$payroll->employee_id)]
-                    );
-    
-            }
               return redirect()->back()->with("status", "payroll data prepared successfully!");
     }
 
@@ -659,7 +654,7 @@ $payrollObj=new payrollsController;
           {
                 
                 $AA=$mytax->percentofexcessamount/100;
-                $BB=$taxable_income - $mytax->rangefro ;
+                $BB=$taxable_income - $mytax->rangefrom ;
                 $CC=$AA*$BB;
                 $deduct=$mytax->fixtax  +$CC;
             //return ($mytax->fixtax + ($taxable_income - $mytax->rangeto)*($mytax->percentofexcessamount/100));
@@ -668,6 +663,119 @@ $payrollObj=new payrollsController;
           else return 0;
      }
      
+     //compute health 
+   public function computeHealth($payroll_id)
+    {
+
+        $healthtrans = Prlhealthtransaction::where('payroll_id',$payroll_id)->get();
+     
+            foreach ($healthtrans  as $healthtran)
+               {
+   
+            $healthtran->delete();
+    
+            }
+
+        $payrolls=Prltransaction::where("payroll_id",$payroll_id)->get();
+        
+        $payrollObj=new payrollsController;
+                 foreach($payrolls as $payroll) {
+
+                     $inserts[] = [ 
+                                 'employee_id' => $payroll->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'grosspay'   =>$payroll->grosspay,
+                                 'employee_contr'=>(($payrollObj->getHealthPercent('employee')*$payroll->basicpay)/100),
+                                 'employer_contr'=>(($payrollObj->getHealthPercent('employer')*$payroll->basicpay)/100),
+                                 'total'     =>(($payrollObj->getHealthPercent('total')*$payroll->basicpay)/100),
+                                 'creator_id' => auth()->id()
+                               ]; 
+
+                
+
+                                $payroll->update(["health"=>(($payrollObj->getHealthPercent('employee')*$payroll->basicpay)/100),
+                                ]);
+                       }
+
+                        DB::table('prlhealthtransactions')->insert($inserts);
+
+              return redirect()->back()->with("status", "payroll data prepared successfully!");
+    }
+
+    public function getHealthPercent($record)
+    {
+        $healthtable=prlhealthtype::first();
+        if($record=="employer")
+        return $healthtable->employerph;
+
+    else if($record=="employee")
+    {
+        return $healthtable->employeeph;
+    }
+   else if($record=="total")
+   {
+    return $healthtable->total;
+   }
+    else return 0;
+    }
+
+    //compute Hdmf
+
+    public function computeHDMF($payroll_id)
+    {
+
+         $hdmftrans = Prlhdmftransaction::where('payroll_id',$payroll_id)->get();
+     
+            foreach ($hdmftrans  as $hdmftran)
+               {
+   
+           $hdmftran->delete();
+    
+            }
+
+        $payrolls=Prltransaction::where("payroll_id",$payroll_id)->get();
+        
+        $payrollObj=new payrollsController;
+                 foreach($payrolls as $payroll) {
+
+                     $inserts[] = [ 
+                                 'employee_id' => $payroll->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'grosspay'   =>$payroll->grosspay,
+                                 'employee_hdmf'=>(($payrollObj->getHDMFPercent('employee')*$payroll->basicpay)/100),
+                                 'employer_hdmf'=>(($payrollObj->getHDMFPercent('employer')*$payroll->basicpay)/100),
+                                 'total'     =>(($payrollObj->getHDMFPercent('total')*$payroll->basicpay)/100),
+                                 'creator_id' => auth()->id()
+                               ]; 
+
+                
+
+                                $payroll->update(["hdmf"=>(($payrollObj->getHDMFPercent('employee')*$payroll->basicpay)/100),
+                                ]);
+                       }
+
+                        DB::table('prlhdmftransactions')->insert($inserts);
+
+              return redirect()->back()->with("status", "payroll data prepared successfully!");
+    }
+
+public function getHDMFPercent($record)
+    {
+    $hdmftable=Prlhdmftype::first();
+        if($record=="employer")
+        return $hdmftable->employershare;
+
+    else if($record=="employee")
+    {
+        return $hdmftable->employeeshare;
+    }
+    else if($record=="total")
+    {
+        return $hdmftable->total;
+    }
+    else return 0;
+    }
+
 
    
 }

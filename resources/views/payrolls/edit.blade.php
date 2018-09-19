@@ -1,79 +1,96 @@
 @extends("layouts.master")
 
 @section("content")
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">{{$pagetitle}}</div>
-
-                <div class="panel-body">
-                    @include('includes.flash');
-
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/updatepayroll/'.$payroll->id) }}">
-                        {!! csrf_field() !!}
-
-                        
-                        <div class="form-group{{ $errors->has('PayrollID') ? ' has-error' : '' }}">
-                            <label for="title" class="col-md-4 control-label">Payroll id</label>
-
-                            <div class="col-md-6">
-                                <input id="title" type="text" class="form-control" name="PayrollID" value="{{ $payroll->payrollid }}">
+<div class="wrapper">
+    <div class="page has-sidebar">
+        <div class="page-inner">
+            <header class="page-title-bar">
+                <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">
+                     <a href="{{ route("home") }}">
+                                        <i class="breadcrumb-icon fa fa-angle-left mr-2"></i> Dashboard
+                                    </a>
+                        <i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Edit payroll</a>
+                    </li>
+                </ol>
+                </nav>
+               
+            </header>
+            @include('includes.flash')
+            <div class="page-section">
+                <div class="row">
+                    <div class="col-md-12">
+ 
+                        <form action="{{url('/updatepayroll/'.$payroll->id) }}"
+                              method="POST"
+                              class="card border-0"
+                        >
+                            @csrf
+                            <header class="card-header border-bottom-0">
+                                Payroll Infomation
+                            </header>
+                              <div class="card-body">
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="phone">Payroll ID</label>
+                                  <input id="title" type="text" class="form-control {{ $errors->has('PayrollID') ? 'is-invalid' : '' }}" name="PayrollID" value="{{ $payroll->payrollid }}">
 
                                 @if ($errors->has('PayrollID'))
-                                    <span class="help-block">
+                                    <span class="invalid-feedback">
                                         <strong>{{ $errors->first('PayrollID') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
+                                    </div>
+                                </div>
 
-                         <div class="form-group{{ $errors->has('PayrollDesc') ? ' has-error' : '' }}">
-                            <label for="title" class="col-md-4 control-label">Payroll Desc</label>
-
-                            <div class="col-md-6">
-                                <input id="title" type="text" class="form-control" name="PayrollDesc" value="{{ $payroll->payrolldesc }}">
+                            
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="phone">Payroll Desc</label>
+                                    
+                                       <input id="title" type="text" class="form-control {{ $errors->has('PayrollDesc') ? 'is-invalid' : '' }}" name="PayrollDesc" value="{{ $payroll->payrolldesc }}">
 
                                 @if ($errors->has('PayrollDesc'))
-                                    <span class="help-block">
+                                    <span class="invalid-feedback">
                                         <strong>{{ $errors->first('PayrollDesc') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('StartDate') ? ' has-error' : '' }}">
-                            <label for="title" class="col-md-4 control-label">Start Date </label>
-
-                            <div class="col-md-6">
-                                <input type="text" name="StartDate" class="form-control datepicker" value="{{$payroll->startdate}}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="first_name">Start Date</label>
+                                           <input type="date" name="StartDate"  class="form-control {{ $errors->has('StartDate') ? 'is-invalid' : '' }}" value="{{$payroll->startdate}}">
 
                                 @if ($errors->has('StartDate'))
-                                    <span class="help-block">
+                                    <span class="invalid-feedback">
                                         <strong>{{ $errors->first('StartDate') }}</strong>
                                     </span>
                                 @endif
+                                           
                             </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('EndDate') ? ' has-error' : '' }}">
-                            <label for="title" class="col-md-4 control-label">End Date </label>
-
-                            <div class="col-md-6">
-                                <input type="text" name="EndDate" class="form-control datepicker" value="{{$payroll->enddate}}">
+                                    <div class="form-group col-md-6">
+                                        <label for="last_name">End Date</label>
+                                      <input type="date" name="EndDate" class="form-control {{ $errors->has('EndDate') ? 'is-invalid' : '' }}" value="{{$payroll->enddate}}">
 
                                 @if ($errors->has('EndDate'))
-                                    <span class="help-block">
+                                    <span class="invalid-feedback">
                                         <strong>{{ $errors->first('EndDate') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
+                                    </div>
+                                </div>
+                                
 
-                        <div class="form-group{{ $errors->has('payperiod') ? ' has-error' : '' }}">
-                            <label for="title" class="col-md-4 control-label">Pay Periods</label>
-
-                            <div class="col-md-6">
-                                                    <select class="form-control select" name="payperiod">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="email">
+                                            Pay periods
+                                           
+                                        </label>
+                                                 <select class="form-control {{ $errors->has('payperiod') ? 'is-invalid' : '' }}" name="payperiod">
                                                         <option  value='' selected="selected">Select </option>
 
                                                         @foreach($payperiods as $payperiod)
@@ -87,18 +104,21 @@
                                                                                                              
                                                     </select>
                                              @if ($errors->has('payperiod'))
-                                    <span class="help-block">
+                                    <span class="invalid-feedback">
                                         <strong>{{ $errors->first('payperiod') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
-                         
-                           <div class="form-group{{ $errors->has('FSMonth') ? ' has-error' : '' }}">
-                            <label for="title" class="col-md-4 control-label">Month</label>
+                                    </div>
+                                </div>
 
-                            <div class="col-md-6">
-                                                    <select class="form-control select" name="FSMonth">
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="email">
+                                           Months
+                                           
+                                        </label>
+                                              <select class="form-control {{ $errors->has('FSMonth') ? 'is-invalid' : '' }}"  name="FSMonth">
 
                                                         @foreach($months as $month)
                                                         @if($month->id==$payroll->fsmonth)
@@ -109,17 +129,21 @@
                                                         @endforeach                                                                                                               
                                                     </select>
                                              @if ($errors->has('FSMonth'))
-                                    <span class="help-block">
+                                    <span class="invalid-feedback">
                                         <strong>{{ $errors->first('FSMonth') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
-  <div class="form-group{{ $errors->has('FSYear') ? ' has-error' : '' }}">
-                            <label for="title" class="col-md-4 control-label">FSYear</label>
+                                    </div>
+                                </div>
 
-                            <div class="col-md-6">
-                                                    <select class="form-control select" name="FSYear">
+                                  <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="email">
+                                          Years
+                                           
+                                        </label>
+                                          
+                                                    <select class="form-control {{ $errors->has('FSYear') ? 'is-invalid' : '' }}" name="FSYear">
                                                         @foreach($years  as $FSYear)
                                                        
                                                         @if($FSYear->id==$payroll->fsyear)
@@ -132,20 +156,25 @@
                                                                                                                                                                    
                                                     </select>
                                              @if ($errors->has('FSYear'))
-                                    <span class="help-block">
+                                    <span class="invalid-feedback">
                                         <strong>{{ $errors->first('FSYear') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
-                        
-                        
-                       
-                        <div class="form-group{{ $errors->has('DeductSSS') ? ' has-error' : '' }}">
-                            <label for="title" class="col-md-4 control-label">Deduct Pension</label>
-
-                            <div class="col-md-6">
-                                                    <select class="form-control select" name="DeductSSS">
+                                    </div>
+                                </div>
+<hr>
+                         
+                            <header class="card-header border-bottom-0">
+                                Deduct Information
+                                </header>
+                                <div class="card-body">
+                                     <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label for="address">
+                                                Deduct Social Security (SS)
+                                               
+                                            </label>
+                                                               <select class="form-control {{ $errors->has('DeductSSS') ? 'is-invalid' : '' }}" name="DeductSSS">
                                                        @foreach($yesornos as $ss)
                                                         @if($ss->id==$payroll->deductsss)
                                                         <option  value="{{$payroll->deductsss}}" selected="selected">{{$ss->name}}</option>
@@ -155,20 +184,17 @@
                                                         @endforeach                                                                                               
                                                     </select>
                                              @if ($errors->has('DeductSSS'))
-                                    <span class="help-block">
+                                    <span class="invalid-feedback">
                                         <strong>{{ $errors->first('DeductSSS') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
-                        
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
 
-                        
-                        <div class="form-group{{ $errors->has('DeductHealth') ? ' has-error' : '' }}">
-                            <label for="title" class="col-md-4 control-label">Deduct Health</label>
-
-                            <div class="col-md-6">
-                                                    <select class="form-control select" name="DeductHealth">
+                                        <div class="form-group col-md-12">
+                                            <label for="street">Deduct Health</label>
+                                            <select class="form-control {{ $errors->has('DeductHealth') ? 'is-invalid' : '' }}" name="DeductHealth">
                                                        @foreach($yesornos as $ss)
                                                         @if($ss->id==$payroll->deductphilhealth)
                                                         <option  value="{{$payroll->deductphilhealth}}" selected="selected">{{$ss->name}}</option>
@@ -179,18 +205,21 @@
                                                                                                                                                                    
                                                     </select>
                                              @if ($errors->has('DeductHealth'))
-                                    <span class="help-block">
+                                    <span class="invalid-feedback">
                                         <strong>{{ $errors->first('DeductHealth') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
-      
-                        <div class="form-group{{ $errors->has('DeductHdmf') ? ' has-error' : '' }}">
-                            <label for="title" class="col-md-4 control-label">Deduct HDMF</label>
+                                        </div>
+                                    </div>
+                                   
 
-                            <div class="col-md-6">
-                                                    <select class="form-control select" name="DeductHdmf">
+                                      <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label for="address">
+                                               Deduct HDMF
+                                               
+                                            </label>
+                                             <select class="form-control {{ $errors->has('DeductHdmf') ? 'is-invalid' : '' }}" name="DeductHdmf">
                                                         @foreach($yesornos as $ss)
                                                         @if($ss->id==$payroll->deducthdmf)
                                                         <option  value="{{$payroll->deducthdmf}}" selected="selected">{{$ss->name}}</option>
@@ -200,22 +229,39 @@
                                                         @endforeach                                                                                              
                                                     </select>
                                              @if ($errors->has('DeductHdmf'))
-                                    <span class="help-block">
+                                    <span class="invalid-feedback">
                                         <strong>{{ $errors->first('DeductHdmf') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-ticket"></i> Save
+                                        </div>
+                                    </div>
+                                    
+                                    <hr class="mb-4">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                    Save changes
                                 </button>
                             </div>
-                        </div>
-                    </form>
+                      </form>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            @endsection
+        <div class="page-sidebar border-left bg-white">
+            <header class="sidebar-header d-sm-none">
+                <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">
+                    <a href="#" onclick="Looper.toggleSidebar()">
+                        <i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Back</a>
+                    </li>
+                </ol>
+                </nav>
+            </header>
+            <div class="sidebar-section">
+                {{-- <h3 class="section-title"> I'm a sidebar </h3> --}}
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

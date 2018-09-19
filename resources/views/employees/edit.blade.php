@@ -178,6 +178,31 @@
                                         @endif
                                     </div>
                                     <div class="form-group col-md-12">
+                                        <label for="email">
+                                            Pay periods
+                                           
+                                        </label>
+                                                    <select class="form-control {{ $errors->has('payperiod') ? 'is-invalid' : '' }}" name="payperiod">
+                                                        <option  value='' selected="selected">Select </option>
+
+                                                        @foreach($payperiods as $payperiod)
+
+                                                         @if($payperiod->payperiodid ==$employee->pay_period)
+                                                        <option  value='{{$employee->pay_period}}' selected="selected">{{$payperiod->payperioddesc }}</option>
+                                                            @else
+                                                          <option value="{{ $payperiod->payperiodid }}">{{ $payperiod->payperioddesc }}</option>
+                                                           @endif 
+                                                        @endforeach
+                                                                                                             
+                                                    </select>
+                                             @if ($errors->has('payperiod'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('payperiod') }}</strong>
+                                    </span>
+                                @endif
+                                    </div>
+                                </div>
+                                    <div class="form-group col-md-12">
                                         <label class="d-block">Include in Payroll?</label>
                                         <div class="custom-control custom-control-inline custom-radio">
                                             <input type="radio"

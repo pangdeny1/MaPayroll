@@ -113,9 +113,10 @@ class payrollsController extends Controller
 
     public function generate($payroll_id)
     {
-        $employees=Employee::where("active","yes")->get();
+        $payrollObj= new payrollsController();
+        $employees=Employee::where("active","yes")->where('pay_period',$payrollObj->payrollRows($payroll_id,"payperiod"))->get();
 
-         $payrollObj= new payrollsController();
+         
         if($payrollObj->closedOpenedStatusCheck($payroll_id)=="Closed")
         {
           return redirect()->back()->with("status_error", "Cannot Generate payroll data, Payroll is already closed!"); 
@@ -154,6 +155,7 @@ class payrollsController extends Controller
                                  'deduct_tax'=>$employee->deduct_tax,
                                  'deduct_health'=>$employee->deduct_health,
                                  'deduct_hdmf'=>$employee->deduct_hdmf,
+                                 'pay_period' =>$employee->pay_period,
                                  "creator_id" => auth()->id()
                                ]; 
                        }
@@ -509,7 +511,7 @@ class payrollsController extends Controller
     //compute ss contribution 
    public function computeSSContribution($payroll_id)
     {
-
+        $payrollObj=new payrollsController;
         $sstrans = Prlsstransaction::where('payroll_id',$payroll_id)->get();
      
             foreach ($sstrans  as $sstran)
@@ -518,10 +520,14 @@ class payrollsController extends Controller
             $sstran->delete();
     
             }
+if($payrollObj->isdeducted($payroll_id,"deduct_ss")==1)
+{
+
+        
 
         $payrolls=prltransaction::where("payroll_id",$payroll_id)->where("deduct_ss","yes")->get();
         $count=0;
-               $payrollObj=new payrollsController;
+               
                  foreach($payrolls as $payroll) {
                     $count+=1;
 
@@ -547,6 +553,8 @@ class payrollsController extends Controller
 
                   else return 0;
 
+
+}
 
               
     }
@@ -645,7 +653,7 @@ $payrollObj=new payrollsController;
 
      public function computeTaxableIncome($payroll_id)
      {
-        $payrolls=prltransaction::where("payroll_id",$payroll_id)->get();
+        $payrolls=prltransaction::where("payroll_id",$payroll_id)->where("deduct_tax","yes")->get();
         foreach ($payrolls as $payroll) {
 
             $payroll->update(
@@ -670,9 +678,10 @@ $payrollObj=new payrollsController;
             }
 
         $payrolls=Prltransaction::where("payroll_id",$payroll_id)->get();
-        
+        $count=0;
         $payrollObj=new payrollsController;
                  foreach($payrolls as $payroll) {
+                    $count+=1;
                   $inserts[] = [ 
                                  'taxable_income'  => $payroll->taxable_income,
                                  'fsmonth' => $payroll->fsmonth,
@@ -685,11 +694,15 @@ $payrollObj=new payrollsController;
 
                                 $payroll->update(["tax"=>$payrollObj->getMyTax($payroll->taxable_income)]);
                        }
+                       if($count>0)
+                       {
+                         DB::table('prltaxtransactions')->insert($inserts);
+                       }
 
-                   DB::table('prltaxtransactions')->insert($inserts);
+                  else
 
 
-              return redirect()->back()->with("status", "payroll data prepared successfully!");
+              return 0;
     }
 
      public function computeNetpay($payroll_id)
@@ -735,7 +748,7 @@ $payrollObj=new payrollsController;
      //compute health 
    public function computeHealth($payroll_id)
     {
-
+        $payrollObj=new payrollsController;
         $healthtrans = Prlhealthtransaction::where('payroll_id',$payroll_id)->get();
      
             foreach ($healthtrans  as $healthtran)
@@ -744,10 +757,12 @@ $payrollObj=new payrollsController;
             $healthtran->delete();
     
             }
+            if($payrollObj->isdeducted($payroll_id,"deduct_health")==1)
+{
 
         $payrolls=Prltransaction::where("payroll_id",$payroll_id)->where("deduct_health","yes")->get();
         $count=0;
-        $payrollObj=new payrollsController;
+        
                  foreach($payrolls as $payroll) {
                         $count+=1;
                      $inserts[] = [ 
@@ -773,6 +788,7 @@ $payrollObj=new payrollsController;
                      else    
 
               return 0;
+      }
     }
 
     public function getHealthPercent($record)
@@ -796,7 +812,7 @@ $payrollObj=new payrollsController;
 
     public function computeHDMF($payroll_id)
     {
-
+        $payrollObj=new payrollsController;
          $hdmftrans = Prlhdmftransaction::where('payroll_id',$payroll_id)->get();
      
             foreach ($hdmftrans  as $hdmftran)
@@ -805,10 +821,15 @@ $payrollObj=new payrollsController;
            $hdmftran->delete();
     
             }
+            $payrollObj=new payrollsController;
+
+        if($payrollObj->isdeducted($payroll_id,"deduct_hdmf")==1)
+{
+
          $count=0;
         $payrolls=Prltransaction::where("payroll_id",$payroll_id)->where("deduct_hdmf","yes")->get();
         
-        $payrollObj=new payrollsController;
+        
                  foreach($payrolls as $payroll) {
                     $count+=1;
 
@@ -833,6 +854,8 @@ $payrollObj=new payrollsController;
                 }
 
 else return 0;
+
+}
               
     }
 
@@ -843,15 +866,39 @@ public function getHDMFPercent($record)
         return $hdmftable->employershare;
 
     else if($record=="employee")
-    {
+      {
         return $hdmftable->employeeshare;
-    }
+        }
     else if($record=="total")
-    {
+         {
         return $hdmftable->total;
-    }
+            }
     else return 0;
     }
+
+    public function isdeducted($payroll_id,$deducttype)
+    {
+        $payroll=Payroll::where("id",$payroll_id)->firstOrFail();
+        if($deducttype=="deduct_ss")
+            return $payroll->deductsss;
+        elseif($deducttype=="deduct_health")
+            return $payroll->deductphilhealth;
+         elseif($deducttype=="deduct_hdmf")
+            return $payroll->deducthdmf;
+        else return 0;
+
+    }
+
+    public function payrollRows($payroll_id,$row)
+    {
+        $payrollperiod=Payroll::where('id',$payroll_id)->firstOrFail();
+        if($row=="payperiod")
+        {
+            return $payrollperiod->payperiod;
+        }
+    }
+
+
 
 
    

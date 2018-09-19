@@ -7,6 +7,7 @@ use App\State;
 use App\Employee;
 use App\Purchase;
 use App\Group;
+use App\Models\Payperiod;
 use App\GroupMember;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
@@ -51,9 +52,11 @@ class EmployeesController extends Controller
     public function create()
     {
         $this->authorize("create", Employee::class);
+        $payperiods     =Payperiod::All();
 
         return view("employees.create", [
             "states" => State::getCountryName("Tanzania"),
+            "payperiods" =>Payperiod::All(),
         ]);
     }
 
@@ -75,6 +78,7 @@ class EmployeesController extends Controller
             "period_rate" =>request("period_rate"),
             "pay_type"  =>request("pay_type"),
             "hourly_rate" =>request("hourly_rate"),
+            "pay_period"  =>request("payperiod"),
             "active"      =>request("active"),
             "creator_id" => auth()->id(),
         ]);
@@ -113,6 +117,9 @@ class EmployeesController extends Controller
             "employee" =>$employee,
             "groups" =>Group::All(),
             "groupmember"=>GroupMember::All(),
+            "payperiods" =>Payperiod::All(),
+
+
            
         ]);
     } 
@@ -142,6 +149,7 @@ class EmployeesController extends Controller
             "phone" => "required",
             "country" => "required",
             "pay_type" => "required",
+            "payperiod"  =>"required",
             "active" => ["required", Rule::in(["yes","no"])],
             "gender" => ["required", Rule::in(["male","female"])],
         ]);
@@ -156,6 +164,7 @@ class EmployeesController extends Controller
             "pay_type"=>request("pay_type"),
             "hourly_rate" =>request("hourly_rate"),
             "period_rate" => request("period_rate"),
+            "pay_period"  =>request("payperiod"),
         ]);
 
         if ($employee->address()->exists()){

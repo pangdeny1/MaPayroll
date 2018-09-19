@@ -34,7 +34,7 @@ class EmployeeCreateRequest extends FormRequest
             "pay_type" => "required",
             "street" => "required",
             "country" => "required",
-
+            "payperiod"  =>"required",
             "group_id" => "required",
 
 //            "size" => "required|numeric",

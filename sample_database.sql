@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 18, 2018 at 05:58 PM
+-- Generation Time: Sep 19, 2018 at 07:07 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.2.6
 
@@ -628,7 +628,7 @@ INSERT INTO `addresses` (`id`, `street`, `address`, `country`, `state`, `postal_
 (513, 'Kichangani St.', 'po box Mosho 1111', 'Tanzania', 'Kaskazini Pemba', '255', 'App\\Employee', 5, NULL, '2018-09-07 15:09:09', '2018-09-10 12:52:55'),
 (514, 'Kresncj', NULL, 'Tanzania', 'Kusini Pemba', '233', 'App\\Employee', 6, NULL, '2018-09-07 15:30:14', '2018-09-14 11:10:46'),
 (515, 'Kilimanjaro Bry mm', 'po box Mosho  ccc', 'Tanzania', 'Kilimanjaro', '449', 'App\\Employee', 7, NULL, '2018-09-08 15:55:35', '2018-09-13 11:08:19'),
-(516, 'zcxzc', '', 'Tanzania', 'Kusini Pemba', '888', 'App\\Employee', 3, NULL, '2018-09-08 16:21:23', '2018-09-13 11:08:49'),
+(516, 'zcxzc', '', 'Tanzania', 'Kusini Pemba', '888', 'App\\Employee', 3, NULL, '2018-09-08 16:21:23', '2018-09-19 16:49:53'),
 (517, 'STreet 889', '', 'Tanzania', 'Lindi', '344', 'App\\Employee', 4, NULL, '2018-09-08 16:22:32', '2018-09-13 09:25:55'),
 (518, 'maa', '', 'Tanzania', 'Mwanza', '255', 'App\\Employee', 2, NULL, '2018-09-08 16:23:43', '2018-09-12 16:18:04'),
 (519, 'Kelmon', 'po box Mosho 1111', 'Tanzania', 'Kusini Unguja', '777', 'App\\Employee', 1, NULL, '2018-09-08 16:24:23', '2018-09-12 16:18:36'),
@@ -636,9 +636,10 @@ INSERT INTO `addresses` (`id`, `street`, `address`, `country`, `state`, `postal_
 (521, 'fra', 'P O BOX 3010 KCMC Moshi', 'Tanzania', 'Kusini Pemba', '233', 'App\\Employee', 9, NULL, '2018-09-08 17:08:27', '2018-09-13 11:46:17'),
 (522, 'Tanga', NULL, 'Tanzania', 'Mara', NULL, 'App\\Employee', 10, NULL, '2018-09-12 19:27:24', '2018-09-13 09:33:43'),
 (523, 'Tanga', '73493849', 'Tanzania', 'Mjini Magharibi', '3222', 'App\\Employee', 11, NULL, '2018-09-12 19:31:10', '2018-09-18 14:19:52'),
-(524, 'fra', NULL, 'Tanzania', 'Morogoro', '233', 'App\\Employee', 12, NULL, '2018-09-12 19:33:20', '2018-09-13 09:23:57'),
+(524, 'fra', NULL, 'Tanzania', 'Morogoro', '233', 'App\\Employee', 12, NULL, '2018-09-12 19:33:20', '2018-09-19 16:51:14'),
 (525, 'Kresncj', NULL, 'Tanzania', 'Arusha', '233', 'App\\Employee', 13, NULL, '2018-09-13 09:21:40', '2018-09-13 09:25:29'),
-(526, 'Kresncj', NULL, 'Tanzania', 'Mara', '344', 'App\\Employee', 14, NULL, '2018-09-13 09:24:55', '2018-09-13 09:24:55');
+(526, 'Kresncj', NULL, 'Tanzania', 'Mara', '344', 'App\\Employee', 14, NULL, '2018-09-13 09:24:55', '2018-09-13 09:24:55'),
+(527, 'Kresncj', NULL, 'Tanzania', 'Iringa', '255', 'App\\Employee', 15, NULL, '2018-09-19 16:27:15', '2018-09-19 16:27:15');
 
 -- --------------------------------------------------------
 
@@ -2193,7 +2194,12 @@ INSERT INTO `audits` (`id`, `user_type`, `user_id`, `event`, `auditable_type`, `
 (1472, 'App\\User', 1, 'updated', 'App\\Employee', 8, '{\"pay_type\":\"\",\"active\":\"\"}', '{\"pay_type\":\"Salary\",\"active\":\"yes\"}', 'http://127.0.0.1:8000/employees/8?', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36', NULL, '2018-09-17 07:02:38', '2018-09-17 07:02:38'),
 (1473, 'App\\User', 1, 'updated', 'App\\User', 1, '{\"remember_token\":\"eyfAGGoIKCENEebG6Knd0ZyT6jrNWrRomTf982tkfryyYTVR0U9xfrX2WfI3\"}', '{\"remember_token\":\"hXkRYcSP89xgylgNeQF5n3ApFqe1AXPJxz0lXAhGi0EfX7CTv4pBaQuGHOWT\"}', 'http://127.0.0.1:8000/logout?', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36', NULL, '2018-09-17 11:57:22', '2018-09-17 11:57:22'),
 (1474, 'App\\User', 1, 'updated', 'App\\Employee', 11, '{\"period_rate\":23000,\"pay_type\":\"Hourly\"}', '{\"period_rate\":\"366,929.00\",\"pay_type\":\"Salary\"}', 'http://127.0.0.1:8000/employees/11?', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36', NULL, '2018-09-18 14:18:00', '2018-09-18 14:18:00'),
-(1475, 'App\\User', 1, 'updated', 'App\\Employee', 11, '{\"period_rate\":366}', '{\"period_rate\":\"366929.00\"}', 'http://127.0.0.1:8000/employees/11?', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36', NULL, '2018-09-18 14:19:52', '2018-09-18 14:19:52');
+(1475, 'App\\User', 1, 'updated', 'App\\Employee', 11, '{\"period_rate\":366}', '{\"period_rate\":\"366929.00\"}', 'http://127.0.0.1:8000/employees/11?', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36', NULL, '2018-09-18 14:19:52', '2018-09-18 14:19:52'),
+(1476, 'App\\User', 1, 'updated', 'App\\User', 1, '{\"remember_token\":\"hXkRYcSP89xgylgNeQF5n3ApFqe1AXPJxz0lXAhGi0EfX7CTv4pBaQuGHOWT\"}', '{\"remember_token\":\"2pfDvqm41gseKszUYt6CS0QXkSdxSxUT1IIxUQ4t2Ns8Gd43AFpgSw1VyfC4\"}', 'http://127.0.0.1:8000/logout?', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36', NULL, '2018-09-19 07:48:44', '2018-09-19 07:48:44'),
+(1477, 'App\\User', 1, 'created', 'App\\Employee', 15, '[]', '{\"first_name\":\"Mwang\",\"last_name\":\"Joll\",\"phone\":\"0754977618\",\"email\":\"bryton@dennis.com\",\"gender\":\"female\",\"period_rate\":\"340000\",\"pay_type\":\"Salary\",\"hourly_rate\":\"3400\",\"pay_period\":\"1\",\"active\":\"yes\",\"creator_id\":1,\"id\":15}', 'http://127.0.0.1:8000/employees?', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36', NULL, '2018-09-19 16:27:15', '2018-09-19 16:27:15'),
+(1478, 'App\\User', 1, 'created', 'App\\Address', 527, '[]', '{\"street\":\"Kresncj\",\"address\":null,\"state\":\"Iringa\",\"country\":\"Tanzania\",\"postal_code\":\"255\",\"addressable_id\":15,\"addressable_type\":\"App\\\\Employee\",\"id\":527}', 'http://127.0.0.1:8000/employees?', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36', NULL, '2018-09-19 16:27:15', '2018-09-19 16:27:15'),
+(1479, 'App\\User', 1, 'updated', 'App\\Employee', 3, '{\"pay_type\":\"Hourly\",\"pay_period\":\"Salary\"}', '{\"pay_type\":\"Salary\",\"pay_period\":\"1\"}', 'http://127.0.0.1:8000/employees/3?', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36', NULL, '2018-09-19 16:49:53', '2018-09-19 16:49:53'),
+(1480, 'App\\User', 1, 'updated', 'App\\Employee', 12, '{\"pay_period\":\"Salary\"}', '{\"pay_period\":\"2\"}', 'http://127.0.0.1:8000/employees/12?', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36', NULL, '2018-09-19 16:51:14', '2018-09-19 16:51:14');
 
 -- --------------------------------------------------------
 
@@ -2498,9 +2504,14 @@ CREATE TABLE `employees` (
   `gender` enum('male','female') COLLATE utf8mb4_unicode_ci NOT NULL,
   `period_rate` double DEFAULT NULL,
   `pay_type` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `hourly_rate` double NOT NULL,
+  `sstype_id` int(11) NOT NULL,
+  `hourly_rate` double DEFAULT NULL,
   `pay_period` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `active` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deduct_tax` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'yes',
+  `deduct_ss` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'yes',
+  `deduct_health` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'no',
+  `deduct_hdmf` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'no',
   `creator_id` int(10) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -2510,21 +2521,22 @@ CREATE TABLE `employees` (
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`id`, `first_name`, `last_name`, `other_name`, `phone`, `email`, `gender`, `period_rate`, `pay_type`, `hourly_rate`, `pay_period`, `active`, `creator_id`, `created_at`, `updated_at`) VALUES
-(1, 'Natasha', 'Gveg', '', '0754977618', 'pangdeny@gmail.com', 'male', 300000, '', 0, '', '', 1, '2018-09-07 14:59:54', '2018-09-12 16:18:36'),
-(2, 'Greg', 'Mack', '', '0754977618', 'pangdeny@gmail.com', 'female', 1450000, '', 0, '', '', 1, '2018-09-07 15:00:55', '2018-09-12 16:18:04'),
-(3, 'Kemy', 'Bichwa', '', '0754977618', 'pangdeny@gmail.com', 'male', 7680000, 'Hourly', 12000, 'Salary', 'yes', 1, '2018-09-07 15:01:46', '2018-09-13 11:08:49'),
-(4, 'Magere', 'Masatu', '', '0754977618', 'pangdeny@gmail.com', 'male', 980000, 'Salary', 0, '', 'yes', 1, '2018-09-07 15:08:33', '2018-09-13 09:25:55'),
-(5, 'Cley c', 'Masawe', '', '0754977618', 'pangdeny@gmail.com', 'male', 650000, '', 0, '', '', 1, '2018-09-07 15:09:07', '2018-09-10 12:52:54'),
-(6, 'African', 'Kuku', '', '0717990638', 'ylowe@example.net', 'male', 560000, 'Salary', 455, 'Salary', 'yes', 1, '2018-09-07 15:30:14', '2018-09-14 11:10:45'),
-(7, 'Bryton', 'Dennis Metru', '', '0754977617', 'bryton@dennis.com', 'male', 906000, 'Hourly', 5600, 'Hourly', 'yes', 1, '2018-09-08 15:55:34', '2018-09-13 11:08:19'),
-(8, 'Elina', 'Materu', '', '0754977618', 'ylowe@example.net', 'female', 4500000, 'Salary', 0, '', 'yes', 1, '2018-09-08 16:53:12', '2018-09-17 07:02:37'),
-(9, 'beka', 'Mvungi', '', '0754977617', 'admin@homeverge.co.tz', 'male', 340000, 'Salary', 8900, 'Salary', 'yes', 1, '2018-09-08 17:08:27', '2018-09-13 11:46:17'),
-(10, 'Bernard sila', 'Materu', '', '0754977618', 'kiondo@homevegfarmers.co.tz', 'male', 4500000, 'Salary', 0, 'Salary', 'yes', 1, '2018-09-12 19:27:24', '2018-09-13 09:33:43'),
-(11, 'Jacob', 'Zuma', '', '0754977618', 'ylowe@example.net', 'male', 366929, 'Salary', 3400, 'Hourly', 'yes', 1, '2018-09-12 19:31:10', '2018-09-18 14:19:52'),
-(12, 'Rihama', 'Ally', '', '0754977617', 'riama@mma.hun', 'female', 940000, 'Salary', 45300, 'Salary', 'yes', 1, '2018-09-12 19:33:20', '2018-09-13 09:23:57'),
-(13, 'Kibanda', 'Salim', '', '0754977617', 'kibandaa@salim.com', 'male', 670000, 'Hourly', 450, NULL, 'yes', 1, '2018-09-13 09:21:39', '2018-09-13 09:25:29'),
-(14, 'Vedasto', 'Alaya', '', '0754977618', NULL, 'female', 600000, 'Salary', 3400, NULL, 'yes', 1, '2018-09-13 09:24:55', '2018-09-13 09:24:55');
+INSERT INTO `employees` (`id`, `first_name`, `last_name`, `other_name`, `phone`, `email`, `gender`, `period_rate`, `pay_type`, `sstype_id`, `hourly_rate`, `pay_period`, `active`, `deduct_tax`, `deduct_ss`, `deduct_health`, `deduct_hdmf`, `creator_id`, `created_at`, `updated_at`) VALUES
+(1, 'Natasha', 'Gveg', '', '0754977618', 'pangdeny@gmail.com', 'male', 300000, '', 1, 0, '', '', 'yes', 'yes', 'no', 'no', 1, '2018-09-07 14:59:54', '2018-09-12 16:18:36'),
+(2, 'Greg', 'Mack', '', '0754977618', 'pangdeny@gmail.com', 'female', 1450000, '', 1, 0, '', '', 'yes', 'yes', 'no', 'no', 1, '2018-09-07 15:00:55', '2018-09-12 16:18:04'),
+(3, 'Kemy', 'Bichwa', '', '0754977618', 'pangdeny@gmail.com', 'male', 7680000, 'Salary', 1, 12000, '1', 'yes', 'yes', 'yes', 'no', 'no', 1, '2018-09-07 15:01:46', '2018-09-19 16:49:53'),
+(4, 'Magere', 'Masatu', '', '0754977618', 'pangdeny@gmail.com', 'male', 980000, 'Salary', 1, 0, '', 'yes', 'yes', 'yes', 'no', 'no', 1, '2018-09-07 15:08:33', '2018-09-13 09:25:55'),
+(5, 'Cley c', 'Masawe', '', '0754977618', 'pangdeny@gmail.com', 'male', 650000, '', 1, 0, '', '', 'yes', 'yes', 'no', 'no', 1, '2018-09-07 15:09:07', '2018-09-10 12:52:54'),
+(6, 'African', 'Kuku', '', '0717990638', 'ylowe@example.net', 'male', 560000, 'Salary', 1, 455, 'Salary', 'yes', 'yes', 'yes', 'yes', 'no', 1, '2018-09-07 15:30:14', '2018-09-14 11:10:45'),
+(7, 'Bryton', 'Dennis Metru', '', '0754977617', 'bryton@dennis.com', 'male', 906000, 'Hourly', 1, 5600, '1', 'yes', 'yes', 'yes', 'no', 'no', 1, '2018-09-08 15:55:34', '2018-09-13 11:08:19'),
+(8, 'Elina', 'Materu', '', '0754977618', 'ylowe@example.net', 'female', 4500000, 'Salary', 1, 0, '1', 'yes', 'yes', 'yes', 'no', 'no', 1, '2018-09-08 16:53:12', '2018-09-17 07:02:37'),
+(9, 'beka', 'Mvungi', '', '0754977617', 'admin@homeverge.co.tz', 'male', 340000, 'Salary', 1, 8900, 'Salary', 'yes', 'yes', 'yes', 'no', 'no', 1, '2018-09-08 17:08:27', '2018-09-13 11:46:17'),
+(10, 'Bernard sila', 'Materu', '', '0754977618', 'kiondo@homevegfarmers.co.tz', 'male', 4500000, 'Salary', 1, 0, '1', 'yes', 'yes', 'yes', 'no', 'no', 1, '2018-09-12 19:27:24', '2018-09-13 09:33:43'),
+(11, 'Jacob', 'Zuma', '', '0754977618', 'ylowe@example.net', 'male', 366929, 'Salary', 1, 3400, 'Hourly', 'yes', 'yes', 'yes', 'no', 'no', 1, '2018-09-12 19:31:10', '2018-09-18 14:19:52'),
+(12, 'Rihama', 'Ally', '', '0754977617', 'riama@mma.hun', 'female', 940000, 'Salary', 1, 45300, '2', 'yes', 'yes', 'yes', 'yes', 'yes', 1, '2018-09-12 19:33:20', '2018-09-19 16:51:14'),
+(13, 'Kibanda', 'Salim', '', '0754977617', 'kibandaa@salim.com', 'male', 670000, 'Hourly', 1, 450, NULL, 'yes', 'yes', 'yes', 'no', 'yes', 1, '2018-09-13 09:21:39', '2018-09-13 09:25:29'),
+(14, 'Vedasto', 'Alaya', '', '0754977618', NULL, 'female', 600000, 'Salary', 1, 3400, NULL, 'yes', 'yes', 'yes', 'no', 'no', 1, '2018-09-13 09:24:55', '2018-09-13 09:24:55'),
+(15, 'Mwang', 'Joll', '', '0754977618', 'bryton@dennis.com', 'female', 340000, 'Salary', 0, 3400, '1', 'yes', 'yes', 'yes', 'no', 'no', 1, '2018-09-19 16:27:14', '2018-09-19 16:27:14');
 
 -- --------------------------------------------------------
 
@@ -4418,23 +4430,6 @@ CREATE TABLE `prlhdmftransactions` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `prlhdmftransactions`
---
-
-INSERT INTO `prlhdmftransactions` (`id`, `payroll_id`, `employee_id`, `grosspay`, `employer_hdmf`, `employee_hdmf`, `total`, `fsmonth`, `fsyear`, `creator_id`, `created_at`, `updated_at`) VALUES
-(133, 4, 3, '288000.00', '0.00', '5760.00', '0.00', 0, 0, 1, '2018-09-18 15:56:55', '0000-00-00 00:00:00'),
-(134, 4, 4, '980000.00', '0.00', '19600.00', '0.00', 0, 0, 1, '2018-09-18 15:56:55', '0000-00-00 00:00:00'),
-(135, 4, 6, '638000.00', '0.00', '11200.00', '0.00', 0, 0, 1, '2018-09-18 15:56:55', '0000-00-00 00:00:00'),
-(136, 4, 7, '89600.00', '0.00', '1792.00', '0.00', 0, 0, 1, '2018-09-18 15:56:55', '0000-00-00 00:00:00'),
-(137, 4, 8, '5200000.00', '0.00', '90000.00', '0.00', 0, 0, 1, '2018-09-18 15:56:55', '0000-00-00 00:00:00'),
-(138, 4, 9, '340000.00', '0.00', '6800.00', '0.00', 0, 0, 1, '2018-09-18 15:56:55', '0000-00-00 00:00:00'),
-(139, 4, 10, '4500000.00', '0.00', '90000.00', '0.00', 0, 0, 1, '2018-09-18 15:56:55', '0000-00-00 00:00:00'),
-(140, 4, 11, '366929.00', '0.00', '7338.58', '0.00', 0, 0, 1, '2018-09-18 15:56:55', '0000-00-00 00:00:00'),
-(141, 4, 12, '940000.00', '0.00', '18800.00', '0.00', 0, 0, 1, '2018-09-18 15:56:55', '0000-00-00 00:00:00'),
-(142, 4, 13, '0.00', '0.00', '0.00', '0.00', 0, 0, 1, '2018-09-18 15:56:55', '0000-00-00 00:00:00'),
-(143, 4, 14, '600000.00', '0.00', '12000.00', '0.00', 0, 0, 1, '2018-09-18 15:56:55', '0000-00-00 00:00:00');
-
 -- --------------------------------------------------------
 
 --
@@ -4480,23 +4475,6 @@ CREATE TABLE `prlhealthtransactions` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `prlhealthtransactions`
---
-
-INSERT INTO `prlhealthtransactions` (`id`, `employee_id`, `payroll_id`, `grosspay`, `employee_contr`, `employer_contr`, `total`, `creator_id`, `created_at`, `updated_at`) VALUES
-(45, 3, 4, '288000.00', '8640.00', '8640.00', 17280, 1, '2018-09-18 15:56:58', '0000-00-00 00:00:00'),
-(46, 4, 4, '980000.00', '29400.00', '29400.00', 58800, 1, '2018-09-18 15:56:58', '0000-00-00 00:00:00'),
-(47, 6, 4, '638000.00', '16800.00', '16800.00', 33600, 1, '2018-09-18 15:56:58', '0000-00-00 00:00:00'),
-(48, 7, 4, '89600.00', '2688.00', '2688.00', 5376, 1, '2018-09-18 15:56:58', '0000-00-00 00:00:00'),
-(49, 8, 4, '5200000.00', '135000.00', '135000.00', 270000, 1, '2018-09-18 15:56:58', '0000-00-00 00:00:00'),
-(50, 9, 4, '340000.00', '10200.00', '10200.00', 20400, 1, '2018-09-18 15:56:58', '0000-00-00 00:00:00'),
-(51, 10, 4, '4500000.00', '135000.00', '135000.00', 270000, 1, '2018-09-18 15:56:58', '0000-00-00 00:00:00'),
-(52, 11, 4, '366929.00', '11007.87', '11007.87', 22016, 1, '2018-09-18 15:56:58', '0000-00-00 00:00:00'),
-(53, 12, 4, '940000.00', '28200.00', '28200.00', 56400, 1, '2018-09-18 15:56:58', '0000-00-00 00:00:00'),
-(54, 13, 4, '0.00', '0.00', '0.00', 0, 1, '2018-09-18 15:56:58', '0000-00-00 00:00:00'),
-(55, 14, 4, '600000.00', '18000.00', '18000.00', 36000, 1, '2018-09-18 15:56:58', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -4617,9 +4595,9 @@ CREATE TABLE `prlothdedtransactions` (
 --
 
 INSERT INTO `prlothdedtransactions` (`id`, `payroll_id`, `employee_id`, `othded_id`, `amount`, `creator_id`, `created_at`, `updated_at`) VALUES
-(354, '4', '8', 1, '60000.00', 1, '2018-09-18 15:56:50', '0000-00-00 00:00:00'),
-(355, '4', '3', 3, '80000.00', 1, '2018-09-18 15:56:50', '0000-00-00 00:00:00'),
-(356, '4', '6', 1, '240000.00', 1, '2018-09-18 15:56:50', '0000-00-00 00:00:00');
+(429, '4', '8', 1, '60000.00', 1, '2018-09-19 17:04:22', '0000-00-00 00:00:00'),
+(430, '4', '3', 3, '80000.00', 1, '2018-09-19 17:04:22', '0000-00-00 00:00:00'),
+(431, '4', '6', 1, '240000.00', 1, '2018-09-19 17:04:22', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -4715,9 +4693,9 @@ CREATE TABLE `prlothintransactions` (
 --
 
 INSERT INTO `prlothintransactions` (`id`, `payroll_id`, `employee_id`, `othinc_id`, `amount`, `creator_id`, `created_at`, `updated_at`) VALUES
-(331, '4', '3', 3, '0.00', 1, '2018-09-18 15:56:50', '0000-00-00 00:00:00'),
-(332, '4', '6', 1, '78000.00', 1, '2018-09-18 15:56:50', '0000-00-00 00:00:00'),
-(333, '4', '8', 1, '700000.00', 1, '2018-09-18 15:56:50', '0000-00-00 00:00:00');
+(406, '4', '3', 3, '0.00', 1, '2018-09-19 17:04:22', '0000-00-00 00:00:00'),
+(407, '4', '6', 1, '78000.00', 1, '2018-09-19 17:04:22', '0000-00-00 00:00:00'),
+(408, '4', '8', 1, '700000.00', 1, '2018-09-19 17:04:22', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -4772,8 +4750,11 @@ CREATE TABLE `prlpayrollperiod` (
 --
 
 INSERT INTO `prlpayrollperiod` (`id`, `payrollid`, `payrolldesc`, `payperiodid`, `startdate`, `enddate`, `fsmonth`, `fsyear`, `financial_id`, `deductsss`, `deducthdmf`, `deductphilhealth`, `iscurrent`, `payclosed`, `created_at`, `updated_at`) VALUES
-(1, 'Sept2018', 'September 2018', 1, '2018-03-01', '2018-06-09', 9, 2017, NULL, 1, 1, 1, 1, 2, '2018-09-09 13:55:54', '2018-09-12 13:17:19'),
-(4, 'Aprill2018', 'Aprill2018', 1, '2018-04-01', '2018-04-26', 4, 2018, NULL, 1, 2, 2, 1, 1, '2018-09-09 14:46:25', '2018-09-12 12:52:36');
+(1, 'Sept2018', 'September 2018', 1, '2018-03-01', '2018-06-09', 9, 2017, NULL, 2, 2, 2, 1, 2, '2018-09-09 13:55:54', '2018-09-19 15:13:50'),
+(4, 'Aprill2018', 'Aprill 2018', 1, '2018-04-01', '2018-04-26', 4, 2018, NULL, 1, 2, 2, 1, 1, '2018-09-09 14:46:25', '2018-09-19 15:14:51'),
+(5, 'May2018', 'May 2018', 2, '2018-04-29', '2018-04-26', 8, 2018, NULL, 1, 2, 2, 1, 1, '2018-09-19 15:32:09', '2018-09-19 15:40:33'),
+(6, 'June2018', 'June 2018', 2, '2018-03-01', '2018-06-09', 7, 2019, NULL, 1, 1, 1, 1, 1, '2018-09-19 15:40:16', '2018-09-19 15:40:16'),
+(7, 'November2018', 'November 2018', 1, '2018-11-01', '2018-11-30', 11, 2018, NULL, 1, 1, 1, 1, 1, '2018-09-19 15:55:16', '2018-09-19 15:55:16');
 
 -- --------------------------------------------------------
 
@@ -4794,38 +4775,6 @@ CREATE TABLE `prlphilhealth` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `prlssctypes`
---
-
-CREATE TABLE `prlssctypes` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `bracket` int(11) DEFAULT NULL,
-  `rangefrom` decimal(12,2) DEFAULT NULL,
-  `rangeto` decimal(12,2) DEFAULT NULL,
-  `salarycredit` decimal(12,2) DEFAULT NULL,
-  `pencode` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `penname` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `employerss` decimal(12,2) NOT NULL,
-  `employerec` decimal(12,2) NOT NULL,
-  `employeess` decimal(12,2) NOT NULL,
-  `total` decimal(12,2) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `prlssctypes`
---
-
-INSERT INTO `prlssctypes` (`id`, `bracket`, `rangefrom`, `rangeto`, `salarycredit`, `pencode`, `penname`, `employerss`, `employerec`, `employeess`, `total`, `created_at`, `updated_at`) VALUES
-(1, 0, '0.00', '9999999999.99', NULL, '', 'NSSSF', '10.00', '10.00', '10.00', '20.00', NULL, NULL),
-(2, 0, '0.00', '9999999999.99', NULL, '', 'PSSS', '10.00', '10.00', '10.00', '20.00', NULL, NULL),
-(3, 10, '0.00', '99999999.00', NULL, 'PSSS', 'publick ss  social', '10.00', '10.00', '10.00', '20.00', '2018-04-26 08:24:51', '2018-04-26 08:24:51'),
-(4, 10, NULL, NULL, NULL, 'NSSf', 'Nssf', '15.00', '15.00', '5.00', '20.00', '2018-04-26 09:42:30', '2018-04-26 09:42:30');
 
 -- --------------------------------------------------------
 
@@ -4910,11 +4859,40 @@ CREATE TABLE `prlsstransactions` (
 --
 
 INSERT INTO `prlsstransactions` (`id`, `payroll_id`, `employee_id`, `grosspay`, `rangefrom`, `rangeto`, `salarycredit`, `employerss`, `employerec`, `employeess`, `total`, `sstype_id`, `fsmonth`, `fsyear`, `creator_id`, `created_at`, `updated_at`) VALUES
-(566, 4, 3, '288000.00', '0.00', '0.00', '0.00', '28800.00', '0.00', '28800.00', '57600.00', 1, 0, 0, 1, '2018-09-18 15:56:52', '0000-00-00 00:00:00'),
-(567, 4, 9, '340000.00', '0.00', '0.00', '0.00', '51000.00', '0.00', '17000.00', '68000.00', 2, 0, 0, 1, '2018-09-18 15:56:52', '0000-00-00 00:00:00'),
-(568, 4, 8, '5200000.00', '0.00', '0.00', '0.00', '520000.00', '0.00', '520000.00', '1040000.00', 2, 0, 0, 1, '2018-09-18 15:56:52', '0000-00-00 00:00:00'),
-(569, 4, 10, '4500000.00', '0.00', '0.00', '0.00', '450000.00', '0.00', '450000.00', '900000.00', 2, 0, 0, 1, '2018-09-18 15:56:52', '0000-00-00 00:00:00'),
-(570, 4, 11, '366929.00', '0.00', '0.00', '0.00', '36692.90', '0.00', '36692.90', '73385.80', 2, 0, 0, 1, '2018-09-18 15:56:52', '0000-00-00 00:00:00');
+(717, 4, 13, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 1, 0, 0, 1, '2018-09-19 17:04:23', '0000-00-00 00:00:00'),
+(718, 4, 14, '600000.00', '0.00', '0.00', '0.00', '60000.00', '0.00', '60000.00', '120000.00', 1, 0, 0, 1, '2018-09-19 17:04:23', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `prlsstypes`
+--
+
+CREATE TABLE `prlsstypes` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `bracket` int(11) DEFAULT NULL,
+  `rangefrom` decimal(12,2) DEFAULT NULL,
+  `rangeto` decimal(12,2) DEFAULT NULL,
+  `salarycredit` decimal(12,2) DEFAULT NULL,
+  `pencode` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `penname` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `employerss` decimal(12,2) NOT NULL,
+  `employerec` decimal(12,2) NOT NULL,
+  `employeess` decimal(12,2) NOT NULL,
+  `total` decimal(12,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `prlsstypes`
+--
+
+INSERT INTO `prlsstypes` (`id`, `bracket`, `rangefrom`, `rangeto`, `salarycredit`, `pencode`, `penname`, `employerss`, `employerec`, `employeess`, `total`, `created_at`, `updated_at`) VALUES
+(1, 0, '0.00', '9999999999.99', NULL, '', 'NSSSF', '10.00', '10.00', '10.00', '20.00', NULL, NULL),
+(2, 0, '0.00', '9999999999.99', NULL, '', 'PSSS', '10.00', '10.00', '10.00', '20.00', NULL, NULL),
+(3, 10, '0.00', '99999999.00', NULL, 'PSSS', 'publick ss  social', '10.00', '10.00', '10.00', '20.00', '2018-04-26 08:24:51', '2018-04-26 08:24:51'),
+(4, 10, NULL, NULL, NULL, 'NSSf', 'Nssf', '15.00', '15.00', '5.00', '20.00', '2018-04-26 09:42:30', '2018-04-26 09:42:30');
 
 -- --------------------------------------------------------
 
@@ -4999,17 +4977,8 @@ CREATE TABLE `prltaxtransactions` (
 --
 
 INSERT INTO `prltaxtransactions` (`id`, `payroll_id`, `employee_id`, `taxable_income`, `tax`, `fsmonth`, `fsyear`, `created_at`, `updated_at`, `creator_id`) VALUES
-(232, 4, 3, '259200.00', '8028.00', 0, 0, '2018-09-18 15:57:05', '0000-00-00 00:00:00', 1),
-(233, 4, 4, '980000.00', '176100.00', 0, 0, '2018-09-18 15:57:05', '0000-00-00 00:00:00', 1),
-(234, 4, 6, '638000.00', '77600.00', 0, 0, '2018-09-18 15:57:05', '0000-00-00 00:00:00', 1),
-(235, 4, 7, '89600.00', '0.00', 0, 0, '2018-09-18 15:57:05', '0000-00-00 00:00:00', 1),
-(236, 4, 8, '4680000.00', '1286100.00', 0, 0, '2018-09-18 15:57:05', '0000-00-00 00:00:00', 1),
-(237, 4, 9, '323000.00', '13770.00', 0, 0, '2018-09-18 15:57:05', '0000-00-00 00:00:00', 1),
-(238, 4, 10, '4050000.00', '1097100.00', 0, 0, '2018-09-18 15:57:05', '0000-00-00 00:00:00', 1),
-(239, 4, 11, '330236.10', '14421.25', 0, 0, '2018-09-18 15:57:05', '0000-00-00 00:00:00', 1),
-(240, 4, 12, '940000.00', '164100.00', 0, 0, '2018-09-18 15:57:05', '0000-00-00 00:00:00', 1),
-(241, 4, 13, '0.00', '0.00', 0, 0, '2018-09-18 15:57:05', '0000-00-00 00:00:00', 1),
-(242, 4, 14, '600000.00', '68100.00', 0, 0, '2018-09-18 15:57:05', '0000-00-00 00:00:00', 1);
+(379, 4, 13, '0.00', '0.00', 0, 0, '2018-09-19 17:04:23', '0000-00-00 00:00:00', 1),
+(380, 4, 14, '540000.00', '53100.00', 0, 0, '2018-09-19 17:04:23', '0000-00-00 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -5022,6 +4991,11 @@ CREATE TABLE `prltransactions` (
   `payroll_id` int(11) NOT NULL,
   `employee_id` int(10) UNSIGNED DEFAULT NULL,
   `pay_type` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sstype_id` int(11) NOT NULL,
+  `deduct_tax` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'yes',
+  `deduct_ss` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'yes',
+  `deduct_health` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'no',
+  `deduct_hdmf` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'no',
   `pay_period` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `period_rate` double NOT NULL,
   `hourly_rate` double NOT NULL,
@@ -5038,7 +5012,7 @@ CREATE TABLE `prltransactions` (
   `total_deduction` decimal(12,2) NOT NULL,
   `netpay` double NOT NULL,
   `creator_id` int(10) UNSIGNED DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -5046,18 +5020,9 @@ CREATE TABLE `prltransactions` (
 -- Dumping data for table `prltransactions`
 --
 
-INSERT INTO `prltransactions` (`id`, `payroll_id`, `employee_id`, `pay_type`, `pay_period`, `period_rate`, `hourly_rate`, `reg_hours`, `basicpay`, `grosspay`, `ss_pay`, `health`, `hdmf`, `other_income`, `taxable_income`, `tax`, `other_deduction`, `total_deduction`, `netpay`, `creator_id`, `created_at`, `updated_at`) VALUES
-(1486, 4, 3, 'Hourly', '', 7680000, 12000, 24, 288000, 288000, '28800.00', '8640.00', '5760.00', 0, '259200.00', '8028.00', 80000, '116828.00', 171172, 1, NULL, '2018-09-18 15:57:06'),
-(1487, 4, 4, 'Salary', '', 980000, 0, 0, 980000, 980000, '0.00', '29400.00', '19600.00', 0, '980000.00', '176100.00', 0, '176100.00', 803900, 1, NULL, '2018-09-18 15:57:07'),
-(1488, 4, 6, 'Salary', '', 560000, 455, 0, 560000, 638000, '0.00', '16800.00', '11200.00', 78000, '638000.00', '77600.00', 240000, '317600.00', 320400, 1, NULL, '2018-09-18 15:57:07'),
-(1489, 4, 7, 'Hourly', '', 906000, 5600, 16, 89600, 89600, '0.00', '2688.00', '1792.00', 0, '89600.00', '0.00', 0, '0.00', 89600, 1, NULL, '2018-09-18 15:57:07'),
-(1490, 4, 8, 'Salary', '', 4500000, 0, 0, 4500000, 5200000, '520000.00', '135000.00', '90000.00', 700000, '4680000.00', '1286100.00', 60000, '1866100.00', 3333900, 1, NULL, '2018-09-18 15:57:07'),
-(1491, 4, 9, 'Salary', '', 340000, 8900, 8, 340000, 340000, '17000.00', '10200.00', '6800.00', 0, '323000.00', '13770.00', 0, '30770.00', 309230, 1, NULL, '2018-09-18 15:57:07'),
-(1492, 4, 10, 'Salary', '', 4500000, 0, 0, 4500000, 4500000, '450000.00', '135000.00', '90000.00', 0, '4050000.00', '1097100.00', 0, '1547100.00', 2952900, 1, NULL, '2018-09-18 15:57:07'),
-(1493, 4, 11, 'Salary', '', 366929, 3400, 0, 366929, 366929, '36692.90', '11007.87', '7338.58', 0, '330236.10', '14421.25', 0, '51114.15', 315814.85, 1, NULL, '2018-09-18 15:57:07'),
-(1494, 4, 12, 'Salary', '', 940000, 45300, 0, 940000, 940000, '0.00', '28200.00', '18800.00', 0, '940000.00', '164100.00', 0, '164100.00', 775900, 1, NULL, '2018-09-18 15:57:07'),
-(1495, 4, 13, 'Hourly', '', 670000, 450, 0, 0, 0, '0.00', '0.00', '0.00', 0, '0.00', '0.00', 0, '0.00', 0, 1, NULL, '2018-09-18 15:57:06'),
-(1496, 4, 14, 'Salary', '', 600000, 3400, 0, 600000, 600000, '0.00', '18000.00', '12000.00', 0, '600000.00', '68100.00', 0, '68100.00', 531900, 1, NULL, '2018-09-18 15:57:07');
+INSERT INTO `prltransactions` (`id`, `payroll_id`, `employee_id`, `pay_type`, `sstype_id`, `deduct_tax`, `deduct_ss`, `deduct_health`, `deduct_hdmf`, `pay_period`, `period_rate`, `hourly_rate`, `reg_hours`, `basicpay`, `grosspay`, `ss_pay`, `health`, `hdmf`, `other_income`, `taxable_income`, `tax`, `other_deduction`, `total_deduction`, `netpay`, `creator_id`, `created_at`, `updated_at`) VALUES
+(1743, 4, 13, 'Hourly', 1, 'yes', 'yes', 'no', 'yes', '', 670000, 450, 0, 0, 0, '0.00', '0.00', '0.00', 0, '0.00', '0.00', 0, '0.00', 0, 1, '2018-09-19 17:04:22', '2018-09-19 17:04:23'),
+(1744, 4, 14, 'Salary', 1, 'yes', 'yes', 'no', 'no', '', 600000, 3400, 0, 600000, 600000, '60000.00', '0.00', '0.00', 0, '540000.00', '53100.00', 0, '113100.00', 486900, 1, '2018-09-19 17:04:22', '2018-09-19 17:04:23');
 
 -- --------------------------------------------------------
 
@@ -5416,7 +5381,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `gender`, `birthday`, `password`, `country`, `remember_token`, `creator_id`, `created_at`, `updated_at`) VALUES
-(1, 'Admin ', 'Admin', 'admin@homeverge.co.tz', '+1-946-643-5710', 'male', '1988-08-08', '$2y$10$l.WU4Y5swdbVqIZFZp1/Zu07m5sZaX3bwWnVXeXeMJUj8Od04VaiC', 'Serbia', 'hXkRYcSP89xgylgNeQF5n3ApFqe1AXPJxz0lXAhGi0EfX7CTv4pBaQuGHOWT', NULL, '2018-07-25 07:56:43', '2018-07-25 07:56:43'),
+(1, 'Admin ', 'Admin', 'admin@homeverge.co.tz', '+1-946-643-5710', 'male', '1988-08-08', '$2y$10$l.WU4Y5swdbVqIZFZp1/Zu07m5sZaX3bwWnVXeXeMJUj8Od04VaiC', 'Serbia', '2pfDvqm41gseKszUYt6CS0QXkSdxSxUT1IIxUQ4t2Ns8Gd43AFpgSw1VyfC4', NULL, '2018-07-25 07:56:43', '2018-07-25 07:56:43'),
 (2, 'Ivony7', 'Sherry', 'ivona@gmail.com', '0754455332', 'male', '1987-07-25', '$2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36', 'Tanzania', 'alAsGppYHKr6myHLmKBlqqzSMXfSUil0CHGLYzOHUfdV0cdiGUKAaUPdn7dv', 1, '2018-07-25 13:14:46', '2018-08-06 15:08:40'),
 (3, 'Humphrey', 'Augustine', 'hajmocube@gmail.com', '0785983869', 'male', '2018-07-17', '$2y$10$NbjNMO/.78E2qcVfgFRMzuHIDHfIlkC13Yov.MnTTVA.em8fQGC3C', 'Tanzania', 'LouYZsHBdlCqNq0EMYls5NTgjPE6lEwYUy8DLi7Rp82bBuxiTGUGyCbB8cb4', 1, '2018-07-28 06:08:47', '2018-08-10 20:34:54'),
 (4, 'lukoveg', '933', 'lukoveg933@gmail.com', '0999999999', 'male', '2018-07-15', '$2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36', 'Tanzania', NULL, 1, '2018-07-29 20:10:46', '2018-07-29 20:10:46'),
@@ -5890,12 +5855,6 @@ ALTER TABLE `prlphilhealth`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `prlssctypes`
---
-ALTER TABLE `prlssctypes`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `prlssfiles`
 --
 ALTER TABLE `prlssfiles`
@@ -5911,6 +5870,12 @@ ALTER TABLE `prlsstable`
 -- Indexes for table `prlsstransactions`
 --
 ALTER TABLE `prlsstransactions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `prlsstypes`
+--
+ALTER TABLE `prlsstypes`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -6044,13 +6009,13 @@ ALTER TABLE `abilities`
 -- AUTO_INCREMENT for table `addresses`
 --
 ALTER TABLE `addresses`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=527;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=528;
 
 --
 -- AUTO_INCREMENT for table `audits`
 --
 ALTER TABLE `audits`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1476;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1481;
 
 --
 -- AUTO_INCREMENT for table `banks`
@@ -6128,7 +6093,7 @@ ALTER TABLE `employeequalifications`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `employementstatus`
@@ -6326,7 +6291,7 @@ ALTER TABLE `prlhdmftable`
 -- AUTO_INCREMENT for table `prlhdmftransactions`
 --
 ALTER TABLE `prlhdmftransactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
 
 --
 -- AUTO_INCREMENT for table `prlhdmftypes`
@@ -6338,7 +6303,7 @@ ALTER TABLE `prlhdmftypes`
 -- AUTO_INCREMENT for table `prlhealthtransactions`
 --
 ALTER TABLE `prlhealthtransactions`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `prlhealthtypes`
@@ -6362,7 +6327,7 @@ ALTER TABLE `prlothdedfiles`
 -- AUTO_INCREMENT for table `prlothdedtransactions`
 --
 ALTER TABLE `prlothdedtransactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=357;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=432;
 
 --
 -- AUTO_INCREMENT for table `prlothinfiles`
@@ -6374,25 +6339,19 @@ ALTER TABLE `prlothinfiles`
 -- AUTO_INCREMENT for table `prlothintransactions`
 --
 ALTER TABLE `prlothintransactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=334;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=409;
 
 --
 -- AUTO_INCREMENT for table `prlpayrollperiod`
 --
 ALTER TABLE `prlpayrollperiod`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `prlphilhealth`
 --
 ALTER TABLE `prlphilhealth`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `prlssctypes`
---
-ALTER TABLE `prlssctypes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `prlssfiles`
@@ -6410,7 +6369,13 @@ ALTER TABLE `prlsstable`
 -- AUTO_INCREMENT for table `prlsstransactions`
 --
 ALTER TABLE `prlsstransactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=571;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=719;
+
+--
+-- AUTO_INCREMENT for table `prlsstypes`
+--
+ALTER TABLE `prlsstypes`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `prltaxtablerate`
@@ -6428,13 +6393,13 @@ ALTER TABLE `prltaxtablerates`
 -- AUTO_INCREMENT for table `prltaxtransactions`
 --
 ALTER TABLE `prltaxtransactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=243;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=381;
 
 --
 -- AUTO_INCREMENT for table `prltransactions`
 --
 ALTER TABLE `prltransactions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1497;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1745;
 
 --
 -- AUTO_INCREMENT for table `products`

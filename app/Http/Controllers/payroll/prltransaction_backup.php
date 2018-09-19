@@ -17,7 +17,6 @@ use App\Models\Prldailytran;
 use App\Models\Prlsstransaction;
 use App\Models\Prltaxtablerate;
 use App\Models\Prlssfile;
-use App\Models\Prlsstype;
 use App\Models\Month;
 use App\Models\Payperiod;
 use App\Models\Prlothintransaction;
@@ -127,7 +126,7 @@ class payrollsController extends Controller
         $payrollObj->prepareOthDedData($payroll_id);
         $payrollObj->calculateBasicPay($payroll_id);
         $payrollObj->calculateGrossPay($payroll_id);
-        $payrollObj->computeSSContribution($payroll_id);
+        $payrollObj->prepareSSData($payroll_id);
         $payrollObj->computeHDMF($payroll_id);
         $payrollObj->computeHealth($payroll_id);
         $payrollObj->computeTaxableIncome($payroll_id);
@@ -149,11 +148,6 @@ class payrollsController extends Controller
                                  'payroll_id' =>$payroll_id,
                                  'reg_hours'  =>$payrollObj->calculateTotalEmployeeDailyTrans($payroll_id,$employee->id),
                                  'pay_type' =>$employee->pay_type,
-                                 'sstype_id'=>$employee->sstype_id,
-                                 'deduct_ss'=>$employee->deduct_ss,
-                                 'deduct_tax'=>$employee->deduct_tax,
-                                 'deduct_health'=>$employee->deduct_health,
-                                 'deduct_hdmf'=>$employee->deduct_hdmf,
                                  "creator_id" => auth()->id()
                                ]; 
                        }
@@ -506,69 +500,7 @@ class payrollsController extends Controller
               return redirect()->back()->with("status", "payroll data prepared successfully!");
     }
 
-    //compute ss contribution 
-   public function computeSSContribution($payroll_id)
-    {
-
-        $sstrans = Prlsstransaction::where('payroll_id',$payroll_id)->get();
-     
-            foreach ($sstrans  as $sstran)
-               {
-   
-            $sstran->delete();
-    
-            }
-
-        $payrolls=prltransaction::where("payroll_id",$payroll_id)->where("deduct_ss","yes")->get();
-        $count=0;
-               $payrollObj=new payrollsController;
-                 foreach($payrolls as $payroll) {
-                    $count+=1;
-
-                   $payroll->update(
-                    ['ss_pay'=>$payrollObj->computeContribution($payroll->sstype_id,$payroll->grosspay,"employee")]
-                    );
-                    
-                  $inserts[] = [ 
-                                 'sstype_id' => $payroll->sstype_id,
-                                 'grosspay'  => $payroll->grosspay,
-                                 'employerss' => $payrollObj->computeContribution($payroll->sstype_id,$payroll->grosspay,"employee"),
-                                 'employeess' => $payrollObj->computeContribution($payroll->sstype_id,$payroll->grosspay,"employer"),
-                                 'total' => $payrollObj->computeContribution($payroll->sstype_id,$payroll->grosspay,"total"),
-                                 'employee_id' => $payroll->employee_id,
-                                 'payroll_id' =>$payroll_id,
-                                 'creator_id' => auth()->id()
-                               ]; 
-                       }
-                       if($count>0)
-                       {
-                        return  DB::table('prlsstransactions')->insert($inserts);
-                       }
-
-                  else return 0;
-
-
-              
-    }
-
-      public function computeContribution($sstype_id,$grosspay,$contributor)
-     {
-        $paytype=Prlsstype::where('id',$sstype_id)->firstOrFail();
-        if($contributor == "employee")
-         return (($grosspay * $paytype->employeess)/100);
-
-      else if($contributor=="employer")
-
-          return (($grosspay * $paytype->employerss)/100);
-
-       else if($contributor=="total")
-
-          return (($grosspay * $paytype->total)/100);
-
-        else return 0;
-
-     } 
-
+    //prepare ss deduction
 
     public function prepareSSData($payroll_id)
     {
@@ -586,7 +518,6 @@ class payrollsController extends Controller
         
 $payrollObj=new payrollsController;
                  foreach($ssfiles as $ssfile) {
-
                   $inserts[] = [ 
                                  'sstype_id' => $ssfile->sstype_id,
                                  'grosspay'  => $payrollObj->prltransrow($payroll_id,$ssfile->employee_id,"grosspay"),
@@ -745,11 +676,11 @@ $payrollObj=new payrollsController;
     
             }
 
-        $payrolls=Prltransaction::where("payroll_id",$payroll_id)->where("deduct_health","yes")->get();
-        $count=0;
+        $payrolls=Prltransaction::where("payroll_id",$payroll_id)->get();
+        
         $payrollObj=new payrollsController;
                  foreach($payrolls as $payroll) {
-                        $count+=1;
+
                      $inserts[] = [ 
                                  'employee_id' => $payroll->employee_id,
                                  'payroll_id' =>$payroll_id,
@@ -765,14 +696,10 @@ $payrollObj=new payrollsController;
                                 $payroll->update(["health"=>(($payrollObj->getHealthPercent('employee')*$payroll->basicpay)/100),
                                 ]);
                        }
-                       if($count > 0)
-                       {
+
                         DB::table('prlhealthtransactions')->insert($inserts);
-                       }
 
-                     else    
-
-              return 0;
+              return redirect()->back()->with("status", "payroll data prepared successfully!");
     }
 
     public function getHealthPercent($record)
@@ -805,12 +732,11 @@ $payrollObj=new payrollsController;
            $hdmftran->delete();
     
             }
-         $count=0;
-        $payrolls=Prltransaction::where("payroll_id",$payroll_id)->where("deduct_hdmf","yes")->get();
+
+        $payrolls=Prltransaction::where("payroll_id",$payroll_id)->get();
         
         $payrollObj=new payrollsController;
                  foreach($payrolls as $payroll) {
-                    $count+=1;
 
                      $inserts[] = [ 
                                  'employee_id' => $payroll->employee_id,
@@ -827,13 +753,10 @@ $payrollObj=new payrollsController;
                                 $payroll->update(["hdmf"=>(($payrollObj->getHDMFPercent('employee')*$payroll->basicpay)/100),
                                 ]);
                        }
-                       if($count>0)
-                     { 
-                       return DB::table('prlhdmftransactions')->insert($inserts);
-                }
 
-else return 0;
-              
+                        DB::table('prlhdmftransactions')->insert($inserts);
+
+              return redirect()->back()->with("status", "payroll data prepared successfully!");
     }
 
 public function getHDMFPercent($record)

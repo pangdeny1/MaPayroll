@@ -13,7 +13,7 @@ class CreatePrlssctypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('prlssctypes', function (Blueprint $table) {
+        Schema::create('prlsstypes', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
         });

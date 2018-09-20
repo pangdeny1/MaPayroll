@@ -2,7 +2,7 @@
     <div class="top-bar">
         <div class="top-bar-brand">
             <a href="{{ route("home") }}">
-                <img src="{{ asset("themes/looper/assets/images/brand-inverse.png") }}" height="32" alt="">
+                <img src="{{ asset("themes/looper/assets/images/brand-inverse2.png") }}" height="32" alt="">
             </a>
         </div>
         <div class="top-bar-list">

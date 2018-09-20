@@ -1,6 +1,41 @@
 @extends("layouts.master")
 
 @section("content")
+  <div class="wrapper">
+        <div class="page">
+            <div class="page-inner">
+                <header class="page-title-bar">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route("home") }}">
+                                    <i class="breadcrumb-icon fa fa-angle-left mr-2"></i> Dashboard
+                                </a>
+                            </li>
+                           
+                            <li class="breadcrumb-item active">
+                                Payroll 
+                            </li>
+                        </ol>
+                    </nav>
+                    <div class="d-sm-flex align-items-sm-center">
+                        <h1 class="page-title mr-sm-auto mb-0">
+                          Payroll : {{$payroll->payrolldesc}}
+                        </h1>
+                        <div class="btn-toolbar">
+                            <a href="{{ route("users.export") }}" class="btn btn-light">
+                                <i class="far fa-file-excel"></i>
+                                <span class="ml-1">Export as excel</span>
+                            </a>
+                            @can("create", \App\User::class)
+                            <a href="{{url('createpayrollperiod')}}" class="btn btn-primary">
+                                <span class="fas fa-plus mr-1"></span>
+                                New payroll
+                            </a>
+                            @endcan
+                        </div>
+                    </div>
+                </header>
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr> 
  

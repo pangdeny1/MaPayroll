@@ -23,13 +23,13 @@
                                     <div class="col">
                                         <!-- .metric -->
                                         <a href="user-teams.html" class="metric metric-bordered align-items-center">
-                                            <h2 class="metric-label"> Registered farmers </h2>
+                                            <h2 class="metric-label"> Active Employees </h2>
                                             <p class="metric-value h3">
                                                 <sub>
                                                     <i class="oi oi-people"></i>
                                                 </sub>
                                                 <span class="value">
-                                                    {{ sprintf("%05d", \App\Farmer::count()) }}
+                                                    {{ sprintf("%05d", \App\Employee::where("active","yes")->count()) }}
                                                 </span>
                                             </p>
                                         </a>
@@ -40,13 +40,13 @@
                                     <div class="col">
                                         <!-- .metric -->
                                         <a href="user-projects.html" class="metric metric-bordered align-items-center">
-                                            <h2 class="metric-label"> Packhouse weight </h2>
+                                            <h2 class="metric-label"> In Active Employees </h2>
                                             <p class="metric-value h3">
                                                 <sub>
                                                     <i class="oi oi-fork"></i>
                                                 </sub>
                                                 <span class="value">
-                                                    {{ number_format(\App\Purchase::sum("weight_before"), 2) }} kg
+                                                    {{ sprintf("%05d", \App\Employee::where("active","no")->count()) }}
                                                 </span>
                                             </p>
                                         </a>
@@ -56,13 +56,13 @@
                                     <div class="col">
                                         <!-- .metric -->
                                         <a href="user-tasks.html" class="metric metric-bordered align-items-center">
-                                            <h2 class="metric-label"> Graded Weight </h2>
+                                            <h2 class="metric-label"> Total Employees </h2>
                                             <p class="metric-value h3">
                                                 <sub>
                                                     <i class="fa fa-tasks"></i>
                                                 </sub>
                                                 <span class="value">
-                                                    {{ number_format(\App\Purchase::sum("weight_after"), 2) }} kg
+                                                    {{ sprintf("%05d", \App\Employee::count()) }}
                                                 </span>
                                             </p>
                                         </a>
@@ -77,7 +77,7 @@
                                     <a class="metric">
                                         <div class="metric-badge">
                                         <span class="badge badge-lg badge-success">
-                                            <span class="oi oi-media-record pulse mr-1"></span> COMPLETED PURCHASES
+                                            <span class="oi oi-media-record pulse mr-1"></span> PAYROLLS
                                         </span>
                                         </div>
                                         <p class="metric-value h3">
@@ -85,7 +85,7 @@
                                                 <i class="oi oi-timer"></i>
                                             </sub>
                                             <span class="value">
-                                                {{ sprintf("%05d", \App\Purchase::where("status", "completed")->count()) }}
+                                               {{ sprintf("%05d", \App\Models\Payroll::count()) }}
                                             </span>
                                         </p>
                                     </a>
@@ -100,7 +100,7 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-3">
                                         <h3 class="card-title mr-auto">
-                                            Number of purchases over time
+                                            Number of employees over time
                                         </h3>
                                     </div>
 
@@ -121,7 +121,7 @@
                                 <!-- .card-body -->
                                 <div class="card-body pb-0">
                                     <div class="d-flex align-items-center mb-3">
-                                        <h3 class="card-title mr-auto"> PurchasesBoard </h3>
+                                        <h3 class="card-title mr-auto"> Employement Status </h3>
 
                                         <div class="card-title-control">
                                             <div class="form-group dropdown">
@@ -135,23 +135,23 @@
                                     <!-- legend -->
                                     <ul class="list-inline small">
                                         <li class="list-inline-item">
-                                            <i class="fa fa-fw fa-circle text-info"></i> Received
+                                            <i class="fa fa-fw fa-circle text-info"></i> Retired
                                         </li>
                                         <li class="list-inline-item">
-                                            <i class="fa fa-fw fa-circle text-purple"></i> Completed
+                                            <i class="fa fa-fw fa-circle text-purple"></i> Suspended
                                         </li>
                                         <li class="list-inline-item">
-                                            <i class="fa fa-fw fa-circle text-teal"></i> Paid
+                                            <i class="fa fa-fw fa-circle text-teal"></i> Terminated
                                         </li>
                                         <li class="list-inline-item">
-                                            <i class="fa fa-fw fa-circle text-red"></i> Rejected
+                                            <i class="fa fa-fw fa-circle text-red"></i> Resigned
                                         </li>
                                     </ul>
                                 </div>
 
                                 <!-- .list-group -->
                                 <div class="list-group list-group-flush">
-                                    @foreach(\App\Product::latest()->take(5)->get() as $product)
+                                    @foreach(\App\Employee::latest()->take(5)->get() as $employee)
                                     <div class="list-group-item">
                                         <div class="list-group-item-figure">
                                             <a href="user-profile.html"
@@ -160,7 +160,7 @@
                                                title=""
                                                data-original-title="Martha Myers"
                                         >
-                                                <img src="{{ Avatar::create($product->name)->toBase64() }}" alt="">
+                                                <img src="{{ Avatar::create($employee->first_name)->toBase64() }}" alt="">
                                             </a>
                                         </div>
                                         <div class="list-group-item-body">
@@ -204,44 +204,43 @@
 
                     <div class="section-deck">
                         <div class="card card-fluid">
-                            <header class="card-header"> Today's purchases </header>
-                            @if(\App\Purchase::count())
+                            <header class="card-header"> Newly Employees </header>
+                            @if(\App\Employee::count())
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th class="text-left"  nowrap=>Farmer</th>
-                                                <th class="text-left"  nowrap>Product</th>
-                                                <th class="text-right" nowrap>Packhouse Weight</th>
-                                                <th class="text-right" nowrap>Graded Weight</th>
-                                                <th class="text-right" nowrap>Amount</th>
-                                                <th class="text-left"  nowrap>Status</th>
+                                                <th class="text-left"  nowrap=>Employee</th>
+                                                <th class="text-left"  nowrap>Gender</th>
+                                                <th class="text-left" nowrap>Department</th>
+                                                <th class="text-left" nowrap>Country</th>
+                                                <th class="text-left" nowrap>Region</th>
+                                                <th class="text-left"  nowrap>Email</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach(\App\Purchase::take(5)->get() as $purchase)
+                                        @foreach(\App\Employee::take(5)->get() as $employee)
                                             <tr>
                                                 <td>
-                                                    <a href="{{ route("farmers.show", $purchase->farmer) }}" class="user-avatar mr-1">
-                                                        <img src="{{ Avatar::create($purchase->farmer->full_name)->toBase64() }}" alt="User Avatar">
+                                                    <a href="{{ route("employees.show", $employee) }}" class="user-avatar mr-1">
+                                                        <img src="{{ Avatar::create($employee->full_name)->toBase64() }}" alt="User Avatar">
                                                     </a>
-                                                    <a href="{{ route("farmers.show", $purchase->farmer) }}">
-                                                        {{ $purchase->farmer->full_name }}
+                                                    <a href="{{ route("employees.show", $employee) }}">
+                                                        {{ $employee->full_name }}
                                                     </a>
                                                 </td>
-                                                <td>{{ $purchase->product->name }}</td>
-                                                <td class="text-right">
-                                                    {{ $purchase->weight()->before_in_kg }}
+                                                <td>{{ $employee->gender }}</td>
+                                                <td >
+                                                   {{ optional($employee->address)->state }}
                                                 </td>
-                                                <td class="text-right">
-                                                    {{ $purchase->weight()->after_in_kg }}
-                                                    {{ $purchase->weight_unit }}
+                                                <td >
+                                                   {{ optional($employee->address)->country }}
                                                 </td>
-                                                <td class="text-right">
-                                                    {{ number_format($purchase->amount, 2) }}
+                                                <td >
+                                                   {{ optional($employee->address)->state }}
                                                 </td>
                                                 <td class="text-capitalize">
-                                                    @include("purchases.statuses.$purchase->status")
+                                                   {{ $employee->email }} 
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -250,12 +249,12 @@
                                 </div>
                             @else
                                 <div class="text-center my-4">
-                                    No purchase recorded today
+                                    No Employee recorded
                                 </div>
                             @endif
 
                             <footer class="card-footer">
-                                <a href="{{ route("purchases.index") }}" class="card-footer-item">
+                                <a href="{{ route("employees.index")}}" class="card-footer-item">
                                     View all
                                     <i class="fa fa-fw fa-angle-right"></i>
                                 </a>
@@ -263,44 +262,8 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <section class="card card-fluid">
-                                <header class="card-header">
-                                    Newly registered farmers
-                                </header>
-                                <div class="list-group list-group-flush list-group-divider">
-                                    @foreach(\App\Farmer::latest()->take(5)->get() as $farmer)
-                                    <div class="list-group-item">
-                                        <div class="list-group-item-figure">
-                                            <a href="{{ route("farmers.show", $farmer) }}" class="user-avatar mr-1">
-                                                <img src="{{ Avatar::create($farmer->full_name)->toBase64() }}" alt="User Avatar">
-                                            </a>
-                                        </div>
-                                        <div class="list-group-item-body">
-                                            <h4 class="list-group-item-title">
-                                                <a href="#">{{ $farmer->full_name }}</a>
-                                            </h4>
-                                            <p class="list-group-item-text">
-                                                {{ $farmer->created_at }}
-                                            </p>
-                                        </div>
-                                        <div class="list-group-item-figure">
-                                            <a href="{{ route("farmers.show", $farmer) }}" class="btn btn-sm btn-light">
-                                                <i class="far fa-file-alt"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                </div>
-                                <footer class="card-footer">
-                                    <a href="{{ route("farmers.index") }}" class="card-footer-item">
-                                        View all
-                                        <i class="fa fa-fw fa-angle-right"></i>
-                                    </a>
-                                </footer>
-                            </section>
-                        </div>
+                    
+                       
                     </div>
                 </div>
             </div>

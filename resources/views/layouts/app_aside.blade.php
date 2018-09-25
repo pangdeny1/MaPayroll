@@ -48,29 +48,13 @@
 
                     <hr>
 
-                    <div class="menu-header">Clusters</div>
-                    @can("view", \App\Batch::class)
-                    <a href="{{ route("clusters.index") }}" class="menu-link">
-                        <i class="fas fa-database text-muted mr-2"></i>
-                        <span class="menu-text">Browse a list</span>
-                    </a>
-                    @endcan
-
-                    <div class="menu-header">Purchases</div>
-                    @can("view", \App\Purchase::class)
-                    <a href="{{ route("purchases.index") }}" class="menu-link">
-                        <i class="fas fa-shopping-cart text-muted mr-2"></i>
-                        <span class="menu-text">Browse a list</span>
-                    </a>
-                    @endcan
-
                     <div class="menu-header">Employees</div>
                     <a href="{{ route("employees.index")}}" class="menu-link mb-2">
                         <i class="fas fa-user-friends text-muted mr-2"></i>
                         <span class="menu-text">Browse a list</span>
                     </a>
 
-                    @can("create", \App\Farmer::class)
+                    @can("create", \App\Employee::class)
                     <a href="{{ route("employee.create")}}" class="menu-link mb-2">
                         <i class="fas fa-plus text-muted mr-2"></i>
                         <span class="menu-text">Register new</span>
@@ -95,11 +79,11 @@
                     <div class="menu-header">Reports</div>
                     <a href="{{ route("purchases.reports", ["period" => "daily"]) }}" class="menu-link mb-2">
                         <i class="fas fa-chart-line text-muted mr-2"></i>
-                        <span class="menu-text">Purchase History</span>
+                        <span class="menu-text">Employees Reports</span>
                     </a>
                     <a href="{{ route("products.reports", ["period" => "daily"]) }}" class="menu-link mb-2">
                         <i class="far fa-chart-bar text-muted mr-2"></i>
-                        <span class="menu-text">Product Purchase</span>
+                        <span class="menu-text">Payrolls Reports</span>
                     </a>
                 </nav>
             </nav>

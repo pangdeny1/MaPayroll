@@ -82,6 +82,7 @@
                                                 <th>Department</th>
                                                 <th>Region</th>
                                                 <th>Salary</th>
+                                                <th>Active</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -104,6 +105,7 @@
                                                 <td></td>
                                                 <td>{{ optional($employee->address)->state }}</td>
                                                 <td>{{ number_format($employee->period_rate,2) }}</td>
+                                                <td>{{ $employee->active }}</td>
                                                 <td class="align-middle text-right">
                                                     @can("edit", \App\Farmer::class)
                                                     <a href="{{ route("employees.edit", $employee) }}" class="btn btn-sm btn-secondary">

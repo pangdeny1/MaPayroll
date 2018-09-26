@@ -30,6 +30,9 @@ use App\Prlhdmftype;
 use App\Models\Prlhdmftransaction;
 use App\prlhealthtransaction;
 use App\prlhealthtype;
+use App\Models\Prlloantransaction;
+use App\Models\Prlloanfile;
+use App\Models\Prlloantype;
 use App\Http\Controllers\Controller;
 
 class payrollsController extends Controller
@@ -135,6 +138,7 @@ class payrollsController extends Controller
         $payrollObj->computeHealth($payroll_id);
         $payrollObj->computeTaxableIncome($payroll_id);
         $payrollObj->prepareTaxData($payroll_id);
+        $payrollObj->computeLoan($payroll_id);
         $payrollObj->computeTotalDeduction($payroll_id);
         $payrollObj->computeNetpay($payroll_id);
         return redirect()->back()->with("status", "Payroll data successfully generated");
@@ -768,7 +772,7 @@ $payrollObj=new payrollsController;
         $payrolls=prltransaction::where("payroll_id","$payroll_id")->get();
         foreach ($payrolls as $payroll) {
 
-            $payroll->update(["total_deduction"=>$payroll->tax + $payroll->ss_pay + $payroll->other_deduction]);
+            $payroll->update(["total_deduction"=>$payroll->tax + $payroll->ss_pay + $payroll->other_deduction + $payroll->loan_deduction]);
         }
         return redirect()->back()->with("status","Netpayrows updated successfully");
      }
@@ -951,8 +955,65 @@ public function getHDMFPercent($record)
         }
     }
 
+//compute Loan Deduction
+  
+  public function computeLoan($payroll_id)
+    {
+
+        $loantrans = Prlloantransaction::where('payroll_id',$payroll_id)->get();
+     
+            foreach ($loantrans  as $loantran)
+               {
+   
+            $loantran->delete();
+    
+            }
+
+        $loanfiles=Prlloanfile::All();
+        
+
+                 foreach($loanfiles as $loanfile) {
+                  $inserts[] = [ 
+                                 'loantype_id' => $loanfile->loantype_id,
+                                 'amount' => $loanfile->amortization,
+                                 'employee_id' => $loanfile->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'creator_id' => auth()->id()
+                               ]; 
+                       }
+
+                   DB::table('prlloantransactions')->insert($inserts);
+
+                   
+        $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
+
+           $payrollObj=new payrollsController();
+     
+            foreach ($payrolls as $payroll)
+               {
+                $payroll->update(
+                    ['loan_deduction'=>$payrollObj->calculateTotalEmployeeLoan($payroll_id,$payroll->employee_id)]
+                    );
+    
+            }
+             return redirect()->back()->with("status", "payroll data prepared successfully!");
+    }
 
 
+
+//calulate loan
+    public function calculateTotalEmployeeLoan($payroll_id,$employee_id)
+    {
+         $loantrans = Prlloantransaction::where('payroll_id',$payroll_id)->where('employee_id',$employee_id)->get();
+         $loandeduction=0; 
+            foreach ($loantrans  as $loantran)
+               {
+   
+            $loandeduction+=$loantran->amount;
+    
+            }
+        return $loandeduction;
+    }
 
    
 }

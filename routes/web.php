@@ -186,6 +186,11 @@ Route::prefix('reports')->group(function () {
         "as" => "products.reports",
         "uses" => "ProductsReportsController@index",
     ]);
+
+     Route::get("payrolls", [
+        "as" => "payrolls.reports",
+        "uses" => "PayrollsReportsController@index",
+    ]);
 });
 
 Route::prefix('settings')->group(function () {

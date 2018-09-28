@@ -12,4 +12,8 @@ class prltransaction extends Model
                            'deduct_tax','deduct_hdmf','deduct_ss','deduct_health','sstype_id',
                            'pay_period','loan_deduction'];
     protected $primaryKey='id';
+
+
+   
+
 }

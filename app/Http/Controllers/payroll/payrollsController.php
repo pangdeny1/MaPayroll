@@ -490,6 +490,9 @@ class payrollsController extends Controller
 
         $othincfiles=Prlothinfile::where("payroll_id",$payroll_id)->get();
         
+        if($othincfiles->count()>0)
+        {
+
 
                  foreach($othincfiles as $othincfile) {
                   $inserts[] = [ 
@@ -502,7 +505,7 @@ class payrollsController extends Controller
                        }
 
                    DB::table('prlothintransactions')->insert($inserts);
-
+}
                    
         $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
 
@@ -531,9 +534,9 @@ class payrollsController extends Controller
             }
 
         $othdedfiles=Prlothdedfile::where("payroll_id",$payroll_id)->get();
-        
-
-                 foreach($othdedfiles as $othdedfile) {
+         if($othdedfiles->count()>0)
+            { 
+foreach($othdedfiles as $othdedfile) {
                   $inserts[] = [ 
                                  'othded_id' => $othdedfile->othded_id,
                                  'amount' => $othdedfile->othdedamount,
@@ -545,7 +548,9 @@ class payrollsController extends Controller
 
                    DB::table('Prlothdedtransactions')->insert($inserts);
 
+            }
 
+                 
         $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
 
            $payrollObj=new payrollsController();

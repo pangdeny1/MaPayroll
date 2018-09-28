@@ -50,43 +50,85 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Farmerrr</th>
-                                            <th>Product</th>
-                                            <th>Creator</th>
-                                            <th class="text-right">Weight</th>
-                                            <th class="text-right">Amount in Tsh.</th>
+                                            <th class="text-left">Employee</th>
+                                            <th class="text-right">Basic</th>
+                                            <th class="text-right">Other Income</th>
+                                            <th class="text-right">Gross</th>
+                                            <th class="text-right">Pension</th>                                            
+                                            <th class="text-right">Health</th>
+                                            <th class="text-right">Hdmf</th>
+                                            <th class="text-right">Tax</th>
+                                            <th class="text-right">Deductions</th>
+                                            <th class="text-right">Net Pay</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($payrolls as $payroll)
                                         <tr>
-                                            <td>{{ $payroll->employee_id }}</td>
-                                            <td>--}</td>
-                                            <td>David Pella</td>
+                                            <td>{{  $i++}}.{{  $payroll->first_name }} {{  $payroll->last_name }}</td>
+                                            <td>{{  number_format($payroll->basicpay,2)}}</td>
+                                            <td>{{  number_format($payroll->other_income,2)}}</td>
                                             <td class="text-right">
-                                                {{ $payroll->basicpay}}
+                                                {{  number_format($payroll->grosspay,2)}}
                                             </td>
                                             <td class="text-right">
+                                                {{ number_format($payroll->ss_pay, 2) }}
+                                            </td>
+                                           
+                                            <td class="text-right">
+                                                {{ number_format($payroll->health, 2) }}
+                                            </td>
+                                            <td class="text-right">
+                                                {{ number_format($payroll->hdmf, 2) }}
+                                            </td>
+                                            <td class="text-right">
+                                                {{ number_format($payroll->tax, 2) }}
+                                            </td>
+                                             <td class="text-right">
+                                                {{ number_format($payroll->total_deduction, 2) }}
+                                            </th>
+                                             <th class="text-right">
                                                 {{ number_format($payroll->netpay, 2) }}
-                                            </td>
+                                            </th>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th colspan="3"></th>
+                                            <th colspan="1"></th>
                                             <th class="text-right">
-                                                {{ number_format($payrolls->sum("gross_pay"), 2) }}
+                                                {{ number_format($payrolls->sum("basicpay"), 2) }}
+                                            </th>
+                                             <th class="text-right">
+                                                {{ number_format($payrolls->sum("other_income"), 2) }}
+                                            </th>
+                                             <th class="text-right">
+                                                {{ number_format($payrolls->sum("grosspay"), 2) }}
                                             </th>
                                             <th class="text-right">
-                                                {{ number_format($payrolls->sum("basic_pay"), 2) }}
+                                                {{ number_format($payrolls->sum("ss_pay"), 2) }}
+                                            </th>
+                                             <th class="text-right">
+                                                {{ number_format($payrolls->sum("health"), 2) }}
+                                            </th>
+                                             <th class="text-right">
+                                                {{ number_format($payrolls->sum("hdmf"), 2) }}
+                                            </th>
+                                             <th class="text-right">
+                                                {{ number_format($payrolls->sum("tax"), 2) }}
+                                            </th>
+                                            <th class="text-right">
+                                                {{ number_format($payrolls->sum("total_deduction"), 2) }}
+                                            </th>
+                                            <th class="text-right">
+                                                {{ number_format($payrolls->sum("netpay"), 2) }}
                                             </th>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
                             @else
-                                <div class="text-center my-4">No Payrolls report for this payroll_id of time</div>
+                                <div class="text-center my-4">No Payrolls report for this payroll of time</div>
                             @endif
                         </div>
                     </section>

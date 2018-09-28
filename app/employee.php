@@ -77,4 +77,9 @@ class Employee extends Model implements Auditable
     {
         return $this->attributes["first_name"] ." ". $this->attributes["last_name"];
     }
+
+     public function employee()
+    {
+        return $this->hasMany(prltransaction::class,"employee_id");
+    }
 }

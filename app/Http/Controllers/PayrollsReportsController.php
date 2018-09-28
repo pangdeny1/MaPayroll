@@ -17,10 +17,13 @@ class PayrollsReportsController extends Controller
     public function index()
     {
     	$payroll_id=request("payroll_id");
-        $queryBuilder = prltransaction::query();
+    	$i=1;
+
+        $queryBuilder = prltransaction::query()->leftJoin('employees', 'employees.id', '=', 'prltransactions.employee_id');
             //->where("status", "completed");
 
         if (request("payroll_id") == $payroll_id) {
+        	
             $queryBuilder->where("payroll_id",$payroll_id );
         }
 
@@ -47,7 +50,7 @@ class PayrollsReportsController extends Controller
 
         $payrolls = $queryBuilder->get();
 
-        return view("reports.payrolls", compact("payrolls"));
+        return view("reports.payrolls", compact("payrolls","i"));
     }
 
     public function report($payroll_id)

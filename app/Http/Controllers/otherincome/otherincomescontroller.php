@@ -8,9 +8,10 @@ use App\Http\Requests;
 use App\Models\otherincome;
 use App\Models\otherincometable;
 use App\Models\otherincometrans;
-use App\Models\Employee;
+use App\Employee;
 use App\Models\Payroll;
 use App\Models\YesOrNo;
+use App\Models\Prlothinfile;
 use App\Mailers\AppMailer;
 
 class otherincomescontroller extends Controller
@@ -19,7 +20,7 @@ class otherincomescontroller extends Controller
 	{
         
         $pagetitle="otherincomes ";
-        $otherincomes=otherincome::All();
+        $otherincomes=Prlothinfile::All();
         $employees=Employee::All();
         return view('otherincomes.index',compact('pagetitle','otherincomes','employees'));
 

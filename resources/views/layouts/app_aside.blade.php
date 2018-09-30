@@ -72,7 +72,22 @@
                         <i class="fas fa-plus text-muted mr-2"></i>
                         <span class="menu-text">Register new</span>
                     </a>
+                     <a href="{{url('viewotherincomes')}}" class="menu-link mb-2">
+                        <i class="fas fa-plus text-muted mr-2"></i>
+                        <span class="menu-text">Incomes</span>
+                    </a>
+                     <a href="{{url('viewotherdeductions')}}" class="menu-link mb-2">
+                        <i class="fas fa-plus text-muted mr-2"></i>
+                        <span class="menu-text">Deductions</span>
+                    </a>
+                     <a href="{{url('viewloans')}}" class="menu-link mb-2">
+                        <i class="fas fa-plus text-muted mr-2"></i>
+                        <span class="menu-text">Loans</span>
+                    </a>
+                    
                     @endcan
+
+
 
                     <hr>
 

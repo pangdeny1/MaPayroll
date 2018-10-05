@@ -9,7 +9,7 @@
                 <div class="panel-body">
                     @include('includes.flash');
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/updateotherdeduction/'.$otherdeduction->counterindex) }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/updateotherincome/'.$otherincome->id) }}">
                         {!! csrf_field() !!}
 
 
@@ -20,11 +20,11 @@
 
                                                        <option value=""> Select Employee </option>
                                                           @foreach($employees as $employee)
-                                                          @if($employee->employeeid==$otherdeduction->employeeid)
+                                                          @if($employee->id==$otherincome->employee_id)
                                                         
-                                                         <option selected value="{{ $otherdeduction->employeeid }}">{{ $employee->firstname }} {{ $employee->lastname }}</option>
+                                                         <option selected value="{{ $otherincome->employee_id }}">{{ $employee->first_name }} {{ $employee->last_name }}</option>
                                                         @else
-                                                         <option value="{{ $employee->employeeid }}">{{ $employee->firstname }} {{ $employee->lastname }}</option>
+                                                         <option value="{{ $employee->id }}">{{ $employee->first_name }} {{ $employee->last_name }}</option>
                                                           @endif  
                                                        
                                                           @endforeach
@@ -38,26 +38,26 @@
                                 @endif
                             </div>  
                            
-                           <div class="form-group{{ $errors->has('deductiontype') ? ' has-error' : '' }}">                                      
-                                                <label for="title" class="col-md-4 control-label">deductiontype  </label>
+                           <div class="form-group{{ $errors->has('incometype') ? ' has-error' : '' }}">                                      
+                                                <label for="title" class="col-md-4 control-label">Incometype  </label>
                                                 <div class="col-md-6">
-                                                    <select class="form-control select" name="deductiontype">
+                                                    <select class="form-control select" name="incometype">
 
-                                                       <option value=""> Select deductiontype </option>
-                                                          @foreach($deductiontypes as $deductiontype)
-                                                           @if($otherdeduction->othincid==$deductiontype->othincid)
-                                                           <option selected value="{{ $otherdeduction->othincid}}">{{ $deductiontype->othincdesc}}</option>
+                                                       <option value=""> Select incometype </option>
+                                                          @foreach($incometypes as $incometype)
+                                                           @if($otherincome->othinc_id==$incometype->id)
+                                                           <option selected value="{{ $otherincome->othinc_id}}">{{ $incometype->othincdesc}}</option>
                                                            @else
                                                          
-                                                         <option value="{{ $deductiontype->othincid }}">{{ $deductiontype->othincdesc}}</option>
+                                                         <option value="{{ $incometype->id }}">{{ $incometype->othincdesc}}</option>
                                                          @endif
                                                           @endforeach
                                                                                                              
                                                     </select>
                                                 </div> 
-                                                @if ($errors->has('deductiontype'))
+                                                @if ($errors->has('incometype'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('deductiontype') }}</strong>
+                                        <strong>{{ $errors->first('incometype') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -68,7 +68,7 @@
                             <div class="col-md-6">
                                                     <select class="form-control select" name="Term">
                                                       
-                                                       @if($otherdeduction->amount_term=="Amount")
+                                                       @if($otherincome->amount_term=="Amount")
 
                                                        <option selected value="Amount">Amount</option>
                                                        <option value="Percent">Percent</option>
@@ -89,7 +89,7 @@
                             <label for="title" class="col-md-4 control-label">Amount</label>
 
                             <div class="col-md-6">
-                                <input type="text" name="Amount" class="form-control" value="{{$otherdeduction->othincamount}}">
+                                <input type="text" name="Amount" class="form-control" value="{{$otherincome->othincamount}}">
              
                                 @if ($errors->has('Amount'))
                                     <span class="help-block">
@@ -109,7 +109,7 @@
                                                       
                  
 
-                                                       @if($otherdeduction->transaction_type=="Basic")
+                                                       @if($otherincome->transaction_type=="Basic")
 
                                                        <option selected value="Basic">Basic</option>
                                                        <option value="Gross">Gross</option>
@@ -132,7 +132,7 @@
                             <label for="title" class="col-md-4 control-label">Percentage</label>
 
                             <div class="col-md-6">
-                                <input type="text" name="Percentage" class="form-control" value="{{$otherdeduction->percent}}">
+                                <input type="text" name="Percentage" class="form-control" value="{{$otherincome->percent}}">
 
                                 @if ($errors->has('Percentage'))
                                     <span class="help-block">
@@ -146,7 +146,7 @@
                                                 <div class="col-md-6">
                                                     <select class="form-control select" name="Period">
                                                        
-                                                         <option value="{{$otherdeduction->payrollid}}">{{$period->payrolldesc}}</option>
+                                                         <option value="{{$otherincome->payroll_id}}">{{$period->payrolldesc}}</option>
                                                          
                                                                                                              
                                                     </select>
@@ -156,7 +156,7 @@
                                         <strong>{{ $errors->first('Period') }}</strong>
                                     </span>
                                 @endif
-                            </div>
+                            </div> 
 
                             
                            
@@ -164,7 +164,7 @@
                             <label for="title" class="col-md-4 control-label">From Date</label>
 
                             <div class="col-md-6">
-                                <input type="text" name="DateFrom" class="form-control datepicker" value="{{$otherdeduction->othdate}}">
+                                <input type="text" name="DateFrom" class="form-control datepicker" value="{{$otherincome->othdate}}">
 
                                 @if ($errors->has('DateFrom'))
                                     <span class="help-block">
@@ -178,7 +178,7 @@
                             <label for="title" class="col-md-4 control-label">To Date</label>
 
                             <div class="col-md-6">
-                                <input type="text" name="DateTo" class="form-control datepicker" value="{{$otherdeduction->stopdate}}">
+                                <input type="text" name="DateTo" class="form-control datepicker" value="{{$otherincome->stopdate}}">
 
                                 @if ($errors->has('DateTo'))
                                     <span class="help-block">
@@ -194,8 +194,8 @@
                             <div class="col-md-6">
                                                     <select class="form-control select" name="Recurent">
                                                         @foreach($yesornos  as $ss)
-                                                        @if($ss->id==$otherdeduction->recurrent)
-                                                        <option  value="{{$otherdeduction->recurrent}}" selected="selected">{{$ss->name}}</option>
+                                                        @if($ss->id==$otherincome->recurrent)
+                                                        <option  value="{{$otherincome->recurrent}}" selected="selected">{{$ss->name}}</option>
                                                         @else
                                                         <option value="{{$ss->id}}">{{$ss->name}}</option>
                                                           @endif  
@@ -219,8 +219,8 @@
                                                     <select class="form-control select" name="Status">
                                                         @foreach($yesornos  as $ss)
                                                        
-                                                         @if($ss->id==$otherdeduction->status)
-                                                        <option  value="{{$otherdeduction->status}}" selected="selected">{{$ss->name}}</option>
+                                                         @if($ss->id==$otherincome->status)
+                                                        <option  value="{{$otherincome->status}}" selected="selected">{{$ss->name}}</option>
                                                         @else
                                                         <option value="{{$ss->id}}">{{$ss->name}}</option>
                                                           @endif  

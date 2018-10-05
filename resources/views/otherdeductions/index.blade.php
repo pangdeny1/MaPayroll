@@ -1,38 +1,81 @@
 @extends("layouts.master")
 
 @section("content")
-    <div class="page-content-wrap">
-                 
-                    <div class="row">
-                        <div class="col-md-12">
-                            
-                            <!-- START DATATABLE EXPORT -->
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-branch"> <a href="{{url('createotherdeduction')}}">Add Employee Deduction </a></i></h3>
-                                    <div class="btn-group pull-right">
-                                        <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i> Export Data</button>
-                                        <ul class="dropdown-menu">
-                                            
-                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'excel',escape:'false'});"><img src='img/icons/xls.png' width="24"/> XLS</a></li>
-                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'doc',escape:'false'});"><img src='img/icons/word.png' width="24"/> Word</a></li>
-                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'pdf',escape:'false'});"><img src='img/icons/pdf.png' width="24"/> PDF</a></li>
-                                        </ul>
-                                    </div>                                    
-                                    
+    @if($otherdeductions->count())
+        <div class="wrapper">
+            <div class="page">
+                <div class="page-inner">
+                    <header class="page-title-bar">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route("home") }}">
+                                        <i class="breadcrumb-icon fa fa-angle-left mr-2"></i> Dashboard
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    Deductions
+                                </li>
+                            </ol>
+                        </nav>
+                        <div class="d-sm-flex align-items-sm-center">
+                            <h1 class="page-title mr-sm-auto mb-0">
+                                Deductions
+                                 @include('includes.flash')
+                            </h1>
+                            <div class="btn-toolbar">
+                                <a href="" class="btn btn-light">
+                                    <i class="oi oi-data-transfer-download"></i>
+                                    <span class="ml-1">Export as excel</span>
+                                </a>
+                                
+                                @can("create", \App\Farmer::class)
+                                <a href="{{url('createotherdeduction')}}" class="btn btn-primary">
+                                    <span class="fas fa-plus mr-1"></span>
+                                    New Employee Income
+                                </a>
+                                @endcan
+                            </div>
+                        </div>
+                    </header>
+
+                    <div class="page-section">
+                        <section class="card shadow-1 border-0 card-fluid">
+                            <header class="card-header">
+                                <ul class="nav nav-tabs card-header-tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->query("status") ? "" : "active" }}" href="{{ route("farmers.index") }}">
+                                            All
+                                        </a>
+                                    </li>
+                                </ul>
+                            </header>
+
+                            <div class="card-body">
+
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <span class="oi oi-magnifying-glass"></span>
+                                            </span>
+                                        </div>
+                                        <form action="">
+                                            <input type="text" name="q" class="form-control" placeholder="Search record...">
+                                        </form>
+                                    </div>
                                 </div>
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        @if (Session::has('message'))
-    <div class="alert alert-info">{{ Session::get('message') }} </div>
 
-@endif
+                                <!-- .table-responsive -->
 
+                                <div class="text-muted">  </div>
 
-                                        <table id="customers2" class="table datatable">
-                                          
-                            <thead>
-                               <tr>
+                                
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                   <tr>
                                     <th>Employee</th>
                                     <th>Deduction Type</th>
                                     <th>Term</th>
@@ -40,25 +83,29 @@
                                     <th>Percent</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
+                                    <th>Action</th>
                                     
-                                    <th>View </th>
-                                    <th >Edit</th>
-                                     <th >Delete</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                           @foreach ($otherdeductions as $otherdeduction)
-                                <tr>
-                                   
-                                    <td>
+                                        </thead>
+                                        <tbody>
+                                             @foreach ($otherdeductions as $otherdeduction)
+                                           <td>
+                                             
                                       @foreach ($employees as $employee)
-                                        @if ($employee->employeeid == $otherdeduction->employeeid)
-                                            {{ $employee->firstname }} {{$employee->lastname}}
+                                        @if ($employee->id == $otherdeduction->employee_id)
+                                           <a href="{{ url('showotherdeduction/'.$otherdeduction->id) }}"> 
+                                            {{ $employee->first_name }} {{$employee->last_name}}
+                                        </a>
                                         @endif
                                     @endforeach
+                            
                                     </td>
                                     <td>
-                                       {{ $otherdeduction->othincid }}
+                                     @foreach ($otherdedtypes as $otherdedtype)
+                                        @if ($otherdedtype->id == $otherdeduction->othded_id)
+                                            {{ $otherdedtype->othincdesc }}
+                                        @endif
+                                    @endforeach
                                     </td>
                                     <td>
                                   {{ $otherdeduction->amount_term}}
@@ -71,53 +118,61 @@
                                     </td>
                                     <td>{{ $otherdeduction->othdate }}</td>
                                     <td>{{ $otherdeduction->stopdate }}</td>
-                                     <td>
-                                        <a href="{{ url('showotherdeduction/'.$otherdeduction->counterindex) }}" class="btn btn-primary">View</a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ url('editotherdeduction/'.$otherdeduction->counterindex) }}" class="btn btn-primary">Edit</a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ url('deleteotherdeduction/'.$otherdeduction->counterindex) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to Delete this record')" >Delete</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                    <td class="align-middle text-right">
+                                                    @can("edit", \App\Farmer::class)
+                                                    <a href="{{ url('editotherdeduction/'.$otherdeduction->id) }}" class="btn btn-sm btn-secondary">
+                                                        <i class="fa fa-pencil-alt"></i>
+                                                        <span class="sr-only">Edit</span>
+                                                    </a>
+                                                    @endcan
 
-                                         <div class="modal animated fadeIn" id="modal_change_password" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="smallModalHead">Employee Details</h4>
-                    </div>
-                    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                Employee Detail Goes here
-               <!-- include('employee.viewemployee'); -->
-                </div>                                  
-                                    </div>
+                                                    @can("delete", \App\Farmer::class)
+                                                    <a href="{{ url('deleteotherdeduction/'.$otherdeduction->id) }}" onclick="return confirm('Are you sure you want to Delete this record')"  class="btn btn-sm btn-secondary">
+                                                        <i class="far fa-trash-alt"></i>
+                                                        <span class="sr-only">Remove</span>
+                                                    </a>
+                                                    @endcan
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
+
+                                <!-- .pagination -->
+                                
                             </div>
-                            <!-- END DATATABLE EXPORT -->  
-
-
-                              <!-- START THIS PAGE PLUGINS-->        
-        <script type="text/javascript" src="{{asset('js/plugins/icheck/icheck.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js')}}"></script>
-        
-        <script type="text/javascript" src="{{asset('js/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('js/plugins/tableexport/tableExport.js')}}"></script>
-      <script type="text/javascript" src="{{asset('js/plugins/tableexport/jquery.base64.js')}}"></script>
-      <script type="text/javascript" src="{{asset('js/plugins/tableexport/html2canvas.js')}}"></script>
-      <script type="text/javascript" src="{{asset('js/plugins/tableexport/jspdf/libs/sprintf.js')}}"></script>
-      <script type="text/javascript" src="{{asset('js/plugins/tableexport/jspdf/jspdf.js')}}"></script>
-      <script type="text/javascript" src="{{asset('js/plugins/tableexport/jspdf/libs/base64.js')}}"></script>  
-
-
-        <!-- END THIS PAGE PLUGINS-->                            
-                            
-            
-        @endsection
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @else
+        <div class="wrapper">
+            <!-- .empty-state -->
+            <section id="notfound-state" class="empty-state">
+                <!-- .empty-state-container -->
+                <div class="empty-state-container">
+                    <div class="state-figure">
+                        <img class="img-fluid"
+                             src="{{ asset("themes/looper/assets/images/illustration/img-7.png") }}"
+                             alt=""
+                             style="max-width: 300px"
+                        >
+                    </div>
+                    <h3 class="state-header"> No Content, Yet. </h3>
+                    <p class="state-description lead text-muted">
+                        Use the button below to Register new .
+                    </p>
+                    @can("create", \App\Farmer::class)
+                    <div class="state-action">
+                        <a href="{{url('createotherdeduction')}}" class="btn btn-primary">Register new</a>
+                    </div>
+                    @endcan
+                </div>
+                <!-- /.empty-state-container -->
+            </section>
+            <!-- /.empty-state -->
+        </div>
+    @endif
+@endsection

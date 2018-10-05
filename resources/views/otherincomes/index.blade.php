@@ -77,29 +77,35 @@
                                         <thead>
                                    <tr>
                                     <th>Employee</th>
-                                    <th>Deduction Type</th>
+                                    <th>Income Type</th>
                                     <th>Term</th>
                                     <th>Amount</th>
                                     <th>Percent</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
+                                    <th>Action</th>
                                     
-                                    <th>View </th>
-                                    <th >Edit</th>
-                                     <th >Delete</th>
                                 </tr>
                                         </thead>
                                         <tbody>
                                              @foreach ($otherincomes as $otherincome)
                                            <td>
+                                             
                                       @foreach ($employees as $employee)
-                                        @if ($employee->employeeid == $otherincome->employeeid)
-                                            {{ $employee->firstname }} {{$employee->lastname}}
+                                        @if ($employee->id == $otherincome->employee_id)
+                                           <a href="{{ url('showotherincome/'.$otherincome->id) }}"> 
+                                            {{ $employee->first_name }} {{$employee->last_name}}
+                                        </a>
                                         @endif
                                     @endforeach
+                            
                                     </td>
                                     <td>
-                                       {{ $otherincome->othincid }}
+                                     @foreach ($incometypes as $incometype)
+                                        @if ($incometype->id == $otherincome->othinc_id)
+                                            {{ $incometype->othincdesc }}
+                                        @endif
+                                    @endforeach
                                     </td>
                                     <td>
                                   {{ $otherincome->amount_term}}
@@ -112,6 +118,21 @@
                                     </td>
                                     <td>{{ $otherincome->othdate }}</td>
                                     <td>{{ $otherincome->stopdate }}</td>
+                                    <td class="align-middle text-right">
+                                                    @can("edit", \App\Farmer::class)
+                                                    <a href="{{ url('editotherincome/'.$otherincome->id) }}" class="btn btn-sm btn-secondary">
+                                                        <i class="fa fa-pencil-alt"></i>
+                                                        <span class="sr-only">Edit</span>
+                                                    </a>
+                                                    @endcan
+
+                                                    @can("delete", \App\Farmer::class)
+                                                    <a href="{{ url('deleteotherincome/'.$otherincome->id) }}" onclick="return confirm('Are you sure you want to Delete this record')"  class="btn btn-sm btn-secondary">
+                                                        <i class="far fa-trash-alt"></i>
+                                                        <span class="sr-only">Remove</span>
+                                                    </a>
+                                                    @endcan
+                                                </td>
                                             </tr>
                                             @endforeach
                                         </tbody>

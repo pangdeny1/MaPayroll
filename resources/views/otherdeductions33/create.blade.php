@@ -14,7 +14,7 @@
 
 
                         <div class="form-group{{ $errors->has('employee') ? ' has-error' : '' }}">                                      
-                                                <label for="title" class="col-md-4 control-label">Employees</label>
+                                                <label for="title" class="col-md-4 control-label">employees</label>
                                                 <div class="col-md-6">
                                                     <select class="form-control select" name="employee">
 
@@ -22,7 +22,7 @@
                                                           @foreach($employees as $employee)
 
                                                          
-                                                         <option value="{{ $employee->id }}">{{ $employee->first_name }} {{ $employee->last_name }}</option>
+                                                         <option value="{{ $employee->employeeid }}">{{ $employee->firstname }} {{ $employee->lastname }}</option>
                                                           @endforeach
                                                                                                              
                                                     </select>
@@ -43,7 +43,7 @@
                                                           @foreach($deductiontypes as $deductiontype)
 
                                                          
-                                                         <option value="{{ $deductiontype->id }}">{{ $deductiontype->othincdesc}}</option>
+                                                         <option value="{{ $deductiontype->othded_id }}">{{ $deductiontype->othincdesc}}</option>
                                                           @endforeach
                                                                                                              
                                                     </select>
@@ -72,7 +72,7 @@
                             </div>
                         </div>
 
-                        <div id='hidden_div3' style='display:none;'  class="form-group{{ $errors->has('Amount') ? ' has-error' : '' }}">
+                        <div id='hidden_div3' style='display:none;' class="form-group{{ $errors->has('Amount') ? ' has-error' : '' }}">
                             <label for="title" class="col-md-4 control-label">Amount</label>
 
                             <div class="col-md-6">
@@ -145,7 +145,7 @@
                             <label for="title" class="col-md-4 control-label">From Date</label>
 
                             <div class="col-md-6">
-                                <input type="date" name="DateFrom" class="form-control datepicker"  value="{{old('DateFrom')}}">
+                                <input type="text" name="DateFrom" class="form-control datepicker" value="{{old('DateFrom')}}">
 
                                 @if ($errors->has('DateFrom'))
                                     <span class="help-block">
@@ -159,7 +159,7 @@
                             <label for="title" class="col-md-4 control-label">To Date</label>
 
                             <div class="col-md-6">
-                                <input type="date" name="DateTo" class="form-control datepicker" value="{{old('DateTo')}}">
+                                <input type="text" name="DateTo" class="form-control datepicker" value="{{old('DateTo')}}">
 
                                 @if ($errors->has('DateTo'))
                                     <span class="help-block">
@@ -222,8 +222,7 @@
 
             @endsection
 
-
-             <script type="text/javascript">
+                        <script type="text/javascript">
 function showDiv(select){
    if(select.value=="Percent"){
     document.getElementById('hidden_div').style.display = "block";

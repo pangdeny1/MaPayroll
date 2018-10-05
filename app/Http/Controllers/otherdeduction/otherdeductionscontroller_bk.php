@@ -1,38 +1,37 @@
 <?php
+
 namespace App\Http\Controllers\otherdeduction;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
-use App\Models\Prlothdedfile;
-use App\Models\Prlothdedctype;
+use App\Models\otherdeduction;
+use App\Models\otherdedtable;
 use App\Models\otherdedtrans;
-use App\Employee;
+use App\Models\Employee;
 use App\Models\Payroll;
 use App\Models\YesOrNo;
 use App\Mailers\AppMailer;
 
 class otherdeductionscontroller extends Controller
 {
-    
     public function index()
-    {
+	{
         
-        $pagetitle="otherdeductions ";
-        $otherdeductions=Prlothdedfile::All();
-        $otherdedtypes=Prlothdedctype::All();
+        $pagetitle="Otherdeductions ";
+        $otherdeductions=otherdeduction::All();
         $employees=Employee::All();
-        return view('otherdeductions.index',compact('pagetitle','otherdeductions','employees','otherdedtypes'));
+        return view('otherdeductions.index',compact('pagetitle','otherdeductions','employees'));
 
-    }
+	}
  public function create()
     {
         $employees=Employee::All();
         
-        $pagetitle="Add otherdeduction";
+        $pagetitle="Add Otherdeduction";
         $employees=Employee::All();
         $period=Payroll::where('payclosed',1)->firstOrFail();
-        $deductiontypes=Prlothdedctype::All();
+        $deductiontypes=otherdedtable::All();
         $yesornos=YesOrNo::All();
 
         return view('otherdeductions.create', compact('pagetitle','yesornos','employees','deductiontypes','period'));
@@ -52,15 +51,15 @@ class otherdeductionscontroller extends Controller
             
         ]);
 
-        $otherdeduction= new Prlothdedfile([
+        $otherdeduction= new otherdeduction([
             
-            'employee_id'     => $request->input('employee'),
-            'payroll_id'     => $request->input('Period'),
+            'employeeid'     => $request->input('employee'),
+            'payrollid'     => $request->input('Period'),
             'othdate'     => $request->input('DateFrom'),
             'stopdate'     => $request->input('DateTo'),
-            'othdedamount'     => $request->input('Amount'),
+            'othincamount'     => $request->input('Amount'),
             'subamount'     => $request->input('SubAmount'),
-            'othded_id'     => $request->input('deductiontype'),
+            'othincid'     => $request->input('deductiontype'),
             'quantity'     => $request->input('quantity'),
             'amount_term'     => $request->input('Term'),
             'percent'     => $request->input('Percentage'),
@@ -73,57 +72,63 @@ class otherdeductionscontroller extends Controller
         $otherdeduction->save();
 
        // $mailer->sendTicketInformation(Auth::user(), $ticket);
-         $otherdeductions=Prlothdedfile::All();
+         $otherdeductions=otherdeduction::All();
          $pagetitle="otherdeductions ";
          //return view('otherdeductions.index',compact('otherdeductions','pagetitle'))->with("status", $request->input('otherdeductionDesc')." otherdeduction  Added Successfully.");
         return redirect()->back()->with("status", $request->input('otherdeductionDesc')." otherdeduction  Added Successfully.");
     }
 
 
-     public function show($otherded_id)
+     public function show($otherdeduction_id)
     {   
-        
-        $otherdeduction= Prlothdedfile::where('id', $otherded_id)->firstOrFail();
+    	$pagetitle="otherdeduction View";
+        $otherdeduction= otherdeduction::where('counterindex', $otherdeduction_id)->firstOrFail();
+
+        //$comments = $ticket->comments;
+
+        //$category = $ticket->category;
 
         return view('otherdeductions.show', compact('otherdeduction','pagetitle'));
     }
 
-   public function edit($otherded_id)
-   {
 
-    $pagetitle="otherdeduction Edit";
-    $employees=Employee::All();
-    $otherdedtypes=Prlothdedctype::All();
-    $otherdeduction= Prlothdedfile::where('id', $otherded_id)->firstOrFail();
-    $yesornos=YesOrNo::All();
-    $period=Payroll::where('payclosed',1)->firstOrFail();
 
- return view('otherdeductions.edit', compact('otherdeduction','pagetitle','otherdedtypes','employees','yesornos','period'));
+     public function edit($otherdeduction_id)
+    {   
+    	$pagetitle="Otherdeduction Edit";
+        $employees=Employee::All();
+        
+        $deductiontypes=otherdedtable::All();
+        $otherdeduction=otherdeduction::where('counterindex',$otherdeduction_id)->firstOrFail();
+        $yesornos=YesOrNo::All();
+        $period=Payroll::where('id',$otherdeduction->payrollid)->firstOrFail();
+        return view('otherdeductions.edit', compact('pagetitle','yesornos','employees','deductiontypes','period','otherdeduction'));
    }
 
 
 
-       public function update(Request $request, AppMailer $mailer,$otherded_id)
+       public function update(Request $request, AppMailer $mailer,$otherdeduction_id)
     {
         $this->validate($request, [
            'employee'     => 'required',
             'DateFrom'     => 'required',
             'DateTo'     => 'required',
             'Term'     => 'required',
-            'otherdedtype'  => 'required',
+            'deductiontype'     => 'required',
             
         ]);
        
 
-            $otherdeduction = Prlothdedfile::where('id', $otherded_id)->firstOrFail();
+            $otherdeduction = otherdeduction::where('counterindex', $otherdeduction_id)->firstOrFail();
             
 
-            $otherdeduction->employee_id    = $request->input('employee');
+            $otherdeduction->employeeid    = $request->input('employee');
+            $otherdeduction->payrollid    = $request->input('Period');
             $otherdeduction->othdate   = $request->input('DateFrom');
             $otherdeduction->stopdate   = $request->input('DateTo');
-            $otherdeduction->othdedamount   =$request->input('Amount');
+            $otherdeduction->othincamount   =$request->input('Amount');
             $otherdeduction->subamount    = $request->input('SubAmount');
-            $otherdeduction->othded_id   = $request->input('otherdedtype');
+            $otherdeduction->othincid   = $request->input('deductiontype');
             $otherdeduction->quantity    = $request->input('quantity');
             $otherdeduction->amount_term   = $request->input('Term');
             $otherdeduction->percent       =  $request->input('Percentage');
@@ -131,11 +136,11 @@ class otherdeductionscontroller extends Controller
             $otherdeduction->status        = $request->input('Status');
             $otherdeduction->transaction_type=$request->input('Transaction');
         
-            $otherdeduction->save();
+             $otherdeduction->save();
 
        // $mailer->sendTicketInformation(Auth::user(), $ticket);
 
-         $otherdeductions=Prlothdedfile::All();
+         $otherdeductions=otherdeduction::All();
          $pagetitle="otherdeductions ";
          
          // return view('otherdeductions.index', compact('otherdeductions','pagetitle'))->with("status", "otherdeduction  Updated Successfully");
@@ -144,9 +149,9 @@ class otherdeductionscontroller extends Controller
     }
 
 
-     public function destroy($otherded_id)
+     public function destroy($otherdeduction_id)
         {
-    $otherdeductions = Prlothdedfile::findOrFail($otherded_id);
+    $otherdeductions = otherdeduction::findOrFail($otherdeduction_id);
 
     $otherdeductions->delete();
 

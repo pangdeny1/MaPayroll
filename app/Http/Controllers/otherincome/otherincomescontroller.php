@@ -11,6 +11,7 @@ use App\Models\otherincometrans;
 use App\Employee;
 use App\Models\Payroll;
 use App\Models\YesOrNo;
+use App\Models\Prlothinctype;
 use App\Models\Prlothinfile;
 use App\Mailers\AppMailer;
 
@@ -21,8 +22,9 @@ class otherincomescontroller extends Controller
         
         $pagetitle="otherincomes ";
         $otherincomes=Prlothinfile::All();
+        $incometypes=Prlothinctype::All();
         $employees=Employee::All();
-        return view('otherincomes.index',compact('pagetitle','otherincomes','employees'));
+        return view('otherincomes.index',compact('pagetitle','otherincomes','employees','incometypes'));
 
 	}
  public function create()
@@ -32,10 +34,10 @@ class otherincomescontroller extends Controller
         $pagetitle="Add otherincome";
         $employees=Employee::All();
         $period=Payroll::where('payclosed',1)->firstOrFail();
-        $deductiontypes=otherincometable::All();
+        $incometypes=Prlothinctype::All();
         $yesornos=YesOrNo::All();
 
-        return view('otherincomes.create', compact('pagetitle','yesornos','employees','deductiontypes','period'));
+        return view('otherincomes.create', compact('pagetitle','yesornos','employees','incometypes','period'));
     }
 
     public function store(Request $request, AppMailer $mailer)
@@ -52,15 +54,15 @@ class otherincomescontroller extends Controller
             
         ]);
 
-        $otherincome= new otherincome([
+        $otherincome= new Prlothinfile([
             
-            'employeeid'     => $request->input('employee'),
-            'payrollid'     => $request->input('Period'),
+            'employee_id'     => $request->input('employee'),
+            'payroll_id'     => $request->input('Period'),
             'othdate'     => $request->input('DateFrom'),
             'stopdate'     => $request->input('DateTo'),
             'othincamount'     => $request->input('Amount'),
             'subamount'     => $request->input('SubAmount'),
-            'othincid'     => $request->input('deductiontype'),
+            'othinc_id'     => $request->input('deductiontype'),
             'quantity'     => $request->input('quantity'),
             'amount_term'     => $request->input('Term'),
             'percent'     => $request->input('Percentage'),
@@ -73,7 +75,7 @@ class otherincomescontroller extends Controller
         $otherincome->save();
 
        // $mailer->sendTicketInformation(Auth::user(), $ticket);
-         $otherincomes=otherincome::All();
+         $otherincomes=Prlothinfile::All();
          $pagetitle="otherincomes ";
          //return view('otherincomes.index',compact('otherincomes','pagetitle'))->with("status", $request->input('otherincomeDesc')." otherincome  Added Successfully.");
         return redirect()->back()->with("status", $request->input('otherincomeDesc')." otherincome  Added Successfully.");
@@ -82,28 +84,23 @@ class otherincomescontroller extends Controller
 
      public function show($otherincome_id)
     {   
-    	$pagetitle="otherincome View";
-        $otherincome= otherincome::where('counterindex', $otherincome_id)->firstOrFail();
-
-        //$comments = $ticket->comments;
-
-        //$category = $ticket->category;
+    	
+        $otherincome= Prlothinfile::where('id', $otherincome_id)->firstOrFail();
 
         return view('otherincomes.show', compact('otherincome','pagetitle'));
     }
 
+   public function edit($otherincome_id)
+   {
 
+    $pagetitle="otherincome Edit";
+    $employees=Employee::All();
+    $incometypes=Prlothinctype::All();
+    $otherincome= Prlothinfile::where('id', $otherincome_id)->firstOrFail();
+    $yesornos=YesOrNo::All();
+    $period=Payroll::where('payclosed',1)->firstOrFail();
 
-     public function edit($otherincome_id)
-    {   
-    	$pagetitle="otherincome Edit";
-        $employees=Employee::All();
-        
-        $deductiontypes=otherincometable::All();
-        $otherincome=otherincome::where('counterindex',$otherincome_id)->firstOrFail();
-        $yesornos=YesOrNo::All();
-        $period=Payroll::where('id',$otherincome->payrollid)->firstOrFail();
-        return view('otherincomes.edit', compact('pagetitle','yesornos','employees','deductiontypes','period','otherincome'));
+ return view('otherincomes.edit', compact('otherincome','pagetitle','incometypes','employees','yesornos','period'));
    }
 
 
@@ -115,21 +112,20 @@ class otherincomescontroller extends Controller
             'DateFrom'     => 'required',
             'DateTo'     => 'required',
             'Term'     => 'required',
-            'deductiontype'     => 'required',
+            'incometype'  => 'required',
             
         ]);
        
 
-            $otherincome = otherincome::where('counterindex', $otherincome_id)->firstOrFail();
+            $otherincome = Prlothinfile::where('id', $otherincome_id)->firstOrFail();
             
 
-            $otherincome->employeeid    = $request->input('employee');
-            $otherincome->payrollid    = $request->input('Period');
+            $otherincome->employee_id    = $request->input('employee');
             $otherincome->othdate   = $request->input('DateFrom');
             $otherincome->stopdate   = $request->input('DateTo');
             $otherincome->othincamount   =$request->input('Amount');
             $otherincome->subamount    = $request->input('SubAmount');
-            $otherincome->othincid   = $request->input('deductiontype');
+            $otherincome->othinc_id   = $request->input('incometype');
             $otherincome->quantity    = $request->input('quantity');
             $otherincome->amount_term   = $request->input('Term');
             $otherincome->percent       =  $request->input('Percentage');
@@ -137,11 +133,11 @@ class otherincomescontroller extends Controller
             $otherincome->status        = $request->input('Status');
             $otherincome->transaction_type=$request->input('Transaction');
         
-             $otherincome->save();
+            $otherincome->save();
 
        // $mailer->sendTicketInformation(Auth::user(), $ticket);
 
-         $otherincomes=otherincome::All();
+         $otherincomes=Prlothinfile::All();
          $pagetitle="otherincomes ";
          
          // return view('otherincomes.index', compact('otherincomes','pagetitle'))->with("status", "otherincome  Updated Successfully");
@@ -152,7 +148,7 @@ class otherincomescontroller extends Controller
 
      public function destroy($otherincome_id)
         {
-    $otherincomes = otherincome::findOrFail($otherincome_id);
+    $otherincomes = Prlothinfile::findOrFail($otherincome_id);
 
     $otherincomes->delete();
 

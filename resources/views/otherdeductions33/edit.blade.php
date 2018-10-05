@@ -9,20 +9,24 @@
                 <div class="panel-body">
                     @include('includes.flash')
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/addotherdeduction') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/updateotherdeduction/'.$otherdeduction->counterindex) }}">
                         {!! csrf_field() !!}
 
 
                         <div class="form-group{{ $errors->has('employee') ? ' has-error' : '' }}">                                      
-                                                <label for="title" class="col-md-4 control-label">Employees</label>
+                                                <label for="title" class="col-md-4 control-label">employees</label>
                                                 <div class="col-md-6">
                                                     <select class="form-control select" name="employee">
 
                                                        <option value=""> Select Employee </option>
                                                           @foreach($employees as $employee)
-
-                                                         
-                                                         <option value="{{ $employee->id }}">{{ $employee->first_name }} {{ $employee->last_name }}</option>
+                                                          @if($employee->employeeid==$otherdeduction->employeeid)
+                                                        
+                                                         <option selected value="{{ $otherdeduction->employeeid }}">{{ $employee->firstname }} {{ $employee->lastname }}</option>
+                                                        @else
+                                                         <option value="{{ $employee->employeeid }}">{{ $employee->firstname }} {{ $employee->lastname }}</option>
+                                                          @endif  
+                                                       
                                                           @endforeach
                                                                                                              
                                                     </select>
@@ -41,9 +45,12 @@
 
                                                        <option value=""> Select deductiontype </option>
                                                           @foreach($deductiontypes as $deductiontype)
-
+                                                           @if($otherdeduction->othded_id==$deductiontype->othded_id)
+                                                           <option selected value="{{ $otherdeduction->othded_id}}">{{ $deductiontype->othincdesc}}</option>
+                                                           @else
                                                          
-                                                         <option value="{{ $deductiontype->id }}">{{ $deductiontype->othincdesc}}</option>
+                                                         <option value="{{ $deductiontype->othded_id }}">{{ $deductiontype->othincdesc}}</option>
+                                                         @endif
                                                           @endforeach
                                                                                                              
                                                     </select>
@@ -59,10 +66,16 @@
                             <label for="title" class="col-md-4 control-label">Term</label>
 
                             <div class="col-md-6">
-                                                    <select onchange='showDiv(this)'  class="form-control select" name="Term">
-                                                       <option value="">Select</option>
-                                                       <option value="Amount">Amount</option>
-                                                      <option value="Percent">Percent</option>
+                                                    <select class="form-control select" name="Term">
+                                                      
+                                                       @if($otherdeduction->amount_term=="Amount")
+
+                                                       <option selected value="Amount">Amount</option>
+                                                       <option value="Percent">Percent</option>
+                                                       @else
+                                                      <option selected value="Percent">Percent</option>
+                                                      <option  value="Amount">Amount</option>
+                                                      @endif
                                                     </select>
                                              @if ($errors->has('Term'))
                                     <span class="help-block">
@@ -72,11 +85,11 @@
                             </div>
                         </div>
 
-                        <div id='hidden_div3' style='display:none;'  class="form-group{{ $errors->has('Amount') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('Amount') ? ' has-error' : '' }}">
                             <label for="title" class="col-md-4 control-label">Amount</label>
 
                             <div class="col-md-6">
-                                <input type="text" name="Amount" class="form-control" value="{{old('Amount')}}">
+                                <input type="text" name="Amount" class="form-control" value="{{$otherdeduction->othincamount}}">
              
                                 @if ($errors->has('Amount'))
                                     <span class="help-block">
@@ -87,20 +100,21 @@
                             </div>
                         </div>
 
-                        <div  id='hidden_div2' style='display:none;'class="form-group{{ $errors->has('Transaction') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('Transaction') ? ' has-error' : '' }}">
                             <label for="title" class="col-md-4 control-label">Transaction</label>
 
                             <div class="col-md-6">
                                 
                                 <select class="form-control select" name="Transaction">
-                                                      
-                  <option value=''> Select Transaction </option>
+                                      @if($otherdeduction->transaction_type=="Basic")
 
-                  <option value='Basic'> Basic</option>
-
-                  <option value='Gross'> Gross </option>
-                                                                                        
-             </select> 
+                                                       <option selected value="Basic">Basic</option>
+                                                       <option value="Gross">Gross</option>
+                                                       @else
+                                                      <option selected value="Gross">Gross</option>
+                                                      <option  value="Basic">Basic</option>
+                                                      @endif                              
+                                                        </select> 
                                              @if ($errors->has('Transaction'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('Transaction') }}</strong>
@@ -109,11 +123,11 @@
                             </div>
                         </div>
 
-                        <div id='hidden_div' style='display:none;' class="form-group{{ $errors->has('Percentage') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('Percentage') ? ' has-error' : '' }}">
                             <label for="title" class="col-md-4 control-label">Percentage</label>
 
                             <div class="col-md-6">
-                                <input type="text" name="Percentage" class="form-control" value="{{old('Percentage')}}">
+                                <input type="text" name="Percentage" class="form-control" value="{{$otherdeduction->percent}}">
 
                                 @if ($errors->has('Percentage'))
                                     <span class="help-block">
@@ -122,14 +136,12 @@
                                 @endif
                             </div>
                         </div>
-
-
-                            <div class="form-group{{ $errors->has('Period') ? ' has-error' : '' }}">                                      
+                       <div class="form-group{{ $errors->has('Period') ? ' has-error' : '' }}">                                      
                                                 <label for="title" class="col-md-4 control-label">Period  </label>
                                                 <div class="col-md-6">
                                                     <select class="form-control select" name="Period">
                                                        
-                                                         <option value="{{$period->id}}">{{$period->payrolldesc}}</option>
+                                                         <option value="{{$otherdeduction->payrollid}}">{{$period->payrolldesc}}</option>
                                                          
                                                                                                              
                                                     </select>
@@ -140,12 +152,14 @@
                                     </span>
                                 @endif
                             </div>
+
+                            
                            
                             <div class="form-group{{ $errors->has('DateFrom') ? ' has-error' : '' }}">
                             <label for="title" class="col-md-4 control-label">From Date</label>
 
                             <div class="col-md-6">
-                                <input type="date" name="DateFrom" class="form-control datepicker"  value="{{old('DateFrom')}}">
+                                <input type="text" name="DateFrom" class="form-control datepicker" value="{{$otherdeduction->othdate}}">
 
                                 @if ($errors->has('DateFrom'))
                                     <span class="help-block">
@@ -159,7 +173,7 @@
                             <label for="title" class="col-md-4 control-label">To Date</label>
 
                             <div class="col-md-6">
-                                <input type="date" name="DateTo" class="form-control datepicker" value="{{old('DateTo')}}">
+                                <input type="text" name="DateTo" class="form-control datepicker" value="{{$otherdeduction->stopdate}}">
 
                                 @if ($errors->has('DateTo'))
                                     <span class="help-block">
@@ -175,8 +189,12 @@
                             <div class="col-md-6">
                                                     <select class="form-control select" name="Recurent">
                                                         @foreach($yesornos  as $ss)
-                                                       
+                                                        @if($ss->id==$otherdeduction->recurrent)
+                                                        <option  value="{{$otherdeduction->recurrent}}" selected="selected">{{$ss->name}}</option>
+                                                        @else
                                                         <option value="{{$ss->id}}">{{$ss->name}}</option>
+                                                          @endif  
+                                                        
                                                         
                                                         @endforeach
                                                                                                                                                                    
@@ -196,7 +214,11 @@
                                                     <select class="form-control select" name="Status">
                                                         @foreach($yesornos  as $ss)
                                                        
+                                                         @if($ss->id==$otherdeduction->status)
+                                                        <option  value="{{$otherdeduction->status}}" selected="selected">{{$ss->name}}</option>
+                                                        @else
                                                         <option value="{{$ss->id}}">{{$ss->name}}</option>
+                                                          @endif  
                                                         
                                                         @endforeach
                                                                                                                                                                    
@@ -221,25 +243,3 @@
             </div>
 
             @endsection
-
-
-             <script type="text/javascript">
-function showDiv(select){
-   if(select.value=="Percent"){
-    document.getElementById('hidden_div').style.display = "block";
-     document.getElementById('hidden_div2').style.display = "block";
-     document.getElementById('hidden_div3').style.display = "none";
-     document.getElementById('hidden_div4').style.display = "none";
-   } 
-
-   else {
-    document.getElementById('hidden_div2').style.display = "none";
-     document.getElementById('hidden_div').style.display = "none";
-
-     document.getElementById('hidden_div3').style.display = "block";
-     document.getElementById('hidden_div4').style.display = "block";
-   } 
-
-  
-} 
-</script>

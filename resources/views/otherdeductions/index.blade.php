@@ -32,7 +32,7 @@
                                 @can("create", \App\Farmer::class)
                                 <a href="{{url('createotherdeduction')}}" class="btn btn-primary">
                                     <span class="fas fa-plus mr-1"></span>
-                                    New Employee Income
+                                    New Employee Deduction
                                 </a>
                                 @endcan
                             </div>

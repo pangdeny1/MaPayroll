@@ -32,10 +32,10 @@ class otherdeductionscontroller extends Controller
         $pagetitle="Add otherdeduction";
         $employees=Employee::All();
         $period=Payroll::where('payclosed',1)->firstOrFail();
-        $deductiontypes=Prlothdedctype::All();
+        $otherdedtypes=Prlothdedctype::All();
         $yesornos=YesOrNo::All();
 
-        return view('otherdeductions.create', compact('pagetitle','yesornos','employees','deductiontypes','period'));
+        return view('otherdeductions.create', compact('pagetitle','yesornos','employees','otherdedtypes','period'));
     }
 
     public function store(Request $request, AppMailer $mailer)
@@ -48,7 +48,7 @@ class otherdeductionscontroller extends Controller
             'DateFrom'     => 'required',
             'DateTo'     => 'required',
             'Term'     => 'required',
-            'deductiontype'     => 'required',
+            'otherdedtype'     => 'required',
             
         ]);
 
@@ -60,7 +60,7 @@ class otherdeductionscontroller extends Controller
             'stopdate'     => $request->input('DateTo'),
             'othdedamount'     => $request->input('Amount'),
             'subamount'     => $request->input('SubAmount'),
-            'othded_id'     => $request->input('deductiontype'),
+            'othded_id'     => $request->input('otherdedtype'),
             'quantity'     => $request->input('quantity'),
             'amount_term'     => $request->input('Term'),
             'percent'     => $request->input('Percentage'),

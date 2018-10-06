@@ -1,15 +1,26 @@
 @extends("layouts.master")
 
 @section("content")
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">{{$pagetitle}}</div>
+<div class="wrapper">
+    <div class="page has-sidebar">
+        <div class="page-inner">
+            <header class="page-title-bar">
+                <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">
+                    <a href="#">
+                        <i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Edit loan</a>
+                    </li>
+                </ol>
+                </nav>
+                <h1 class="page-title"> Edit loan </h1>
+            </header>
+            <div class="page-section">
+                <div class="row">
+                    <div class="col-md-12">
+   @include('includes.flash')
 
-                <div class="panel-body">
-                    @include('includes.flash')
-
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/updateloan/'.$loan->loanfileid) }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/updateloan/'.$loan->id) }}">
                         {!! csrf_field() !!}
 
 <div class="form-group{{ $errors->has('LoanDesc') ? ' has-error' : '' }}">
@@ -34,11 +45,11 @@
 
                                                        <option value=""> Select Employee </option>
                                                           @foreach($employees as $employee)
-                                                          @if($employee->employeeid==$loan->employeeid)
+                                                          @if($employee->id==$loan->employee_id)
                                                         
-                                                         <option selected value="{{ $loan->employeeid }}">{{ $employee->firstname }} {{ $employee->lastname }}</option>
+                                                         <option selected value="{{ $loan->employee_id }}">{{ $employee->first_name }} {{ $employee->last_name }}</option>
                                                         @else
-                                                         <option value="{{ $employee->employeeid }}">{{ $employee->firstname }} {{ $employee->lastname }}</option>
+                                                         <option value="{{ $employee->id }}">{{ $employee->first_name }} {{ $employee->last_name }}</option>
                                                           @endif  
                                                        
                                                           @endforeach
@@ -60,11 +71,11 @@
                                                        <option value=""> Select loantype </option>
                                                           @foreach($loantypes as $loantype)
 
-                                                         @if($loan->loantableid==$loantype->loantableid)
-                                                           <option selected value="{{ $loan->loantableid}}">{{ $loantype->loantabledesc}}</option>
+                                                         @if($loan->loantype_id==$loantype->id)
+                                                           <option selected value="{{ $loan->loantype_id}}">{{ $loantype->loantypedesc}}</option>
                                                            @else
                                                          
-                                                         <option value="{{ $loantype->loantableid }}">{{ $loantype->loantabledesc}}</option>
+                                                         <option value="{{ $loantype->id }}">{{ $loantype->loantypedesc}}</option>
                                                          @endif
                                                          
                                                           @endforeach
@@ -205,7 +216,7 @@
                             <label for="title" class="col-md-4 control-label">Loan Date</label>
 
                             <div class="col-md-6">
-                                <input type="text" name="LoanDate" class="form-control datepicker" value="{{$loan->loandate}}">
+                                <input type="date" name="LoanDate" class="form-control datepicker" value="{{$loan->loandate}}">
 
                                 @if ($errors->has('LoanDate'))
                                     <span class="help-block">
@@ -219,7 +230,7 @@
                             <label for="title" class="col-md-4 control-label">Start Deduction</label>
 
                             <div class="col-md-6">
-                                <input type="text" name="StartDeduction" class="form-control datepicker" value="{{$loan->startdeduction}}">
+                                <input type="date" name="StartDeduction" class="form-control datepicker" value="{{$loan->startdeduction}}">
 
                                 @if ($errors->has('StartDeduction'))
                                     <span class="help-block">
@@ -230,7 +241,7 @@
                         </div>
 
 
-                        <div class="form-group{{ $errors->has('Active') ? ' has-error' : '' }}">
+                        <div class="form-group col-md-12">
                             <label for="title" class="col-md-4 control-label">Active?</label>
 
                             <div class="col-md-6">
@@ -262,7 +273,44 @@
                             </div>
                         </div>
                     </form>
+            
+                    </div>
                 </div>
             </div>
+        </div>
 
-            @endsection
+        <div class="page-sidebar border-left bg-white">
+            <header class="sidebar-header d-sm-none">
+                <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">
+                    <a href="#" onclick="Looper.toggleSidebar()">
+                        <i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Back</a>
+                    </li>
+                </ol>
+                </nav>
+            </header>
+            <div class="sidebar-section">
+                {{-- <h3 class="section-title"> I'm a sidebar </h3> --}}
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+             <script type="text/javascript">
+function showDiv(select){
+   if(select.value=="Percent"){
+    document.getElementById('hidden_div').style.display = "block";
+     document.getElementById('hidden_div2').style.display = "block";
+     document.getElementById('hidden_div3').style.display = "none";
+     document.getElementById('hidden_div4').style.display = "none";
+   } 
+
+   else {
+    document.getElementById('hidden_div2').style.display = "none";
+     document.getElementById('hidden_div').style.display = "none";
+
+     document.getElementById('hidden_div3').style.display = "block";
+     document.getElementById('hidden_div4').style.display = "block";
+   } 

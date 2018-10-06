@@ -21,9 +21,17 @@ class otherincomescontroller extends Controller
 	{
         
         $pagetitle="otherincomes ";
-        $otherincomes=Prlothinfile::All();
         $incometypes=Prlothinctype::All();
         $employees=Employee::All();
+        $otherincomes= Prlothinfile::latest()
+            ->when(request("q"), function($query){
+                return $query
+                    ->where("payroll_id", "LIKE", "%". request("q") ."%")
+                    ->orWhere("othinc_id", "LIKE", "%". request("q") ."%")
+                    ->orWhere("othfiledesc", "LIKE", "%". request("q") ."%");
+
+            })
+            ->paginate();
         return view('otherincomes.index',compact('pagetitle','otherincomes','employees','incometypes'));
 
 	}

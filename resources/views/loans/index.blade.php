@@ -1,38 +1,81 @@
 @extends("layouts.master")
 
 @section("content")
-    <div class="page-content-wrap">
-                 
-                    <div class="row">
-                        <div class="col-md-12">
-                            
-                            <!-- START DATATABLE EXPORT -->
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-branch"> <a href="{{url('createloan')}}">Add Employee Loan</a></i></h3>
-                                    <div class="btn-group pull-right">
-                                        <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i> Export Data</button>
-                                        <ul class="dropdown-menu">
-                                            
-                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'excel',escape:'false'});"><img src='img/icons/xls.png' width="24"/> XLS</a></li>
-                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'doc',escape:'false'});"><img src='img/icons/word.png' width="24"/> Word</a></li>
-                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'pdf',escape:'false'});"><img src='img/icons/pdf.png' width="24"/> PDF</a></li>
-                                        </ul>
-                                    </div>                                    
-                                    
+    @if($loans->count())
+        <div class="wrapper">
+            <div class="page">
+                <div class="page-inner">
+                    <header class="page-title-bar">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route("home") }}">
+                                        <i class="breadcrumb-icon fa fa-angle-left mr-2"></i> Dashboard
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    Loans
+                                </li>
+                            </ol>
+                        </nav>
+                        <div class="d-sm-flex align-items-sm-center">
+                            <h1 class="page-title mr-sm-auto mb-0">
+                                Loans
+                                 @include('includes.flash')
+                            </h1>
+                            <div class="btn-toolbar">
+                                <a href="" class="btn btn-light">
+                                    <i class="oi oi-data-transfer-download"></i>
+                                    <span class="ml-1">Export as excel</span>
+                                </a>
+                                
+                                @can("create", \App\Farmer::class)
+                                <a href="{{url('createloan')}}" class="btn btn-primary">
+                                    <span class="fas fa-plus mr-1"></span>
+                                    New Loan
+                                </a>
+                                @endcan
+                            </div>
+                        </div>
+                    </header>
+
+                    <div class="page-section">
+                        <section class="card shadow-1 border-0 card-fluid">
+                            <header class="card-header">
+                                <ul class="nav nav-tabs card-header-tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->query("status") ? "" : "active" }}" href="{{ route("farmers.index") }}">
+                                            All
+                                        </a>
+                                    </li>
+                                </ul>
+                            </header>
+
+                            <div class="card-body">
+
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <span class="oi oi-magnifying-glass"></span>
+                                            </span>
+                                        </div>
+                                        <form action="">
+                                            <input type="text" name="q" class="form-control" placeholder="Search record...">
+                                        </form>
+                                    </div>
                                 </div>
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        @if (Session::has('message'))
-    <div class="alert alert-info">{{ Session::get('message') }} </div>
 
-@endif
+                                <!-- .table-responsive -->
 
+                                 <div class="text-muted">  Showing {{ $loans->firstItem() }} to {{ $loans->lastItem() }} of {{ $loans->total() }} entries </div>
 
-                                        <table id="customers2" class="table datatable">
-                                          
-                            <thead>
-                               <tr>
+                                
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                   <tr>
                                     <th>Employee</th>
                                     <th>Loan </th>
                                     <th>Loan Amount</th>
@@ -40,28 +83,26 @@
                                     <th>Deduction type</th>
                                     <th>Loan Date</th>
                                     <th>Start deduction Date</th>
+                                    <th>Action</th>
                                     
-                                    <th>View </th>
-                                    <th >Edit</th>
-                                     <th >Delete</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                           @foreach ($loans as $loan)
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($loans as $loan)
                                 <tr>
                                    
                                     <td>
                                       @foreach ($employees as $employee)
-                                        @if ($employee->employeeid == $loan->employeeid)
-                                            {{ $employee->firstname }} {{$employee->lastname}}
+                                        @if ($employee->id == $loan->employee_id)
+                                            <a href="{{ url('showloan/'.$loan->id) }}" >{{ $employee->first_name }} {{$employee->last_name}}</a>
                                         @endif
                                     @endforeach
                                     </td>
                                     <td>
-                                       {{ $loan->othincid }}
+                                       {{ $loan->loantypedesc }}
                                          @foreach ($loantypes as $loantype)
-                                        @if ($loantype->loantableid == $loan->loantableid)
-                                            {{ $loantype->loantabledesc }} 
+                                        @if ($loantype->id == $loan->loantype_id)
+                                            {{ $loantype->loantypedesc }} 
                                         @endif
                                     @endforeach
                                     </td>
@@ -78,53 +119,62 @@
                                     
                                     <td>{{ $loan->loandate }}</td>
                                     <td>{{ $loan->startdeduction }}</td>
-                                     <td>
-                                        <a href="{{ url('showloan/'.$loan->loanfileid) }}" class="btn btn-primary">View</a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ url('editloan/'.$loan->loanfileid) }}" class="btn btn-primary">Edit</a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ url('deleteloan/'.$loan->loanfileid) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to Delete this record')" >Delete</a>
-                                    </td>
+                                     <td class="align-middle text-right">
+                                                    @can("edit", \App\Farmer::class)
+                                                    <a href="{{ url('editloan/'.$loan->id) }}" class="btn btn-sm btn-secondary">
+                                                        <i class="fa fa-pencil-alt"></i>
+                                                        <span class="sr-only">Edit</span>
+                                                    </a>
+                                                    @endcan
+
+                                                    @can("delete", \App\Farmer::class)
+                                                    <a href="{{ url('deleteloan/'.$loan->id) }}" onclick="return confirm('Are you sure you want to Delete this record')"  class="btn btn-sm btn-secondary">
+                                                        <i class="far fa-trash-alt"></i>
+                                                        <span class="sr-only">Remove</span>
+                                                    </a>
+                                                    @endcan
+                                                </td>
                                 </tr>
                             @endforeach
-                            </tbody>
-                        </table>
-
-                                         <div class="modal animated fadeIn" id="modal_change_password" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="smallModalHead">Employee Details</h4>
-                    </div>
-                    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                Employee Detail Goes here
-               <!-- include('employee.viewemployee'); -->
-                </div>                                  
-                                    </div>
+                                        </tbody>
+                                    </table>
                                 </div>
+
+                                <!-- .pagination -->
+                                 {{ $loans->links() }}
+                                
                             </div>
-                            <!-- END DATATABLE EXPORT -->  
-
-
-                              <!-- START THIS PAGE PLUGINS-->        
-        <script type="text/javascript" src="{{asset('js/plugins/icheck/icheck.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js')}}"></script>
-        
-        <script type="text/javascript" src="{{asset('js/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('js/plugins/tableexport/tableExport.js')}}"></script>
-      <script type="text/javascript" src="{{asset('js/plugins/tableexport/jquery.base64.js')}}"></script>
-      <script type="text/javascript" src="{{asset('js/plugins/tableexport/html2canvas.js')}}"></script>
-      <script type="text/javascript" src="{{asset('js/plugins/tableexport/jspdf/libs/sprintf.js')}}"></script>
-      <script type="text/javascript" src="{{asset('js/plugins/tableexport/jspdf/jspdf.js')}}"></script>
-      <script type="text/javascript" src="{{asset('js/plugins/tableexport/jspdf/libs/base64.js')}}"></script>  
-
-
-        <!-- END THIS PAGE PLUGINS-->                            
-                            
-            
-        @endsection
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @else
+        <div class="wrapper">
+            <!-- .empty-state -->
+            <section id="notfound-state" class="empty-state">
+                <!-- .empty-state-container -->
+                <div class="empty-state-container">
+                    <div class="state-figure">
+                        <img class="img-fluid"
+                             src="{{ asset("themes/looper/assets/images/illustration/img-7.png") }}"
+                             alt=""
+                             style="max-width: 300px"
+                        >
+                    </div>
+                    <h3 class="state-header"> No Content, Yet. </h3>
+                    <p class="state-description lead text-muted">
+                        Use the button below to Register new .
+                    </p>
+                    @can("create", \App\Farmer::class)
+                    <div class="state-action">
+                        <a href="{{url('createotherdeduction')}}" class="btn btn-primary">Register new</a>
+                    </div>
+                    @endcan
+                </div>
+                <!-- /.empty-state-container -->
+            </section>
+            <!-- /.empty-state -->
+        </div>
+    @endif
+@endsection

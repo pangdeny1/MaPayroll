@@ -19,9 +19,17 @@ class otherdeductionscontroller extends Controller
     {
         
         $pagetitle="otherdeductions ";
-        $otherdeductions=Prlothdedfile::All();
         $otherdedtypes=Prlothdedctype::All();
         $employees=Employee::All();
+         $otherdeductions= Prlothdedfile::latest()
+            ->when(request("q"), function($query){
+                return $query
+                    ->where("payroll_id", "LIKE", "%". request("q") ."%")
+                    ->orWhere("othded_id", "LIKE", "%". request("q") ."%")
+                    ->orWhere("othfiledesc", "LIKE", "%". request("q") ."%");
+
+            })
+            ->paginate();
         return view('otherdeductions.index',compact('pagetitle','otherdeductions','employees','otherdedtypes'));
 
     }

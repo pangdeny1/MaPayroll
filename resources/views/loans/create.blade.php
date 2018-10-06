@@ -1,13 +1,23 @@
 @extends("layouts.master")
 
 @section("content")
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">{{$pagetitle}}</div>
-
-                <div class="panel-body">
-                    @include('includes.flash')
+    <div class="wrapper">
+    <div class="page has-sidebar">
+        <div class="page-inner">
+            <header class="page-title-bar">
+                <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">
+                    <a href="#">
+                        <i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Add loan</a>
+                    </li>
+                </ol>
+                </nav>
+                <h1 class="page-title"> Add loan </h1>
+            </header>
+            <div class="page-section">
+                <div class="row">
+                    <div class="col-md-12">
 
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/addloan') }}">
                         {!! csrf_field() !!}
@@ -36,7 +46,7 @@
                                                           @foreach($employees as $employee)
 
                                                          
-                                                         <option value="{{ $employee->employeeid }}">{{ $employee->firstname }} {{ $employee->lastname }}</option>
+                                                         <option value="{{ $employee->id}}">{{ $employee->first_name }} {{ $employee->last_name }}</option>
                                                           @endforeach
                                                                                                              
                                                     </select>
@@ -57,7 +67,7 @@
                                                           @foreach($loantypes as $loantype)
 
                                                          
-                                                         <option value="{{ $loantype->loantableid }}">{{ $loantype->loantabledesc}}</option>
+                                                         <option value="{{ $loantype->id }}">{{ $loantype->loantypedesc}}</option>
                                                           @endforeach
                                                                                                              
                                                     </select>
@@ -189,7 +199,7 @@
                             <label for="title" class="col-md-4 control-label">Loan Date</label>
 
                             <div class="col-md-6">
-                                <input type="text" name="LoanDate" class="form-control datepicker" value="{{old('LoanDate')}}">
+                                <input type="date" name="LoanDate" class="form-control datepicker" value="{{old('LoanDate')}}">
 
                                 @if ($errors->has('LoanDate'))
                                     <span class="help-block">
@@ -203,7 +213,7 @@
                             <label for="title" class="col-md-4 control-label">Start Deduction</label>
 
                             <div class="col-md-6">
-                                <input type="text" name="StartDeduction" class="form-control datepicker" value="{{old('StartDeduction')}}">
+                                <input type="date" name="StartDeduction" class="form-control datepicker" value="{{old('StartDeduction')}}">
 
                                 @if ($errors->has('StartDeduction'))
                                     <span class="help-block">
@@ -244,6 +254,34 @@
                     </form>
                 </div>
             </div>
+
+        <div class="page-sidebar border-left bg-white">
+            <header class="sidebar-header d-sm-none">
+                <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">
+                    <a href="#" onclick="Looper.toggleSidebar()">
+                        <i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Back</a>
+                    </li>
+                </ol>
+                </nav>
+            </header>
+            <div class="sidebar-section">
+                <h3 class="section-title">Loan menu</h3> 
+
+                
+                
+<ul>
+    <li><a href=""> Browse loans</a></li>
+    <li><a href=""> Create loans</a></li>
+    <li><a href=""> Browse loan types</a></li>
+    <li><a href=""> Create loan type</a></li>
+</ul>
+        </div>
+               
+        </div>
+    </div>
+</div>
 
             @endsection
 

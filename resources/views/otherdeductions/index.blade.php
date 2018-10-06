@@ -67,7 +67,10 @@
                                 </div>
 
                                 <!-- .table-responsive -->
+                                
+                                 <div class="text-muted">  Showing {{ $otherdeductions->firstItem() }} to {{ $otherdeductions->lastItem() }} of {{ $otherdeductions->total() }} entries </div>
 
+                                
                                 <div class="text-muted">  </div>
 
                                 
@@ -140,6 +143,7 @@
                                 </div>
 
                                 <!-- .pagination -->
+                                  {{ $otherdeductions->links() }}
                                 
                             </div>
                         </section>

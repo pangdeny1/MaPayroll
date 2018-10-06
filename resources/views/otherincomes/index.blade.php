@@ -68,6 +68,9 @@
 
                                 <!-- .table-responsive -->
 
+                                 <div class="text-muted">  Showing {{ $otherincomes->firstItem() }} to {{ $otherincomes->lastItem() }} of {{ $otherincomes->total() }} entries </div>
+
+                                
                                 <div class="text-muted">  </div>
 
                                 
@@ -140,6 +143,7 @@
                                 </div>
 
                                 <!-- .pagination -->
+                                  {{ $otherincomes->links() }}
                                 
                             </div>
                         </section>

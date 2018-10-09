@@ -26,7 +26,7 @@ class otherincomescontroller extends Controller
         $otherincomes= Prlothinfile::latest()
             ->when(request("q"), function($query){
                 return $query
-                    ->where("payroll_id", "LIKE", "%". request("q") ."%")
+                    ->where("employee_id", "LIKE", "%". request("q") ."%")
                     ->orWhere("othinc_id", "LIKE", "%". request("q") ."%")
                     ->orWhere("othfiledesc", "LIKE", "%". request("q") ."%");
 

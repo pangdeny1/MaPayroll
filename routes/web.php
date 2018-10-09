@@ -446,6 +446,7 @@ Route::prefix('settings')->group(function () {
     Route::get('deleteotherincome/{id}','otherincome\otherincomescontroller@destroy');
     Route::get('createotherincome','otherincome\otherincomescontroller@create');
     Route::get('viewotherincomes','otherincome\otherincomescontroller@index');
+    Route::get('incomes','otherincome\incomes\incomesController@index');
 
 
      Route::post('addloan','loan\loanscontroller@store');

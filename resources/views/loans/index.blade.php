@@ -92,19 +92,13 @@
                                 <tr>
                                    
                                     <td>
-                                      @foreach ($employees as $employee)
-                                        @if ($employee->id == $loan->employee_id)
-                                            <a href="{{ url('showloan/'.$loan->id) }}" >{{ $employee->first_name }} {{$employee->last_name}}</a>
-                                        @endif
-                                    @endforeach
+                                     <a href="{{ url('showloan/'.$loan->id) }}" > {{$loan->employee->full_name}}</a>
+                                       
                                     </td>
                                     <td>
-                                       {{ $loan->loantypedesc }}
-                                         @foreach ($loantypes as $loantype)
-                                        @if ($loantype->id == $loan->loantype_id)
-                                            {{ $loantype->loantypedesc }} 
-                                        @endif
-                                    @endforeach
+                                        {{$loan->loantype->loantypedesc}}
+                                      
+                                
                                     </td>
                                     <td>
                                      {{ $loan->loanamount }}
@@ -168,7 +162,7 @@
                     </p>
                     @can("create", \App\Farmer::class)
                     <div class="state-action">
-                        <a href="{{url('createotherdeduction')}}" class="btn btn-primary">Register new</a>
+                        <a href="{{url('createloan')}}" class="btn btn-primary">Register new</a>
                     </div>
                     @endcan
                 </div>

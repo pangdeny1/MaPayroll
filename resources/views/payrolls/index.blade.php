@@ -76,10 +76,10 @@
                                     <table class="table">
                                         <thead>
                                              <tr>
-                                    <th>Payroll Group</th>
+                                    <th>Payroll code</th>
                                     <th>Payroll Name</th>
                                     <th>Status</th>
-                                    <th>Last Updated</th>
+                                   
                                     <th style="text-align:center" colspan="2">Actions</th>
                                 </tr>
                                         </thead>
@@ -87,7 +87,7 @@
                                              @foreach ($payrolls as $payroll)
                                             <tr>
                                                <td>
-                                        <a href="{{ url('payroll/'. $payroll->id) }}">
+                                        <a href="{{ url('showpayroll/'.$payroll->id) }}">
                                             {{ $payroll->id }} - {{ $payroll->payrollid }}
                                         </a>
                                     </td>
@@ -96,15 +96,21 @@
                                   
                                     </td>
                                     <td>@if($payroll->payclosed==1){{"Open"}} @else {{"Closed"}} @endif</td>
-                                     <td>
-                                        <a href="{{ url('showpayroll/'.$payroll->id) }}" class="btn btn-primary">Select</a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ url('editpayroll/'.$payroll->id) }}" class="btn btn-primary">Edit</a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ url('deletepayroll/'.$payroll->id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to Delete this record')" >Delete</a>
-                                    </td>
+                                    <td class="align-middle text-right">
+                                      
+                                   
+                                      @if($payroll->payclosed== 1)
+                                   <a href="{{ url('editpayroll/'.$payroll->id) }}" class="btn btn-sm btn-secondary">
+                                                        <i class="fa fa-pencil-alt"></i>
+                                                        <span class="sr-only">Edit</span>
+                                                    </a>
+                                    <a href="{{ url('deletepayroll/'.$payroll->id) }}" onclick="return confirm('Are you sure you want to Delete this record')"  class="btn btn-sm btn-secondary">
+                                                        <i class="far fa-trash-alt"></i>
+                                                        <span class="sr-only">Remove</span>
+                                                    </a>
+                                                    @endif
+                                                      <a href="{{ url('showpayroll/'.$payroll->id) }}" class="btn btn-primary">Select</a>
+                                                </td>
                                             </tr>
                                             @endforeach
                                         </tbody>

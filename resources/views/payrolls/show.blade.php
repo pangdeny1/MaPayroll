@@ -68,9 +68,11 @@
 
                          <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
+                              @if($payroll->payclosed== 1)
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-btn fa-ticket"></i> Generate Payroll Data
                                 </button>
+                                @endif
                             </div>
                         </div>
                     </form>
@@ -81,9 +83,11 @@
 
                          <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
+                               @if($payroll->payclosed== 1)
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-btn fa-ticket"></i> Void payroll Period
                                 </button>
+                                @endif
                             </div>
                         </div>
                     </form>
@@ -93,9 +97,11 @@
 
                          <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
+                               @if($payroll->payclosed== 1)
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-btn fa-ticket"></i> Close payroll Period
                                 </button>
+                                @endif
                             </div>
                         </div>
                     </form>

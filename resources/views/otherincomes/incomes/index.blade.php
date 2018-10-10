@@ -68,15 +68,18 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>othincdesc</th>
-                                            <th>Taxable</th>
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th>Taxable Income</th>
                                             <th>Account</th>
+                                            <th>Action </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($incometypes as $incometype)
                                         <tr>
                                             <td>{{ $incometype->othincdesc }}</td>
+                                            <td>{{ $incometype->incomedesc }}</td>
                                             <td>{{ $incometype->taxable }}</td>
                                             <td>
                                               {{ $incometype->accountcode }}</td>
@@ -163,8 +166,13 @@
                                                 </div>
                                             </td>   
                                             <td class="align-middle text-right">
-                                                
+                                               <!-- 
                                                 <a href="" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#productModal{{ $incometype->id }}">
+                                                    <i class="fa fa-pencil-alt"></i>
+                                                    <span class="sr-only">Edit</span>
+                                                </a>
+-->
+                                                 <a href="{{ url('editincometype/'.$incometype->id) }}" class="btn btn-sm btn-secondary" >
                                                     <i class="fa fa-pencil-alt"></i>
                                                     <span class="sr-only">Edit</span>
                                                 </a>

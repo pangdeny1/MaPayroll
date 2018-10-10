@@ -54,11 +54,11 @@ class otherincomescontroller extends Controller
         
         $this->validate($request, [
            
-            'employee'     => 'required',
-            'DateFrom'     => 'required',
-            'DateTo'     => 'required',
-            'Term'     => 'required',
-            'deductiontype'     => 'required',
+            'employee'      => 'required',
+            'DateFrom'      => 'required',
+            'DateTo'        => 'required',
+            'Term'          => 'required',
+            'incometype' => 'required',
             
         ]);
 
@@ -70,7 +70,7 @@ class otherincomescontroller extends Controller
             'stopdate'     => $request->input('DateTo'),
             'othincamount'     => $request->input('Amount'),
             'subamount'     => $request->input('SubAmount'),
-            'othinc_id'     => $request->input('deductiontype'),
+            'othinc_id'     => $request->input('incometype'),
             'quantity'     => $request->input('quantity'),
             'amount_term'     => $request->input('Term'),
             'percent'     => $request->input('Percentage'),
@@ -81,8 +81,7 @@ class otherincomescontroller extends Controller
               ]);
 
         $otherincome->save();
-
-     return redirect("viewotherincomes")->with('status','otherincome  Added Successfully.');
+         return redirect("viewotherincomes")->with('status','A otherincome Title has been Updated.');
     }
 
 

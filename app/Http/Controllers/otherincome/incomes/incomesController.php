@@ -48,11 +48,19 @@ class incomesController extends Controller
          $incometype->save();
 
          return redirect("incomestypes")->with('status','successfully created');
+
     }
 
+public function edit($id)
+{
+$incometype = Prlothinctype::where('id', $id)->firstOrFail();
+
+return view("otherincomes.incomes.edit",compact("incometype"));
+
+}
 
 
-       public function update(Request $request, AppMailer $mailer,$incometype_id)
+       public function update(Request $request,$id)
     {
        $this->validate($request, [
             "name" => "required",
@@ -61,7 +69,7 @@ class incomesController extends Controller
         ]);
        
 
-            $incometype = Prlothinctype::where('id', $incometype_id)->firstOrFail();
+            $incometype = Prlothinctype::where('id', $id)->firstOrFail();
             
 
             $incometype->incomedesc   = $request->input('description');

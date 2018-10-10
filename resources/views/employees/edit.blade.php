@@ -60,8 +60,24 @@
                                         @endif
                                     </div>
                                 </div>
+                                   <div class="form-row">
+                                 <div class="form-group col-md-6">
+                                        <label for="last_name">Other name</label>
+                                        <input type="text"
+                                               name="other_name"
+                                               id="other_name"
+                                               class="form-control {{ $errors->has('other_name') ? 'is-invalid' : '' }}"
+                                               value="{{ $employee->other_name }}"
+                                               placeholder="other name..."
+                                        >
+                                        @if ($errors->has('last_name'))
+                                            <span class="invalid-feedback">
+                                                    <strong>{{ $errors->first('other_name') }}</strong>
+                                                </span>
+                                        @endif
+                                    </div>
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
                                         <label for="phone">Phone number</label>
                                         <input type="text"
                                                name="phone"

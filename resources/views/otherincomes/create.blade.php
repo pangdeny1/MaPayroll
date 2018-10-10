@@ -9,7 +9,7 @@
                 <div class="panel-body">
                     @include('includes.flash')
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/addotherincome') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('addotherincome') }}">
                         {!! csrf_field() !!}
 
 

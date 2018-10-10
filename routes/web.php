@@ -450,7 +450,8 @@ Route::prefix('settings')->group(function () {
     Route::get('createincometype','otherincome\incomes\incomesController@create');
     Route::post('storeincometype','otherincome\incomes\incomesController@store');
     Route::get('deleteincometype/{id}','otherincome\incomes\incomesController@destroy');
-    Route::post('updatincometype/{id}','otherincome\incomes\incomesControllerr@update');
+    Route::post('updatincometype/{id}','otherincome\incomes\incomesController@update');
+    Route::get('editincometype/{id}','otherincome\incomes\incomesController@edit');
 
 
      Route::post('addloan','loan\loanscontroller@store');

@@ -72,6 +72,7 @@ class EmployeesController extends Controller
         $employee = Employee::create([
             "first_name" => request("first_name"),
             "last_name" => request("last_name"),
+            "other_name" => request("other_name"),
             "phone" => request("phone"),
             "email" => request("email"),
             "gender" => request("gender"),
@@ -157,6 +158,7 @@ class EmployeesController extends Controller
         $employee->update([
             "first_name" => request("first_name"),
             "last_name" => request("last_name"),
+            "other_name"=>request("other_name"),
             "email" => request("email"),
             "phone" => request("phone"),
             "gender" => request("gender"),

@@ -21,7 +21,7 @@
                         <div class="d-sm-flex align-items-sm-center">
                             <h1 class="page-title mr-sm-auto mb-0">
                                 Incomes
-                                 @include('includes.flash')
+                                
                             </h1>
                             <div class="btn-toolbar">
                                 <a href="" class="btn btn-light">
@@ -71,7 +71,8 @@
                                  <div class="text-muted">  Showing {{ $otherincomes->firstItem() }} to {{ $otherincomes->lastItem() }} of {{ $otherincomes->total() }} entries </div>
 
                                 
-                                <div class="text-muted">  </div>
+                                <div class="text-muted"> 
+                                 @include('includes.flash') </div>
 
                                 
 

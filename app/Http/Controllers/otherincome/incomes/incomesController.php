@@ -16,10 +16,69 @@ class incomesController extends Controller
         $incometypes=Prlothinctype::latest()
             ->when(request("q"), function($query){
                 return $query
-                    ->Where("othindesc", "LIKE", "%". request("q") ."%");
+                    ->Where("othincdesc", "LIKE", "%". request("q") ."%");
 
             })
             ->paginate();
         return view('otherincomes.incomes.index',compact('pagetitle','incometypes'));
+    }
+
+     public function create()
+    {
+        return view("otherincomes.incomes.create");
+    }
+
+
+     public function store(Request $request)
+    {
+        $this->validate($request, [
+            "name" => "required",
+            "description" => "required",
+            "taxable" => "required",
+        ]);
+
+         $incometype= new Prlothinctype([
+            'incomedesc'     => $request->input('description'),
+            'othincdesc'     => $request->input('name'),
+            'taxable'     => $request->input('taxable'),
+           
+            
+        ]);
+
+         $incometype->save();
+
+         return redirect("incomestypes")->with('status','successfully created');
+    }
+
+
+
+       public function update(Request $request, AppMailer $mailer,$incometype_id)
+    {
+       $this->validate($request, [
+            "name" => "required",
+            "description" => "required",
+            "taxable" => "required",
+        ]);
+       
+
+            $incometype = Prlothinctype::where('id', $incometype_id)->firstOrFail();
+            
+
+            $incometype->incomedesc   = $request->input('description');
+            $incometype->othincdesc   = $request->input('name');
+            $incometype->taxable  = $request->input('taxable');
+           
+            $incometype->save();
+        return redirect("incomestypes")->with('status','successfully updated');
+    }
+
+      public function destroy($id)
+    {
+
+        $incometype = Prlothinctype::findOrFail($id);
+        $incometype->delete();
+
+        
+        return redirect("incomestypes")->with('status','successfully deleted');
     }
 }

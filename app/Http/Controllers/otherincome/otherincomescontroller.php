@@ -82,11 +82,7 @@ class otherincomescontroller extends Controller
 
         $otherincome->save();
 
-       // $mailer->sendTicketInformation(Auth::user(), $ticket);
-         $otherincomes=Prlothinfile::All();
-         $pagetitle="otherincomes ";
-         //return view('otherincomes.index',compact('otherincomes','pagetitle'))->with("status", $request->input('otherincomeDesc')." otherincome  Added Successfully.");
-        return redirect()->back()->with("status", $request->input('otherincomeDesc')." otherincome  Added Successfully.");
+     return redirect("viewotherincomes")->with('status','otherincome  Added Successfully.');
     }
 
 
@@ -148,9 +144,7 @@ class otherincomescontroller extends Controller
          $otherincomes=Prlothinfile::All();
          $pagetitle="otherincomes ";
          
-         // return view('otherincomes.index', compact('otherincomes','pagetitle'))->with("status", "otherincome  Updated Successfully");
-
-       return redirect()->back()->with("status", "A otherincome Title has been Updated.");
+       return redirect("viewotherincomes")->with('status','A otherincome Title has been Updated.');
     }
 
 

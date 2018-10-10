@@ -34,23 +34,23 @@
                                 @endif
                             </div>  
                            
-                           <div class="form-group{{ $errors->has('deductiontype') ? ' has-error' : '' }}">                                      
-                                                <label for="title" class="col-md-4 control-label">deductiontype  </label>
+                           <div class="form-group{{ $errors->has('incometype') ? ' has-error' : '' }}">                                      
+                                                <label for="title" class="col-md-4 control-label">incometype  </label>
                                                 <div class="col-md-6">
-                                                    <select class="form-control select" name="deductiontype">
+                                                    <select class="form-control select" name="incometype">
 
-                                                       <option value=""> Select deductiontype </option>
-                                                          @foreach($deductiontypes as $deductiontype)
+                                                       <option value=""> Select incometype </option>
+                                                          @foreach($incometypes as $incometype)
 
                                                          
-                                                         <option value="{{ $deductiontype->id }}">{{ $deductiontype->othincdesc}}</option>
+                                                         <option value="{{ $incometype->id }}">{{ $incometype->othincdesc}}</option>
                                                           @endforeach
                                                                                                              
                                                     </select>
                                                 </div> 
-                                                @if ($errors->has('deductiontype'))
+                                                @if ($errors->has('incometype'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('deductiontype') }}</strong>
+                                        <strong>{{ $errors->first('incometype') }}</strong>
                                     </span>
                                 @endif
                             </div>

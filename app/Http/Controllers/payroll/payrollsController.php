@@ -182,10 +182,20 @@ class payrollsController extends Controller
         $payrollObj->destroyTrans($payroll_id);
         return redirect()->back()->with("status", "payroll successfully voided!");
     }
-
+//closepayroll
      public function close($payroll_id)
     {
          $payrollObj= new payrollsController();
+
+         $loantrans=Prlloantransaction::where("payroll_id",$payroll_id)->get();
+         if($loantrans->count()>0)
+         {
+            foreach ($variable as $key => $value) {
+               $payrollObj->updateBalance($loantran->employee_id,$loantran->loantype_id,$loantran->amount);
+            }
+            
+            }
+         }
         if($payrollObj->closedOpenedStatusCheck($payroll_id)=="Closed")
         {
           return redirect()->back()->with("status_error", "Cannot Close Payroll is already closed!"); 
@@ -199,6 +209,14 @@ class payrollsController extends Controller
             "payclosed" =>2
             ]);
         return redirect()->back()->with("status", "payroll Closed successfully!");
+    }
+
+    public function updateBalance($employee_id,$loantype_id,$amount)
+    {
+        $loanbal=Prlloanfile::where("employee_id",$employee_id)->where("loantype_id",$loantype_id)->firstOrFail();
+        return $loanbal->update([
+            "ytddeduction" =>$amount+$loanbal->ytddeduction
+            ]);
     }
 
      public function open($payroll_id)
@@ -475,9 +493,10 @@ class payrollsController extends Controller
 
 
 
-
+//computeotherincome
      public function prepareOthInData($payroll_id)
     {
+         $payrollObj=new payrollsController();
 
         $othinctrans = Prlothintransaction::where('payroll_id',$payroll_id)->get();
      
@@ -488,13 +507,17 @@ class payrollsController extends Controller
     
             }
 
-        $othincfiles=Prlothinfile::where("payroll_id",$payroll_id)->get();
+        //$othincfiles=Prlothinfile::where("payroll_id",$payroll_id)->get();
+        $othincfiles=Prlothinfile::where("stopdate",">=",$payrollObj->payrollDate($payroll_id,"startdate"))->where("status",1)->get();
         
         if($othincfiles->count()>0)
         {
 
 
                  foreach($othincfiles as $othincfile) {
+                    if($othincfile->amount_term=="Amount")
+                    {
+
                   $inserts[] = [ 
                                  'othinc_id' => $othincfile->othinc_id,
                                  'amount' => $othincfile->othincamount,
@@ -503,13 +526,34 @@ class payrollsController extends Controller
                                  'creator_id' => auth()->id()
                                ]; 
                        }
+                       elseif ($othincfile->amount_term=="Percent") {
+                           $inserts[] = [ 
+                                 'othinc_id' => $othincfile->othinc_id,
+                                 'amount' => (($othincfile->percent * $payrollObj->payrollTransRows($payroll_id,$othincfile->employee_id,"Basic"))/100),
+                                 'employee_id' => $othincfile->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'creator_id' => auth()->id()
+                               ]; 
+                           }
+                       else
+                       {
+
+                        $inserts[] = [ 
+                                 'othinc_id' => $othincfile->othinc_id,
+                                 'amount' => 0,
+                                 'employee_id' => $othincfile->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'creator_id' => auth()->id()
+                               ]; 
+                       }
+                   }
 
                    DB::table('prlothintransactions')->insert($inserts);
 }
                    
         $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
 
-           $payrollObj=new payrollsController();
+          
      
             foreach ($payrolls as $payroll)
                {
@@ -536,7 +580,8 @@ class payrollsController extends Controller
     
             }
 
-        $othdedfiles=Prlothdedfile::where("payroll_id",$payroll_id)->get();
+        //$othdedfiles=Prlothdedfile::where("payroll_id",$payroll_id)->get();
+        $othdedfiles=Prlothdedfile::where("stopdate",">=",$payrollObj->payrollDate($payroll_id,"startdate"))->where("status",1)->get();
          if($othdedfiles->count()>0)
             { 
                 foreach($othdedfiles as $othdedfile) {
@@ -642,17 +687,17 @@ class payrollsController extends Controller
                         $count+=1;
                      $inserts[] = [ 
                                  'sstype_id' => $payroll->sstype_id,
-                                 'grosspay'  => $payroll->grosspay,
-                                 'employerss' => $payrollObj->computeContribution($payroll->sstype_id,$payroll->grosspay,"employee"),
-                                 'employeess' => $payrollObj->computeContribution($payroll->sstype_id,$payroll->grosspay,"employer"),
-                                 'total'      => $payrollObj->computeContribution($payroll->sstype_id,$payroll->grosspay,"total"),
+                                 'grosspay'  => $payroll->basicpay,
+                                 'employerss' => $payrollObj->computeContribution($payroll->sstype_id,$payroll->basicpay,"employee"),
+                                 'employeess' => $payrollObj->computeContribution($payroll->sstype_id,$payroll->basicpay,"employer"),
+                                 'total'      => $payrollObj->computeContribution($payroll->sstype_id,$payroll->basicpay,"total"),
                                  'employee_id' => $payroll->employee_id,
                                  'payroll_id' =>$payroll_id,
                                  'creator_id' => auth()->id()
                                ]; 
 
                      $payroll->update(
-                    ['ss_pay'=>$payrollObj->computeContribution($payroll->sstype_id,$payroll->grosspay,"employee")]
+                    ['ss_pay'=>$payrollObj->computeContribution($payroll->sstype_id,$payroll->basicpay,"employee")]
                     );
                     
                        }
@@ -1029,10 +1074,20 @@ public function getHDMFPercent($record)
         
     }
 
+    public function payrollDate($payroll_id,$date)
+    {
+        $payrolldate=Payroll::where('id',$payroll_id)->firstOrFail();
+        if($date=="startdate")
+            return $payrolldate->startdate;
+        if($date=="enddate")
+            return $payrolldate->enddate;
+    }
+
 //compute Loan Deduction
   
   public function computeLoan($payroll_id)
     {
+        $payrollObj=new payrollsController();
 
         $loantrans = Prlloantransaction::where('payroll_id',$payroll_id)->get();
      
@@ -1043,13 +1098,16 @@ public function getHDMFPercent($record)
     
             }
 
-        $loanfiles=Prlloanfile::All();
+        //$loanfiles=Prlloanfile::All();
+        $loanfiles=Prlloanfile::where("startdeduction","<=",$payrollObj->payrollDate($payroll_id,"enddate"))->where("status",1)->get();
         
         if($loanfiles->count()>0)
         {
 
                  foreach($loanfiles as $loanfile) {
-                  $inserts[] = [ 
+                    if($loanfile->amount_term=="Amount")
+                    {
+                     $inserts[] = [ 
                                  'loantype_id' => $loanfile->loantype_id,
                                  'amount' => $loanfile->amortization,
                                  'employee_id' => $loanfile->employee_id,
@@ -1057,6 +1115,28 @@ public function getHDMFPercent($record)
                                  'creator_id' => auth()->id()
                                ]; 
                        }
+                       
+                       elseif ($loanfile->amount_term=="Percent") {
+                                 $inserts[] = [ 
+                                 'loantype_id' => $loanfile->loantype_id,
+                                 'amount' => (($loanfile->percent * $payrollObj->payrollTransRows($payroll_id,$loanfile->employee_id,"Basic"))/100),
+                                 'employee_id' => $loanfile->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'creator_id' => auth()->id()
+                               ]; 
+                           } 
+                           else
+                           {
+                             $inserts[] = [ 
+                                 'loantype_id' => $loanfile->loantype_id,
+                                 'amount' => 0,
+                                 'employee_id' => $loanfile->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'creator_id' => auth()->id()
+                               ]; 
+                           }   
+                    }
+                 
 
                    DB::table('prlloantransactions')->insert($inserts);
 
@@ -1066,7 +1146,7 @@ public function getHDMFPercent($record)
                    
         $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();
 
-           $payrollObj=new payrollsController();
+           
      
             foreach ($payrolls as $payroll)
                {

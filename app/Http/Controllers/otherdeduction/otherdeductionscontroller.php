@@ -80,7 +80,7 @@ class otherdeductionscontroller extends Controller
 
         $otherdeduction->save();
 
-        return redirect("viewotherdeductions")->with('status','successfully created');
+        return redirect("viewotherdeductions")->with('status','Deduction successfully created');
     }
 
 
@@ -139,13 +139,11 @@ class otherdeductionscontroller extends Controller
 
        // $mailer->sendTicketInformation(Auth::user(), $ticket);
 
-         $otherdeductions=Prlothdedfile::All();
-         $pagetitle="otherdeductions ";
-         
-         // return view('otherdeductions.index', compact('otherdeductions','pagetitle'))->with("status", "otherdeduction  Updated Successfully");
+       
+       return redirect("viewotherdeductions")->with('status',' otherdeduction Title has been Updated');
 
-       return redirect()->back()->with("status", "A otherdeduction Title has been Updated.");
     }
+
 
 
      public function destroy($otherded_id)

@@ -164,7 +164,7 @@
                             <label for="title" class="col-md-4 control-label">From Date</label>
 
                             <div class="col-md-6">
-                                <input type="text" name="DateFrom" class="form-control datepicker" value="{{$otherdeduction->othdate}}">
+                                <input type="date" name="DateFrom" class="form-control datepicker" value="{{$otherdeduction->othdate}}">
 
                                 @if ($errors->has('DateFrom'))
                                     <span class="help-block">
@@ -178,7 +178,7 @@
                             <label for="title" class="col-md-4 control-label">To Date</label>
 
                             <div class="col-md-6">
-                                <input type="text" name="DateTo" class="form-control datepicker" value="{{$otherdeduction->stopdate}}">
+                                <input type="date" name="DateTo" class="form-control datepicker" value="{{$otherdeduction->stopdate}}">
 
                                 @if ($errors->has('DateTo'))
                                     <span class="help-block">

@@ -42,7 +42,7 @@ class loanscontroller extends Controller
         $employees=Employee::All();
         
         $pagetitle="Add loan";
-        $employees=Employee::All();
+        $employees=Employee::where('active',"yes")->get();
         $period=Payroll::where('payclosed',1)->firstOrFail();
         $loantypes=Prlloantype::All();
         $yesornos=YesOrNo::All();
@@ -63,7 +63,6 @@ class loanscontroller extends Controller
             'loantype'     => 'required',
             'LoanDesc'     => 'required',
             'Amount'       =>'required',
-            'Amortization' =>'required',
             'LoanBalance'  =>'required'
             
         ]);
@@ -76,7 +75,6 @@ class loanscontroller extends Controller
             'loandate'     => $request->input('LoanDate'),
             'startdeduction'     => $request->input('StartDeduction'),
             'loanamount'     => $request->input('Amount'),
-            'amortization'     => $request->input('Amortization'),
             'loantype_id'     => $request->input('loantype'),
             'quantity'     => $request->input('quantity'),
             'amount_term'     => $request->input('Term'),
@@ -89,11 +87,8 @@ class loanscontroller extends Controller
 
         $loan->save();
 
-       // $mailer->sendTicketInformation(Auth::user(), $ticket);
-         $loans=Prlloanfile::All();
-         $pagetitle="loans ";
-         //return view('loans.index',compact('loans','pagetitle'))->with("status", $request->input('loanDesc')." loan  Added Successfully.");
-        return redirect()->back()->with("status", $request->input('loanDesc')." loan  Added Successfully.");
+      
+        return redirect("viewloans")->with('status',' loan  Added Successfully.');
     }
 
 

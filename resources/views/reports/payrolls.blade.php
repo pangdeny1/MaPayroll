@@ -60,6 +60,7 @@
                                             <th class="text-right">Hdmf</th>
                                             <th class="text-right">Taxable</th>
                                             <th class="text-right">Tax</th>
+                                            <th class="text-right">Loans</th>
                                             <th class="text-right">Deductions</th>
                                             <th class="text-right">Net Pay</th>
                                         </tr>
@@ -89,6 +90,9 @@
                                             </td>
                                             <td class="text-right">
                                                 {{ number_format($payroll->tax, 2) }}
+                                            </td>
+                                              <td class="text-right">
+                                                {{ number_format($payroll->loan_deduction, 2) }}
                                             </td>
                                              <td class="text-right">
                                                 {{ number_format($payroll->total_deduction, 2) }}
@@ -125,6 +129,9 @@
                                             </th>
                                              <th class="text-right">
                                                 {{ number_format($payrolls->sum("tax"), 2) }}
+                                            </th>
+                                            <th class="text-right">
+                                                {{ number_format($payrolls->sum("loan_deduction"), 2) }}
                                             </th>
                                             <th class="text-right">
                                                 {{ number_format($payrolls->sum("total_deduction"), 2) }}

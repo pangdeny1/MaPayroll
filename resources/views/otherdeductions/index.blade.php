@@ -21,7 +21,7 @@
                         <div class="d-sm-flex align-items-sm-center">
                             <h1 class="page-title mr-sm-auto mb-0">
                                 Deductions
-                                 @include('includes.flash')
+                                
                             </h1>
                             <div class="btn-toolbar">
                                 <a href="" class="btn btn-light">
@@ -71,7 +71,7 @@
                                  <div class="text-muted">  Showing {{ $otherdeductions->firstItem() }} to {{ $otherdeductions->lastItem() }} of {{ $otherdeductions->total() }} entries </div>
 
                                 
-                                <div class="text-muted">  </div>
+                                <div class="text-muted">  @include('includes.flash') </div>
 
                                 
 
@@ -114,7 +114,7 @@
                                   {{ $otherdeduction->amount_term}}
                                     </td>
                                     <td>
-                                        {{ $otherdeduction->othincamount }}
+                                        {{ $otherdeduction->othdedamount }}
                                     </td>
                                     <td>
                                         {{ $otherdeduction->percent }}

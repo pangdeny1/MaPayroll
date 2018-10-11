@@ -50,6 +50,7 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
+                                            <th class="text-left">#</th>
                                             <th class="text-left">Employee</th>
                                             <th class="text-right">Basic</th>
                                             <th class="text-right">Other Income</th>
@@ -57,6 +58,7 @@
                                             <th class="text-right">Pension</th>                                            
                                             <th class="text-right">Health</th>
                                             <th class="text-right">Hdmf</th>
+                                            <th class="text-right">Taxable</th>
                                             <th class="text-right">Tax</th>
                                             <th class="text-right">Deductions</th>
                                             <th class="text-right">Net Pay</th>
@@ -65,7 +67,8 @@
                                     <tbody>
                                         @foreach($payrolls as $payroll)
                                         <tr>
-                                            <td>{{  $i++}}.{{  $payroll->first_name }} {{  $payroll->last_name }}</td>
+                                            <td>{{  $i++}}.</td>
+                                            <td>{{  $payroll->first_name }} {{  $payroll->last_name }}</td>
                                             <td>{{  number_format($payroll->basicpay,2)}}</td>
                                             <td>{{  number_format($payroll->other_income,2)}}</td>
                                             <td class="text-right">
@@ -82,6 +85,9 @@
                                                 {{ number_format($payroll->hdmf, 2) }}
                                             </td>
                                             <td class="text-right">
+                                                {{ number_format($payroll->taxable_income, 2) }}
+                                            </td>
+                                            <td class="text-right">
                                                 {{ number_format($payroll->tax, 2) }}
                                             </td>
                                              <td class="text-right">
@@ -95,7 +101,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th colspan="1"></th>
+                                            <th colspan="2"></th>
                                             <th class="text-right">
                                                 {{ number_format($payrolls->sum("basicpay"), 2) }}
                                             </th>
@@ -113,6 +119,9 @@
                                             </th>
                                              <th class="text-right">
                                                 {{ number_format($payrolls->sum("hdmf"), 2) }}
+                                            </th>
+                                            <th class="text-right">
+                                                {{ number_format($payrolls->sum("taxable_income"), 2) }}
                                             </th>
                                              <th class="text-right">
                                                 {{ number_format($payrolls->sum("tax"), 2) }}

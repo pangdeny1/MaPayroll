@@ -154,9 +154,18 @@
                                         <select name="pay_type"
                                                  class="form-control {{ $errors->has('pay_type') ? 'is-invalid' : '' }}"
                                                 id="pay_type"
-                                        >   <option value="">select--</option>
-                                             <option value="Salary">Salary</option>
+                                        >   
+                                        @if($employee->pay_type=="Salary")
+                                             <option selected="selected" value="Salary">Salary</option>
                                             <option value="Hourly">Hourly</option>
+                                            @elseif($employee->pay_type=="Hourly")
+                                             <option value="Salary">Salary</option>
+                                            <option selected="selected" value="Hourly">Hourly</option>
+                                            @else
+                                            <option value="">select--</option>
+                                            <option value="Salary">Salary</option>
+                                            <option value="Hourly">Hourly</option>
+                                            @endif
                                         </select>
                                          @if ($errors->has('pay_type'))
                                             <span class="invalid-feedback">
@@ -262,7 +271,7 @@
                                                 id="group_id"
                                                 required=""
                                         >
-                                            <option value=""> Choose... </option>
+                                            
                                             @foreach(\App\Group::has("products")->latest()->get() as $group)
                                                 <option value="{{ $group->id }}" {{ old("group_id") === $group->id ? "selected" : "" }}>
                                                     {{ $group->name }}

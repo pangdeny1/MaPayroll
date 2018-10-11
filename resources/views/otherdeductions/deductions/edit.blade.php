@@ -26,7 +26,7 @@
                            
                         </ol>
                     </nav>
-                    <h1 class="page-title"> New deductiontype </h1>
+                    <h1 class="page-title"> Edit deductiontype </h1>
                 </header>
 
                 <div class="page-section">
@@ -40,13 +40,13 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <form action="{{url('storedeductiontype')}}"
+                            <form action="{{url('updatdeductiontype/'.$deductiontype->id)}}"
                                   method="post"
                                   class="card"
                             >
                                 @csrf
                                 <header class="card-header border-bottom-0">
-                                    Create a new deduction type
+                                     deduction type ({{ $deductiontype->othincdesc }})
                                 </header>
                                 <div class="card-body">
                                     <div class="form-row">
@@ -55,7 +55,7 @@
                                             <input type="text"
                                                    name="name"
                                                    id="name"
-                                                   class="form-control" value="{{ old("name") }}"
+                                                   class="form-control" value="{{ $deductiontype->othincdesc }}"
                                                    placeholder="deduction">
                                         </div>
                                     </div>
@@ -67,7 +67,7 @@
                                                       class="form-control"
                                                       rows="6"
                                                       placeholder="Type something..."
-                                            >{{ old("description") }}</textarea>
+                                            >{{ old("description",$deductiontype->deductiondesc) }}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -79,13 +79,18 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-12">
                                             <label for="taxable">Taxable </label>
-                                            <select name="taxable"
+                                           <select name="taxable"
                                                     id="taxable"
                                                     class="form-control {{ $errors->has('taxable') ? "is-invalid" : "" }}"
                                             >
-                                               <option value="">Choose ...</option>
+                                                 @if($deductiontype->taxable=="taxable")
+                                                 <option selected="selected" value="taxable">Taxable</option>
+                                                 <option value="non-taxable">Non Taxable</option>
+                                                 
+                                                @else
                                                  <option value="taxable">Taxable</option>
-                                                <option value="non-taxable">Non Taxable</option>
+                                                 <option selected="selected"  value="non-taxable">Non Taxable</option>
+                                                @endif
                                             </select>
                                             @if ($errors->has('taxable'))
                                             <span class="invalid-feedback">

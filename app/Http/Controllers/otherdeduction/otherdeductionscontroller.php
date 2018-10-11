@@ -80,11 +80,7 @@ class otherdeductionscontroller extends Controller
 
         $otherdeduction->save();
 
-       // $mailer->sendTicketInformation(Auth::user(), $ticket);
-         $otherdeductions=Prlothdedfile::All();
-         $pagetitle="otherdeductions ";
-         //return view('otherdeductions.index',compact('otherdeductions','pagetitle'))->with("status", $request->input('otherdeductionDesc')." otherdeduction  Added Successfully.");
-        return redirect()->back()->with("status", $request->input('otherdeductionDesc')." otherdeduction  Added Successfully.");
+        return redirect("viewotherdeductions")->with('status','successfully created');
     }
 
 

@@ -129,10 +129,10 @@ class payrollsController extends Controller
         }
         $payrollObj->destroyTrans($payroll_id);
         $payrollObj->preparePayrollData($employees,$payroll_id);
-        $payrollObj->prepareOthInData($payroll_id);
-        $payrollObj->prepareOthDedData($payroll_id);
         $payrollObj->calculateBasicPay($payroll_id);
+        $payrollObj->prepareOthInData($payroll_id);
         $payrollObj->calculateGrossPay($payroll_id);
+        $payrollObj->prepareOthDedData($payroll_id);
         $payrollObj->computeSSContribution($payroll_id);
         $payrollObj->computeHDMF($payroll_id);
         $payrollObj->computeHealth($payroll_id);
@@ -521,8 +521,11 @@ class payrollsController extends Controller
              return redirect()->back()->with("status", "payroll data prepared successfully!");
     }
 
+//computeotherdeduction
  public function prepareOthDedData($payroll_id)
     {
+        $payrollObj=new payrollsController();
+
 
         $othdedtrans = Prlothdedtransaction::where('payroll_id',$payroll_id)->get();
      
@@ -536,15 +539,66 @@ class payrollsController extends Controller
         $othdedfiles=Prlothdedfile::where("payroll_id",$payroll_id)->get();
          if($othdedfiles->count()>0)
             { 
-foreach($othdedfiles as $othdedfile) {
-                  $inserts[] = [ 
+                foreach($othdedfiles as $othdedfile) {
+
+                    if($othdedfile->amount_term=="Amount")
+                    {
+                       $inserts[] = [ 
                                  'othded_id' => $othdedfile->othded_id,
                                  'amount' => $othdedfile->othdedamount,
                                  'employee_id' => $othdedfile->employee_id,
                                  'payroll_id' =>$payroll_id,
                                  'creator_id' => auth()->id()
                                ]; 
-                       }
+                       } 
+                    
+
+                      elseif($othdedfile->amount_term=="Percent")
+                    {
+                        if($othdedfile->transaction_type=="Basic")
+                        {
+                           $inserts[] = [ 
+                                 'othded_id' => $othdedfile->othded_id,
+                                 'amount' => (($othdedfile->percent * $payrollObj->payrollTransRows($payroll_id,$othdedfile->employee_id,"Basic"))/100),
+                                 'employee_id' => $othdedfile->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'creator_id' => auth()->id()
+                               ];  
+                           }
+                           elseif($othdedfile->transaction_type=="Gross")
+                           {
+                                 $inserts[] = [ 
+                                 'othded_id' => $othdedfile->othded_id,
+                                 'amount' => (($othdedfile->percent * $payrollObj->payrollTransRows($payroll_id,$othdedfile->employee_id,"Gross"))/100),
+                                 'employee_id' => $othdedfile->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'creator_id' => auth()->id()
+                               ]; 
+                           }
+                           else{
+                             $inserts[] = [ 
+                                 'othded_id' => $othdedfile->othded_id,
+                                 'amount' => 0,
+                                 'employee_id' => $othdedfile->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'creator_id' => auth()->id()
+                               ]; 
+                           }
+                       
+                       } 
+                    
+                    else{
+                         $inserts[] = [ 
+                                 'othded_id' => $othdedfile->othded_id,
+                                 'amount' => 0,
+                                 'employee_id' => $othdedfile->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'creator_id' => auth()->id()
+                               ]; 
+                    }
+                }
+
+                  
 
                    DB::table('Prlothdedtransactions')->insert($inserts);
 
@@ -714,7 +768,7 @@ $payrollObj=new payrollsController;
         foreach ($payrolls as $payroll) {
 
             $payroll->update(
-                ["taxable_income"=>($payroll->grosspay - $payroll->ss_pay)]);
+                ["taxable_income"=>($payroll->grosspay - $payroll->ss_pay - $payroll->health - $payroll->hdmf)]);
         }
         return redirect()->back()->with("status","Payroll data successfully updated");
      }
@@ -767,7 +821,7 @@ $payrollObj=new payrollsController;
        $payrolls=prltransaction::where("payroll_id","$payroll_id")->get();
         foreach ($payrolls as $payroll) {
 
-            $payroll->update(["netpay"=>$payroll->grosspay-$payroll->tax-$payroll->ss_pay - $payroll->other_deduction]);
+            $payroll->update(["netpay"=>$payroll->grosspay - $payroll->total_deduction]);
         }
         return redirect()->back()->with("status","Netpayrows updated successfully");
      }
@@ -777,7 +831,7 @@ $payrollObj=new payrollsController;
         $payrolls=prltransaction::where("payroll_id","$payroll_id")->get();
         foreach ($payrolls as $payroll) {
 
-            $payroll->update(["total_deduction"=>$payroll->tax + $payroll->ss_pay + $payroll->other_deduction + $payroll->loan_deduction]);
+            $payroll->update(["total_deduction"=>$payroll->tax + $payroll->ss_pay + $payroll->hdmf + $payroll->health + $payroll->other_deduction + $payroll->loan_deduction]);
         }
         return redirect()->back()->with("status","Netpayrows updated successfully");
      }
@@ -960,6 +1014,21 @@ public function getHDMFPercent($record)
         }
     }
 
+       public function payrollTransRows($payroll_id,$employee_id,$transaction_type)
+    {
+        $row=prltransaction::where('payroll_id',$payroll_id)->where('employee_id',$employee_id)->firstOrFail();
+        if($transaction_type=="Basic")
+        {
+            return $row->basicpay;
+        }
+        elseif($transaction_type=="Gross")
+        {
+            return $row->grosspay;
+        }
+        else return 0;
+        
+    }
+
 //compute Loan Deduction
   
   public function computeLoan($payroll_id)
@@ -976,6 +1045,8 @@ public function getHDMFPercent($record)
 
         $loanfiles=Prlloanfile::All();
         
+        if($loanfiles->count()>0)
+        {
 
                  foreach($loanfiles as $loanfile) {
                   $inserts[] = [ 
@@ -988,6 +1059,9 @@ public function getHDMFPercent($record)
                        }
 
                    DB::table('prlloantransactions')->insert($inserts);
+
+        }
+
 
                    
         $payrolls = prltransaction::where('payroll_id',$payroll_id)->get();

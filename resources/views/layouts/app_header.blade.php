@@ -109,15 +109,15 @@
                         </a>
                         <div class="dropdown-arrow"></div>
                         <div class="dropdown-menu">
-                            @can("view", \App\Product::class)
-                            <a href="{{ route("products.index") }}" class="dropdown-item ">
-                                <i class="fas fa-tree"></i> Products
+                            @can("view", \App\Models\Prlothinctype::class)
+                            <a href="{{ url('incomestypes')}}" class="dropdown-item ">
+                                <i class="fas fa-tree"></i> Incomes types
                             </a>
                             @endcan
 
-                            @can("view", \App\ProductCategory::class)
-                            <a href="{{ route("product_categories.index") }}" class="dropdown-item ">
-                                <i class="far fa-folder-open"></i> Categories
+                           @can("view", \App\Models\Prlothdedctype::class)
+                            <a href="{{ url('deductionstypes')}}" class="dropdown-item ">
+                                <i class="fas fa-tree"></i> Deductions types
                             </a>
                             @endcan
 

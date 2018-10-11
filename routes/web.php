@@ -438,6 +438,12 @@ Route::prefix('settings')->group(function () {
     Route::get('deleteotherdeduction/{id}','otherdeduction\otherdeductionscontroller@destroy');
     Route::get('createotherdeduction','otherdeduction\otherdeductionscontroller@create');
     Route::get('viewotherdeductions','otherdeduction\otherdeductionscontroller@index');
+     Route::get('deductionstypes','otherdeduction\deductions\deductionsController@index');
+    Route::get('createdeductiontype','otherdeduction\deductions\deductionsController@create');
+    Route::post('storedeductiontype','otherdeduction\deductions\deductionsController@store');
+    Route::get('deletedeductiontype/{id}','otherdeduction\deductions\deductionsController@destroy');
+    Route::post('updatdeductiontype/{id}','otherdeduction\deductions\deductionsController@update');
+    Route::get('editdeductiontype/{id}','otherdeduction\deductions\deductionsController@edit');
 
     Route::post('addotherincome','otherincome\otherincomescontroller@store');
     Route::get('showotherincome/{id}','otherincome\otherincomescontroller@show');

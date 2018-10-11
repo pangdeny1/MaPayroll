@@ -129,7 +129,7 @@
                                         <table id="customers2" class="table datatable">
                                             <thead>
                                                 <tr>
-                                                    <th width="50%">Eligible Employee</th>
+                                                    <th width="50%">Eligible Employee ({{$employees->count()}})</th>
                                                     <th width="20%">Period Rate</th>
                                                     <th width="20%">Status</th>
                                                    

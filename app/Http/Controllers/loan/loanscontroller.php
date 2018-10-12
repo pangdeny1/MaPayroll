@@ -43,7 +43,7 @@ class loanscontroller extends Controller
         
         $pagetitle="Add loan";
         $employees=Employee::where('active',"yes")->get();
-        $period=Payroll::where('payclosed',1)->firstOrFail();
+        $period=Payroll::latest()->first();
         $loantypes=Prlloantype::All();
         $yesornos=YesOrNo::All();
 
@@ -80,6 +80,7 @@ class loanscontroller extends Controller
             'amount_term'     => $request->input('Term'),
             'percent'     => $request->input('Percentage'),
             'loanbalance'  =>$request->input('LoanBalance'),
+            'ytddeduction' =>$request->input('Amount')-$request->input('LoanBalance'),
             'status'        => $request->input('Status'),
             'transaction_type'=>$request->input('Transaction')
             
@@ -114,7 +115,8 @@ class loanscontroller extends Controller
         $loantypes=Prlloantype::All();
         $loan=Prlloanfile::where('id',$loan_id)->firstOrFail();
         $yesornos=YesOrNo::All();
-        $period=Payroll::where('id',1)->firstOrFail();
+        //$period=Payroll::where('id',1)->firstOrFail();
+        $period=Payroll::latest()->first();
         return view('loans.edit', compact('pagetitle','yesornos','employees','loantypes','period','loan'));
    }
 
@@ -141,7 +143,7 @@ class loanscontroller extends Controller
 
             $loan->employee_id    = $request->input('employee');
             $loan->loanfiledesc     = $request->input('LoanDesc');
-            $loan->payroll_id    = $request->input('Period');
+           // $loan->payroll_id    = $request->input('Period');
             $loan->loandate   = $request->input('LoanDate');
             $loan->startdeduction   = $request->input('StartDeduction');
             $loan->loanamount   =$request->input('Amount');
@@ -151,18 +153,12 @@ class loanscontroller extends Controller
             $loan->percent       =  $request->input('Percentage');
             $loan->status        = $request->input('Status');
             $loan->transaction_type=$request->input('Transaction');
+            $loan->ytddeduction =$request->input('Amount')-$request->input('LoanBalance');
             $loan->loanbalance  =$request->input('LoanBalance');
         
             $loan->save();
 
-       // $mailer->sendTicketInformation(Auth::user(), $ticket);
-
-         $loans=Prlloanfile::All();
-         $pagetitle="loans ";
-         
-         // return view('loans.index', compact('loans','pagetitle'))->with("status", "loan  Updated Successfully");
-
-       return redirect()->back()->with("status", "A loan Title has been Updated.");
+       return redirect("viewloans")->with('status','A loan Title has been Updated.');
     }
 
 

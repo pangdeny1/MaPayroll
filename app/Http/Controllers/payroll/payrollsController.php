@@ -190,11 +190,11 @@ class payrollsController extends Controller
          $loantrans=Prlloantransaction::where("payroll_id",$payroll_id)->get();
          if($loantrans->count()>0)
          {
-            foreach ($variable as $key => $value) {
+            foreach ($loantrans as $loantran) {
                $payrollObj->updateBalance($loantran->employee_id,$loantran->loantype_id,$loantran->amount);
             }
             
-            }
+            
          }
         if($payrollObj->closedOpenedStatusCheck($payroll_id)=="Closed")
         {
@@ -215,12 +215,34 @@ class payrollsController extends Controller
     {
         $loanbal=Prlloanfile::where("employee_id",$employee_id)->where("loantype_id",$loantype_id)->firstOrFail();
         return $loanbal->update([
-            "ytddeduction" =>$amount+$loanbal->ytddeduction
+            "ytddeduction" =>$amount+$loanbal->ytddeduction,
+            "loanbalance"  =>$loanbal->loanamount-$loanbal->ytddeduction-$amount
+            ]);
+    }
+
+
+    public function updateClosePayrollBalance($employee_id,$loantype_id,$amount)
+    {
+        $loanbal=Prlloanfile::where("employee_id",$employee_id)->where("loantype_id",$loantype_id)->firstOrFail();
+        return $loanbal->update([
+            "ytddeduction" =>$loanbal->ytddeduction-$amount,
+            "loanbalance"  =>$loanbal->loanbalance+$amount
             ]);
     }
 
      public function open($payroll_id)
     {
+        $payrollObj= new payrollsController();
+
+         $loantrans=Prlloantransaction::where("payroll_id",$payroll_id)->get();
+         if($loantrans->count()>0)
+         {
+            foreach ($loantrans as $loantran) {
+               $payrollObj->updateClosePayrollBalance($loantran->employee_id,$loantran->loantype_id,$loantran->amount);
+            }
+            
+            
+         }
         $payroll= payroll::where('id', $payroll_id)->firstOrFail();
 
         $payroll->update([
@@ -1099,13 +1121,13 @@ public function getHDMFPercent($record)
             }
 
         //$loanfiles=Prlloanfile::All();
-        $loanfiles=Prlloanfile::where("startdeduction","<=",$payrollObj->payrollDate($payroll_id,"enddate"))->where("status",1)->get();
+        $loanfiles=Prlloanfile::where("startdeduction","<=",$payrollObj->payrollDate($payroll_id,"enddate"))->where("loanbalance",">",0)->where("status",1)->get();
         
         if($loanfiles->count()>0)
         {
 
                  foreach($loanfiles as $loanfile) {
-                    if($loanfile->amount_term=="Amount")
+                    if($loanfile->amount_term=="Amount" && $loanfile->loanbalance >= $loanfile->amortization)
                     {
                      $inserts[] = [ 
                                  'loantype_id' => $loanfile->loantype_id,
@@ -1115,11 +1137,32 @@ public function getHDMFPercent($record)
                                  'creator_id' => auth()->id()
                                ]; 
                        }
+
+                        elseif($loanfile->amount_term=="Amount" && $loanfile->loanbalance < $loanfile->amortization)
+                    {
+                     $inserts[] = [ 
+                                 'loantype_id' => $loanfile->loantype_id,
+                                 'amount' => $loanfile->loanbalance,
+                                 'employee_id' => $loanfile->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'creator_id' => auth()->id()
+                               ]; 
+                       }
                        
-                       elseif ($loanfile->amount_term=="Percent") {
+                       elseif ($loanfile->amount_term=="Percent" && $loanfile->loanbalance >= (($loanfile->percent * $payrollObj->payrollTransRows($payroll_id,$loanfile->employee_id,"Basic"))/100)) {
                                  $inserts[] = [ 
                                  'loantype_id' => $loanfile->loantype_id,
                                  'amount' => (($loanfile->percent * $payrollObj->payrollTransRows($payroll_id,$loanfile->employee_id,"Basic"))/100),
+                                 'employee_id' => $loanfile->employee_id,
+                                 'payroll_id' =>$payroll_id,
+                                 'creator_id' => auth()->id()
+                               ]; 
+                           } 
+
+                             elseif ($loanfile->amount_term=="Percent" && $loanfile->loanbalance < (($loanfile->percent * $payrollObj->payrollTransRows($payroll_id,$loanfile->employee_id,"Basic"))/100)) {
+                                 $inserts[] = [ 
+                                 'loantype_id' => $loanfile->loantype_id,
+                                 'amount' =>$loanfile->loanbalance,
                                  'employee_id' => $loanfile->employee_id,
                                  'payroll_id' =>$payroll_id,
                                  'creator_id' => auth()->id()

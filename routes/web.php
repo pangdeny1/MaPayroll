@@ -420,6 +420,10 @@ Route::prefix('settings')->group(function () {
 
      Route::get('payrollregisterformpdf','report\reportscontroller@payrollregisterformpdf');
      Route::post('payrollregisterpdf','report\reportscontroller@payrollregisterpdf');
+
+
+     Route::post('printpayslip/{id}','report\reportscontroller@print');
+
      
 
      Route::get('form','form\FormController@create');
@@ -467,6 +471,8 @@ Route::prefix('settings')->group(function () {
     Route::get('deleteloan/{id}','loan\loanscontroller@destroy');
     Route::get('createloan','loan\loanscontroller@create');
     Route::get('viewloans','loan\loanscontroller@index');
+
+
      
      
 

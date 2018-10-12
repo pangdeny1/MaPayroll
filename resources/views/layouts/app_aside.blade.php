@@ -92,9 +92,9 @@
                     <hr>
 
                     <div class="menu-header">Reports</div>
-                    <a href="{{ route("purchases.reports", ["period" => "daily"]) }}" class="menu-link mb-2">
+                    <a href="{{url('payslipform')}}" class="menu-link mb-2">
                         <i class="fas fa-chart-line text-muted mr-2"></i>
-                        <span class="menu-text">Employees Reports</span>
+                        <span class="menu-text">Payslip</span>
                     </a>
                     <a href="{{ route("payrolls.reports", ["period" => "daily"]) }}" class="menu-link mb-2">
                         <i class="far fa-chart-bar text-muted mr-2"></i>

@@ -10,8 +10,8 @@ use App\Models\country;
 use App\Models\title;
 use App\Models\Region;
 use App\Models\District;
-use App\Models\Employee;
-use App\Models\PayrollTrans;
+use App\Employee;
+use App\prltransaction;
 use App\Models\employeequalification;
 use App\Models\qualification;
 use App\Models\institute;
@@ -56,6 +56,8 @@ use Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
+
+use App\Exports\BatchPurchaseExport;
 
 class reportscontroller extends Controller
 {
@@ -116,7 +118,7 @@ public function reportform()
 
 public function payslipform()
 {   
-    $pagetitle="Employee Bio Report"; 
+    $pagetitle="Payslip"; 
     $employees=Employee::All();
     $periods=Payroll::All();
     return  view('reports.payslipform',compact('pagetitle','employees','periods'));
@@ -133,14 +135,21 @@ public function payslip(Request $request)
      $headertype=$request->input('Report');
      $period=$request->input('period');
      $payrollperiod= payroll::where('id', $period)->firstOrFail();
-     $company=Company::where('id',1)->firstOrFail();
-     $payrolltrans=PayrollTrans::where('employeeid',$employeeid)->where('payrollid',$payrollperiod->id)->firstOrFail();
-     $employee=Employee::where('employeeid',$employeeid)->firstOrFail();
-     $sss=SocialSecurityScheme::where('id',$employee->pencode)->firstOrFail();
+    // $company=Company::where('id',1)->firstOrFail();
+     $prltransaction=prltransaction::where('employee_id',$employeeid)->where('payroll_id',$payrollperiod->id)->firstOrFail();
+     $employee=Employee::where('id',$employeeid)->firstOrFail();
+     //$sss=SocialSecurityScheme::where('id',$employee->pencode)->firstOrFail();
     
 
-    return view('reports.payslip1',compact('pagetitle','headertype','payrollperiod','company','employee','payrolltrans','sss'));
+    return view('reports.payslip',compact('pagetitle','headertype','payrollperiod','company','employee','prltransaction','sss'));
 }
+
+ public function print($batch)
+    {
+        $pdf = \PDF::loadView('reports.payslip', compact('batch'));
+
+        return $pdf->stream();
+    }
 
 public function payrollregisterform()
 {   

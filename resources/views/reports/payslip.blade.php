@@ -12,10 +12,10 @@
 </head>
 <body>
     <section class="text-center mb-4">
-        <h4 class="text-uppercase">HOMEVEG TANZANIA LTD</h4>
-        <h6 class="mb-2">P.O.Box 14256 - Arusha Tanzania</h6>
+        <h4 class="text-uppercase">DEMO CO LTD</h4>
+        <h6 class="mb-2">P.O.Box 222 - Dar Tanzania</h6>
         <strong>
-            <u class="text-uppercase">PRODUCED BATCH HISTORY</u>
+            <u class="text-uppercase">PAYSLIP</u>
         </strong>
     </section>
 
@@ -24,14 +24,14 @@
     </section>
 
     <section>
-        <h6 class="mb-4">Produced batch history</h6>
+        <h6 class="mb-4">Payslip for month {{$payrollperiod->payrolldesc}}</h6>
 
         <table class="table table-sm table-bordered mb-4">
             <tbody>
                 <tr>
-                    <th width="12.5%">Farm</th>
+                    <th width="12.5%">Employee</th>
                     <td width="12.5%" class="text-right">
-                       
+                     {{$employee->first_name}} {{$employee->last_name}}  
                     </td>
                     <th width="12.5%">Variety</th>
                     <td width="12.5%" class="text-right">

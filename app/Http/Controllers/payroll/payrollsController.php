@@ -485,11 +485,23 @@ class payrollsController extends Controller
 
      //calculate SS
 
-     public function calculateTotalEmployeeOtherIncome($payroll_id,$employee_id)
+     public function calculateTotalEmployeeOtherIncome($payroll_id,$employee_id,$value)
      {
+        if($value=="taxable")
+        {
+          $employeeOtherIncomes=Prlothintransaction::where("employee_id",$employee_id)->where("payroll_id",$payroll_id)->where("taxable",$value)->get();
+        }
+       if($value=="non-taxable")
+        {
+           $employeeOtherIncomes=Prlothintransaction::where("employee_id",$employee_id)->where("payroll_id",$payroll_id)->where("taxable",$value)->get();
+        }
+        if($value=="ALL")
+        {
+          $employeeOtherIncomes=Prlothintransaction::where("employee_id",$employee_id)->where("payroll_id",$payroll_id)->get();  
+        }
         
-        $employeeOtherIncomes=Prlothintransaction::where("employee_id",$employee_id)->where("payroll_id",$payroll_id)->get();
          $eotherincome=0;
+
          foreach ($employeeOtherIncomes as $employeeOtherIncome) {
            
             $eotherincome+=$employeeOtherIncome->amount;
@@ -499,7 +511,9 @@ class payrollsController extends Controller
     return $eotherincome;
      }
 
-      public function calculateTotalEmployeeOtherDeduction($payroll_id,$employee_id)
+
+
+     public function calculateTotalEmployeeOtherDeduction($payroll_id,$employee_id)
      {
         
         $employeeotherdeductions=Prlothdedtransaction::where("employee_id",$employee_id)->where("payroll_id",$payroll_id)->get();
@@ -580,7 +594,9 @@ class payrollsController extends Controller
             foreach ($payrolls as $payroll)
                {
                 $payroll->update(
-                    ['other_income'=>$payrollObj->calculateTotalEmployeeOtherIncome($payroll_id,$payroll->employee_id)]
+                    ['other_income'=>$payrollObj->calculateTotalEmployeeOtherIncome($payroll_id,$payroll->employee_id,"ALL"),
+                    'other_income_taxable'=>$payrollObj->calculateTotalEmployeeOtherIncome($payroll_id,$payroll->employee_id,"taxable"),
+                    'other_income_nontaxable'=>$payrollObj->calculateTotalEmployeeOtherIncome($payroll_id,$payroll->employee_id,"non-taxable")]
                     );
     
             }

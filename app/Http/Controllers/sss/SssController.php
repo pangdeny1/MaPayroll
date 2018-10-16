@@ -73,7 +73,7 @@ class SssController extends Controller
        public function update(Request $request, AppMailer $mailer,$sss_id)
     {
         $this->validate($request, [
-           'PensionCode'     => 'required',
+            'PensionCode'     => 'required',
             'PensionName'     => 'required',
             'RangeFrom'     => 'required',
             'RangeTo'     => 'required',

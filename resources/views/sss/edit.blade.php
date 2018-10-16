@@ -32,7 +32,6 @@
                             <div class="col-md-12">
                                 <form action="{{ url("updatesss/".$sstype->id) }}" method="post">
                                     @csrf
-                                    @method("put")
                                     <div class="card border-0">
                                         <header class="card-header">Edit Social Secur</header>
                                         <div class="card-body">
@@ -40,7 +39,7 @@
                                                 <div class="form-group col-md-12">
                                                     <label for="PensionCode">SSS Code</label>
                                                     <input type="text"
-                                                           PensionCode="PensionCode"
+                                                           name="PensionCode"
                                                            id="PensionCode"
                                                            class="form-control  {{ $errors->has('PensionCode') ? "is-invalid" : "" }}"
                                                            value="{{ old("PensionCode", $sstype->pencode) }}"
@@ -58,7 +57,7 @@
                                                 <div class="form-group col-md-12">
                                                     <label for="PensionName">Name</label>
                                                     <input type="text"
-                                                           PensionName="PensionName"
+                                                           name="PensionName"
                                                            id="PensionName"
                                                            class="form-control  {{ $errors->has('PensionName') ? "is-invalid" : "" }}"
                                                            value="{{ old("PensionName", $sstype->penname) }}"
@@ -74,7 +73,7 @@
                                                  <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="EmployeeContr">Employee Contr</label>
-                                        <input type="text"
+                                        <input type="number"
                                                name="EmployeeContr"
                                                id="EmployeeContr"
                                                class="form-control {{ $errors->has('EmployeeContr') ? 'is-invalid' : '' }}"
@@ -89,7 +88,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="EmployerContr">Employer Contr</label>
-                                        <input type="text"
+                                        <input type="number"
                                                name="EmployerContr"
                                                id="EmployerContr"
                                                class="form-control {{ $errors->has('EmployerContr') ? 'is-invalid' : '' }}"
@@ -106,7 +105,7 @@
                                   <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="RangeFrom">Range From</label>
-                                        <input type="text"
+                                        <input type="number"
                                                name="RangeFrom"
                                                id="RangeFrom"
                                                class="form-control {{ $errors->has('RangeFrom') ? 'is-invalid' : '' }}"
@@ -121,7 +120,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="RangeTo">Range To</label>
-                                        <input type="text"
+                                        <input type="number"
                                                name="RangeTo"
                                                id="RangeTo"
                                                class="form-control {{ $errors->has('RangeTo') ? 'is-invalid' : '' }}"

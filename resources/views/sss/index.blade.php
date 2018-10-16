@@ -20,7 +20,7 @@
                         </nav>
                         <div class="d-sm-flex align-items-sm-center">
                             <h1 class="page-title mr-sm-auto mb-0">
-                                Social Secirity 
+                                Social Security 
                                 
                             </h1>
                             <div class="btn-toolbar">

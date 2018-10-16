@@ -329,7 +329,11 @@ Route::prefix('settings')->group(function () {
     Route::get('createcompany','company\companiesController@create');
 
     Route::post('addsss','sss\SssController@store');
+    Route::get('editsss/{id}','sss\SssController@edit');
     Route::get('createsss','sss\SssController@create');
+     Route::get('viewsss','sss\SssController@index');
+     Route::get('deletesss/{id}','sss\SssController@destroy');
+     Route::post('updatesss/{id}','sss\SssController@update');
 
     Route::post('addsalary','salary\SalariesController@store');
     Route::get('createsalary','salary\SalariesController@create');

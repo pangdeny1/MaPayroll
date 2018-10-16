@@ -123,8 +123,8 @@
 
                             <div class="dropdown-divider"></div>
 
-                            <a href="{{ route("blocks.index") }}" class="dropdown-item ">
-                                <i class="fas fa-th"></i> Blocks
+                            <a href="{{ url("viewsss") }}" class="dropdown-item ">
+                                <i class="fas fa-th"></i> Social Security Types
                             </a>
 
                             <a href="{{ route("groups.index") }}" class="dropdown-item ">

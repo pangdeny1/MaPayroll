@@ -1,6 +1,7 @@
 @extends("layouts.master")
+
 @section("content")
-    @if($sstypes->count())
+    @if($healthtypes->count())
         <div class="wrapper">
             <div class="page">
                 <div class="page-inner">
@@ -13,13 +14,13 @@
                                     </a>
                                 </li>
                                 <li class="breadcrumb-item active">
-                                  Social Secirity
+                                  Health
                                 </li>
                             </ol>
                         </nav>
                         <div class="d-sm-flex align-items-sm-center">
                             <h1 class="page-title mr-sm-auto mb-0">
-                                Social Security 
+                                Health
                                 
                             </h1>
                             <div class="btn-toolbar">
@@ -28,8 +29,8 @@
                                     <span class="ml-1">Export as excel</span>
                                 </a>
                                 
-                                @can("create", \App\Models\Prlsstype::class)
-                                <a href="{{url('createsss')}}" class="btn btn-primary">
+                                @can("create", \App\prlhealthtype::class)
+                                <a href="{{url('createhealth')}}" class="btn btn-primary">
                                     <span class="fas fa-plus mr-1"></span>
                                     New Social Security
                                 </a>
@@ -67,7 +68,7 @@
 
                                 <!-- .table-responsive -->
 
-                                 <div class="text-muted">  Showing {{ $sstypes->firstItem() }} to {{ $sstypes->lastItem() }} of {{ $sstypes->total() }} entries </div>
+                                 <div class="text-muted">  Showing {{ $healthtypes->firstItem() }} to {{ $healthtypes->lastItem() }} of {{ $healthtypes->total() }} entries </div>
 
                                 
                                 <div class="text-muted"> 
@@ -80,8 +81,8 @@
                                         <thead>
                                    <tr>
                                     <th>#</th>
-                                    <th>pencode</th>
                                     <th>Name</th>
+                                    <th>Description</th>
                                     <th>Employee Contr </th>
                                     <th>Employer Contr</th>
                                     <th>Total</th>
@@ -92,34 +93,34 @@
                                         </thead>
                                         <tbody>
                                          
-                                             @foreach ($sstypes as $sstype)
+                                             @foreach ($healthtypes as $healthtype)
                                            <td>
                                   
                             
                                     </td>
                                     <td>
-                                   {{$sstype->pencode}}
+                                   {{$healthtype->healthname}}
                                     </td>
                                     <td>
-                                  {{ $sstype->penname}}
+                                  {{ $healthtype->description}}
                                     </td>
                                     <td>
-                                        {{ $sstype->employeess}}
+                                        {{ $healthtype->employeeph}}
                                     </td>
                                     <td>
-                                        {{ $sstype->employerss}}
+                                        {{ $healthtype->employerph}}
                                     </td>
-                                    <td>{{ $sstype->total}}</td>
+                                    <td>{{ $healthtype->total}}</td>
                                     <td class="align-middle text-right">
-                                                    @can("edit", \App\Models\Prlsstype::class)
-                                                    <a href="{{ url('editsss/'.$sstype->id) }}" class="btn btn-sm btn-secondary">
+                                                    @can("edit", \App\prlhealthtype::class)
+                                                    <a href="{{ url('edithealth/'.$healthtype->id) }}" class="btn btn-sm btn-secondary">
                                                         <i class="fa fa-pencil-alt"></i>
                                                         <span class="sr-only">Edit</span>
                                                     </a>
                                                     @endcan
 
-                                                    @can("delete", \App\Models\Prlsstype::class)
-                                                    <a href="{{ url('deletesss/'.$sstype->id) }}" onclick="return confirm('Are you sure you want to Delete this record')"  class="btn btn-sm btn-secondary">
+                                                    @can("delete", \App\prlhealthtype::class)
+                                                    <a href="{{ url('deletehealth/'.$healthtype->id) }}" onclick="return confirm('Are you sure you want to Delete this record')"  class="btn btn-sm btn-secondary">
                                                         <i class="far fa-trash-alt"></i>
                                                         <span class="sr-only">Remove</span>
                                                     </a>
@@ -132,7 +133,7 @@
                                 </div>
 
                                 <!-- .pagination -->
-                                  {{ $sstypes->links() }}
+                                  {{ $healthtypes->links() }}
                                 
                             </div>
                         </section>
@@ -157,9 +158,9 @@
                     <p class="state-description lead text-muted">
                         Use the button below to Register new .
                     </p>
-                    @can("create", \App\Models\Prlsstype::class)
+                    @can("create", \App\Models\prlhealthtype::class)
                     <div class="state-action">
-                        <a href="{{url('createsss')}}" class="btn btn-primary">Register new</a>
+                        <a href="{{url('createhealth')}}" class="btn btn-primary">Register new</a>
                     </div>
                     @endcan
                 </div>

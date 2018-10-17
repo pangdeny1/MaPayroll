@@ -1,6 +1,6 @@
 @extends("layouts.master")
 @section("content")
-    @if($sstypes->count())
+    @if($hdmfrates->count())
         <div class="wrapper">
             <div class="page">
                 <div class="page-inner">
@@ -13,13 +13,13 @@
                                     </a>
                                 </li>
                                 <li class="breadcrumb-item active">
-                                  Social Secirity
+                                  Workers Union
                                 </li>
                             </ol>
                         </nav>
                         <div class="d-sm-flex align-items-sm-center">
                             <h1 class="page-title mr-sm-auto mb-0">
-                                Social Security 
+                                Workers Union 
                                 
                             </h1>
                             <div class="btn-toolbar">
@@ -28,10 +28,10 @@
                                     <span class="ml-1">Export as excel</span>
                                 </a>
                                 
-                                @can("create", \App\Models\Prlsstype::class)
-                                <a href="{{url('createsss')}}" class="btn btn-primary">
+                                @can("create", \App\prlhdmftype::class)
+                                <a href="{{url('createhdmf')}}" class="btn btn-primary">
                                     <span class="fas fa-plus mr-1"></span>
-                                    New Social Security
+                                    New Workers Union
                                 </a>
                                 @endcan
                             </div>
@@ -43,7 +43,7 @@
                             <header class="card-header">
                                 <ul class="nav nav-tabs card-header-tabs">
                                     <li class="nav-item">
-                                        <a class="nav-link {{ request()->query("status") ? "" : "active" }}" href="{{ route("farmers.index") }}">
+                                        <a class="nav-link {{ request()->query("status") ? "" : "active" }}" href="{{ url("viewhdmf") }}">
                                             All
                                         </a>
                                     </li>
@@ -67,7 +67,7 @@
 
                                 <!-- .table-responsive -->
 
-                                 <div class="text-muted">  Showing {{ $sstypes->firstItem() }} to {{ $sstypes->lastItem() }} of {{ $sstypes->total() }} entries </div>
+                                 <div class="text-muted">  Showing {{ $hdmfrates->firstItem() }} to {{ $hdmfrates->lastItem() }} of {{ $hdmfrates->total() }} entries </div>
 
                                 
                                 <div class="text-muted"> 
@@ -80,10 +80,11 @@
                                         <thead>
                                    <tr>
                                     <th>#</th>
-                                    <th>pencode</th>
                                     <th>Name</th>
-                                    <th>Employee Contr </th>
-                                    <th>Employer Contr</th>
+                                    <th>Description</th>
+                                    <th>Employee Share </th>
+                                    <th>Employer Share</th>
+
                                     <th>Total</th>
                                     
                                     <th>Action</th>
@@ -92,34 +93,34 @@
                                         </thead>
                                         <tbody>
                                          
-                                             @foreach ($sstypes as $sstype)
+                                             @foreach ($hdmfrates as $hdmfrate)
                                            <td>
                                   
                             
                                     </td>
                                     <td>
-                                   {{$sstype->pencode}}
+                                   {{$hdmfrate->hdmfname}}
                                     </td>
                                     <td>
-                                  {{ $sstype->penname}}
+                                  {{ $hdmfrate->description}}
                                     </td>
                                     <td>
-                                        {{ $sstype->employeess}}
+                                        {{ $hdmfrate->employeeshare}}
                                     </td>
                                     <td>
-                                        {{ $sstype->employerss}}
+                                        {{ $hdmfrate->employershare}}
                                     </td>
-                                    <td>{{ $sstype->total}}</td>
+                                    <td>{{ $hdmfrate->total}}</td>
                                     <td class="align-middle text-right">
-                                                    @can("edit", \App\Models\Prlsstype::class)
-                                                    <a href="{{ url('editsss/'.$sstype->id) }}" class="btn btn-sm btn-secondary">
+                                                    @can("edit", \App\prlhdmftype::class)
+                                                    <a href="{{ url('edithdmf/'.$hdmfrate->id) }}" class="btn btn-sm btn-secondary">
                                                         <i class="fa fa-pencil-alt"></i>
                                                         <span class="sr-only">Edit</span>
                                                     </a>
                                                     @endcan
 
-                                                    @can("delete", \App\Models\Prlsstype::class)
-                                                    <a href="{{ url('deletesss/'.$sstype->id) }}" onclick="return confirm('Are you sure you want to Delete this record')"  class="btn btn-sm btn-secondary">
+                                                    @can("delete", \App\prlhdmftype::class)
+                                                    <a href="{{ url('deletehdmf/'.$hdmfrate->id) }}" onclick="return confirm('Are you sure you want to Delete this record')"  class="btn btn-sm btn-secondary">
                                                         <i class="far fa-trash-alt"></i>
                                                         <span class="sr-only">Remove</span>
                                                     </a>
@@ -132,7 +133,7 @@
                                 </div>
 
                                 <!-- .pagination -->
-                                  {{ $sstypes->links() }}
+                                  {{ $hdmfrates->links() }}
                                 
                             </div>
                         </section>
@@ -157,9 +158,9 @@
                     <p class="state-description lead text-muted">
                         Use the button below to Register new .
                     </p>
-                    @can("create", \App\Models\Prlsstype::class)
+                    @can("create", \App\prlhdmftype::class)
                     <div class="state-action">
-                        <a href="{{url('createsss')}}" class="btn btn-primary">Register new</a>
+                        <a href="{{url('createhdmf')}}" class="btn btn-primary">Register new</a>
                     </div>
                     @endcan
                 </div>

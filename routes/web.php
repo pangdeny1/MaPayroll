@@ -335,6 +335,27 @@ Route::prefix('settings')->group(function () {
      Route::get('deletesss/{id}','sss\SssController@destroy');
      Route::post('updatesss/{id}','sss\SssController@update');
 
+     Route::post('addhdmf','hdmf\Hdmfontroller@store');
+    Route::get('edithdmf/{id}','hdmf\Hdmfontroller@edit');
+    Route::get('createhdmf','hdmf\Hdmfontroller@create');
+     Route::get('viewhdmf','hdmf\Hdmfontroller@index');
+     Route::get('deletehdmf/{id}','hdmf\Hdmfontroller@destroy');
+     Route::post('updatehdmf/{id}','hdmf\Hdmfontroller@update');
+
+     Route::post('addhealth','health\HealthsController@store');
+    Route::get('edithealth/{id}','health\HealthsController@edit');
+    Route::get('createhealth','health\HealthsController@create');
+     Route::get('viewhealth','health\HealthsController@index');
+     Route::get('deletehealth/{id}','health\HealthsController@destroy');
+     Route::post('updatehealth/{id}','health\HealthsController@update');
+
+     Route::post('addtax','tax\TaxController@store');
+    Route::get('edittax/{id}','tax\TaxController@edit');
+    Route::get('createtax','tax\TaxController@create');
+     Route::get('viewtax','tax\TaxController@index');
+     Route::get('deletetax/{id}','tax\TaxController@destroy');
+     Route::post('updatetax/{id}','tax\TaxController@update');
+
     Route::post('addsalary','salary\SalariesController@store');
     Route::get('createsalary','salary\SalariesController@create');
 

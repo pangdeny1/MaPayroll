@@ -1,6 +1,7 @@
 @extends("layouts.master")
+
 @section("content")
-    @if($sstypes->count())
+    @if($taxrates->count())
         <div class="wrapper">
             <div class="page">
                 <div class="page-inner">
@@ -13,13 +14,13 @@
                                     </a>
                                 </li>
                                 <li class="breadcrumb-item active">
-                                  Social Secirity
+                                  Tax table
                                 </li>
                             </ol>
                         </nav>
                         <div class="d-sm-flex align-items-sm-center">
                             <h1 class="page-title mr-sm-auto mb-0">
-                                Social Security 
+                               Tax table
                                 
                             </h1>
                             <div class="btn-toolbar">
@@ -28,10 +29,10 @@
                                     <span class="ml-1">Export as excel</span>
                                 </a>
                                 
-                                @can("create", \App\Models\Prlsstype::class)
-                                <a href="{{url('createsss')}}" class="btn btn-primary">
+                                @can("create", \App\Models\Prltaxtablerate::class)
+                                <a href="{{url('createtax')}}" class="btn btn-primary">
                                     <span class="fas fa-plus mr-1"></span>
-                                    New Social Security
+                                    New Tax rate
                                 </a>
                                 @endcan
                             </div>
@@ -67,7 +68,7 @@
 
                                 <!-- .table-responsive -->
 
-                                 <div class="text-muted">  Showing {{ $sstypes->firstItem() }} to {{ $sstypes->lastItem() }} of {{ $sstypes->total() }} entries </div>
+                                 <div class="text-muted">  Showing {{ $taxrates->firstItem() }} to {{ $taxrates->lastItem() }} of {{ $taxrates->total() }} entries </div>
 
                                 
                                 <div class="text-muted"> 
@@ -80,46 +81,43 @@
                                         <thead>
                                    <tr>
                                     <th>#</th>
-                                    <th>pencode</th>
-                                    <th>Name</th>
-                                    <th>Employee Contr </th>
-                                    <th>Employer Contr</th>
-                                    <th>Total</th>
-                                    
+                                    <th>Range from</th>
+                                    <th>Range To</th>
+                                    <th>Fix Tax </th>
+                                    <th>Percentage of exces Amount</th>
                                     <th>Action</th>
                                     
                                 </tr>
                                         </thead>
                                         <tbody>
                                          
-                                             @foreach ($sstypes as $sstype)
+                                             @foreach ($taxrates as $taxrate)
                                            <td>
-                                  
-                            
+                                  {{$taxrate->id }}
                                     </td>
                                     <td>
-                                   {{$sstype->pencode}}
+                                   {{$taxrate->rangefrom}}
                                     </td>
                                     <td>
-                                  {{ $sstype->penname}}
+                                  {{ $taxrate->rangeto}}
                                     </td>
                                     <td>
-                                        {{ $sstype->employeess}}
+                                        {{ $taxrate->fixtax}}
                                     </td>
-                                    <td>
-                                        {{ $sstype->employerss}}
+                                   
+                                   <td>
+                                        {{ $taxrate->percentofexcessamount}}
                                     </td>
-                                    <td>{{ $sstype->total}}</td>
                                     <td class="align-middle text-right">
-                                                    @can("edit", \App\Models\Prlsstype::class)
-                                                    <a href="{{ url('editsss/'.$sstype->id) }}" class="btn btn-sm btn-secondary">
+                                                    @can("edit", \App\Models\Prltaxtablerate::class)
+                                                    <a href="{{ url('edittax/'.$taxrate->id) }}" class="btn btn-sm btn-secondary">
                                                         <i class="fa fa-pencil-alt"></i>
                                                         <span class="sr-only">Edit</span>
                                                     </a>
                                                     @endcan
 
-                                                    @can("delete", \App\Models\Prlsstype::class)
-                                                    <a href="{{ url('deletesss/'.$sstype->id) }}" onclick="return confirm('Are you sure you want to Delete this record')"  class="btn btn-sm btn-secondary">
+                                                    @can("delete", \App\Models\Prltaxtablerate::class)
+                                                    <a href="{{ url('deletetax/'.$taxrate->id) }}" onclick="return confirm('Are you sure you want to Delete this record')"  class="btn btn-sm btn-secondary">
                                                         <i class="far fa-trash-alt"></i>
                                                         <span class="sr-only">Remove</span>
                                                     </a>
@@ -132,7 +130,7 @@
                                 </div>
 
                                 <!-- .pagination -->
-                                  {{ $sstypes->links() }}
+                                  {{ $taxrates->links() }}
                                 
                             </div>
                         </section>
@@ -157,9 +155,9 @@
                     <p class="state-description lead text-muted">
                         Use the button below to Register new .
                     </p>
-                    @can("create", \App\Models\Prlsstype::class)
+                    @can("create", \App\Models\Prltaxtablerate::class)
                     <div class="state-action">
-                        <a href="{{url('createsss')}}" class="btn btn-primary">Register new</a>
+                        <a href="{{url('createtax')}}" class="btn btn-primary">Register new</a>
                     </div>
                     @endcan
                 </div>

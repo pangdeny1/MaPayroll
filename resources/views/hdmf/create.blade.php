@@ -16,7 +16,7 @@
                             </li>
                         </ol>
                     </nav>
-                    <h1 class="page-title">Add Social Security</h1>
+                    <h1 class="page-title">Add Workers Union</h1>
                 </header>
 
                 <!-- .page-section -->
@@ -30,24 +30,24 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <form action="{{ url('/addsss') }}" method="post">
+                                <form action="{{ url('/addhdmf') }}" method="post">
                                     @csrf
                                     <div class="card border-0">
-                                        <header class="card-header">Edit Social Secur</header>
+                                        <header class="card-header">Add Workers Union</header>
                                         <div class="card-body">
                                             <div class="form-row">
                                                 <div class="form-group col-md-12">
-                                                    <label for="PensionCode">PensionCode</label>
+                                                    <label for="HdmfName">HdmfName</label>
                                                     <input type="text"
-                                                           name="PensionCode"
-                                                           id="PensionCode"
-                                                           class="form-control  {{ $errors->has('PensionCode') ? "is-invalid" : "" }}"
-                                                           value="{{ old("PensionCode") }}"
+                                                           name="HdmfName"
+                                                           id="HdmfName"
+                                                           class="form-control  {{ $errors->has('HdmfName') ? "is-invalid" : "" }}"
+                                                           value="{{ old("HdmfName") }}"
                                                            placeholder="code..."
                                                     >
-                                                    @if ($errors->has('PensionCode'))
+                                                    @if ($errors->has('HdmfName'))
                                                         <span class="invalid-feedback">
-                                                            <strong>{{ $errors->first('PensionCode') }}</strong>
+                                                            <strong>{{ $errors->first('HdmfName') }}</strong>
                                                         </span>
                                                     @endif
                                                 </div>
@@ -55,24 +55,24 @@
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-12">
-                                                    <label for="PensionName">Name</label>
+                                                    <label for="Description">Name</label>
                                                     <input type="text"
-                                                           name="PensionName"
-                                                           id="PensionName"
-                                                           class="form-control  {{ $errors->has('PensionName') ? "is-invalid" : "" }}"
-                                                           value="{{ old("PensionName") }}"
+                                                           name="Description"
+                                                           id="Description"
+                                                           class="form-control  {{ $errors->has('Description') ? "is-invalid" : "" }}"
+                                                           value="{{ old("Description") }}"
                                                            placeholder="name..."
                                                     >
-                                                    @if ($errors->has('PensionName'))
+                                                    @if ($errors->has('Description'))
                                                         <span class="invalid-feedback">
-                                                            <strong>{{ $errors->first('PensionName') }}</strong>
+                                                            <strong>{{ $errors->first('Description') }}</strong>
                                                         </span>
                                                     @endif
                                                 </div>
 
                                                  <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="EmployeeContr">Employee Contr</label>
+                                        <label for="EmployeeContr">Employee Share</label>
                                         <input type="number"
                                                name="EmployeeContr"
                                                id="EmployeeContr"
@@ -87,7 +87,7 @@
                                         @endif
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="EmployerContr">Employer Contr</label>
+                                        <label for="EmployerContr">Employer Share</label>
                                         <input type="number"
                                                name="EmployerContr"
                                                id="EmployerContr"

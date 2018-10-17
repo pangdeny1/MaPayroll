@@ -16,7 +16,7 @@
                             </li>
                         </ol>
                     </nav>
-                    <h1 class="page-title">Add Social Security</h1>
+                    <h1 class="page-title">Edit Health</h1>
                 </header>
 
                 <!-- .page-section -->
@@ -30,24 +30,24 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <form action="{{ url('/addsss') }}" method="post">
+                                <form action="{{ url("updatehealth/".$healthtype->id) }}" method="post">
                                     @csrf
                                     <div class="card border-0">
-                                        <header class="card-header">Edit Social Secur</header>
+                                        <header class="card-header">Edit Health</header>
                                         <div class="card-body">
                                             <div class="form-row">
                                                 <div class="form-group col-md-12">
-                                                    <label for="PensionCode">PensionCode</label>
+                                                    <label for="HealthName">Health Name</label>
                                                     <input type="text"
-                                                           name="PensionCode"
-                                                           id="PensionCode"
-                                                           class="form-control  {{ $errors->has('PensionCode') ? "is-invalid" : "" }}"
-                                                           value="{{ old("PensionCode") }}"
-                                                           placeholder="code..."
+                                                           name="HealthName"
+                                                           id="HealthName"
+                                                           class="form-control  {{ $errors->has('HealthName') ? "is-invalid" : "" }}"
+                                                           value="{{ old("HealthName", $healthtype->healthname) }}"
+                                                           placeholder="health code..."
                                                     >
-                                                    @if ($errors->has('PensionCode'))
+                                                    @if ($errors->has('HealthName'))
                                                         <span class="invalid-feedback">
-                                                            <strong>{{ $errors->first('PensionCode') }}</strong>
+                                                            <strong>{{ $errors->first('HealthName') }}</strong>
                                                         </span>
                                                     @endif
                                                 </div>
@@ -55,17 +55,17 @@
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-12">
-                                                    <label for="PensionName">Name</label>
+                                                    <label for="Description">Description</label>
                                                     <input type="text"
-                                                           name="PensionName"
-                                                           id="PensionName"
-                                                           class="form-control  {{ $errors->has('PensionName') ? "is-invalid" : "" }}"
-                                                           value="{{ old("PensionName") }}"
+                                                           name="Description"
+                                                           id="Description"
+                                                           class="form-control  {{ $errors->has('Description') ? "is-invalid" : "" }}"
+                                                           value="{{ old("Description", $healthtype->description) }}"
                                                            placeholder="name..."
                                                     >
-                                                    @if ($errors->has('PensionName'))
+                                                    @if ($errors->has('Description'))
                                                         <span class="invalid-feedback">
-                                                            <strong>{{ $errors->first('PensionName') }}</strong>
+                                                            <strong>{{ $errors->first('Description') }}</strong>
                                                         </span>
                                                     @endif
                                                 </div>
@@ -77,7 +77,7 @@
                                                name="EmployeeContr"
                                                id="EmployeeContr"
                                                class="form-control {{ $errors->has('EmployeeContr') ? 'is-invalid' : '' }}"
-                                               value="{{ old("EmployeeContr") }}"
+                                               value="{{ old("EmployeeContr",$healthtype->employeeph) }}"
                                                placeholder="employee contr..."
                                         >
                                         @if ($errors->has('EmployeeContr'))
@@ -92,7 +92,7 @@
                                                name="EmployerContr"
                                                id="EmployerContr"
                                                class="form-control {{ $errors->has('EmployerContr') ? 'is-invalid' : '' }}"
-                                               value="{{ old("EmployerContr") }}"
+                                               value="{{ old("EmployerContr",$healthtype->employerph) }}"
                                                placeholder="employer contr..."
                                         >
                                         @if ($errors->has('EmployerContr'))
@@ -109,7 +109,7 @@
                                                name="RangeFrom"
                                                id="RangeFrom"
                                                class="form-control {{ $errors->has('RangeFrom') ? 'is-invalid' : '' }}"
-                                               value="{{ old("RangeFrom",0) }}"
+                                               value="{{ old("RangeFrom",$healthtype->rangefrom) }}"
                                                placeholder="range from..."
                                         >
                                         @if ($errors->has('RangeFrom'))
@@ -124,7 +124,7 @@
                                                name="RangeTo"
                                                id="RangeTo"
                                                class="form-control {{ $errors->has('RangeTo') ? 'is-invalid' : '' }}"
-                                               value="{{ old("RangeTo",9999999999) }}"
+                                               value="{{ old("RangeTo",$healthtype->rangeto) }}"
                                                placeholder="range to.."
                                         >
                                         @if ($errors->has('RangeTo'))

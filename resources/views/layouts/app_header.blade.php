@@ -126,20 +126,27 @@
                             <a href="{{ url("viewsss") }}" class="dropdown-item ">
                                 <i class="fas fa-th"></i> Social Security Types
                             </a>
-
+                            
+                             @can("view", \App\Prlhealthtype::class)
+                            <a href="{{ url("viewhealth") }}" class="dropdown-item ">
+                                <i class="fas fa-th"></i> Health Types
+                            </a>
+                            @endcan
+                             @can("view", \App\Models\Prltaxtablerate::class)
+                             <a href="{{ url("viewtax") }}" class="dropdown-item ">
+                                <i class="fas fa-box"></i> Tax table
+                            </a>
+                              @endcan
                             <a href="{{ route("groups.index") }}" class="dropdown-item ">
-                                <i class="fas fa-hands-helping"></i> Groups
+                                <i class="fas fa-hands-helping"></i> Departments
                             </a>
 
-                            <a href="{{ route("group_products.index") }}" class="dropdown-item ">
-                                <i class="fas fa-box"></i> Groups product prices
-                            </a>
 
                             <div class="dropdown-divider"></div>
 
-                            @can("view", \App\Block::class)
-                            <a href="{{ route("batches.index") }}" class="dropdown-item ">
-                                <i class="fas fa-database"></i> Batches
+                            @can("view", \App\prlhdmftype::class)
+                            <a href="{{ url("viewhdmf") }}" class="dropdown-item ">
+                                <i class="fas fa-database"></i> Workers Union
                             </a>
                             @endcan
 

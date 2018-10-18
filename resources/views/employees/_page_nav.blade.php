@@ -6,27 +6,27 @@
             <a class="nav-link" href="{{ route("farmers.show", $employee) }}">
                 Overview
             </a>
-            <a class="nav-link" href="{{ route("farmers.farms.index", $employee) }}">
-                Farmland blocks
+            <a class="nav-link" href="">
+                Branch
                 <span class="badge"></span>
             </a>
-            <a class="nav-link" href="{{ route("farmers.household_blocks.index", $employee) }}">
-                Household Blocks
+            <a class="nav-link" href="">
+                Department
                 <span class="badge"></span>
             </a>
-            <a class="nav-link" href="{{ route("farmers.sales.index", $employee) }}">
-                Sales
+            <a class="nav-link" href="">
+                Social Security
                 <span class="badge"></span>
             </a>
-            <a class="nav-link" href="{{ route("farmers.batches.index", $employee) }}">
-                Batches
+            <a class="nav-link" href="">
+                Salary Info
                 <span class="badge"></span>
             </a>
-            <a class="nav-link" href="{{ route("farmers.harvests.index", $employee) }}">
-                Harvests
+            <a class="nav-link" href="">
+                Bank Info
                 <span class="badge"></span>
             </a>
-            <a class="nav-link" href="{{ route("farmers.settings.index", $employee) }}">
+            <a class="nav-link" href="">
                 Settings
             </a>
         </div>

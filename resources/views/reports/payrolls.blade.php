@@ -19,10 +19,10 @@
                             Payroll reports
                         </h1>
                         <div class="btn-toolbar">
-                            <button type="button" class="btn btn-light">
-                                <i class="oi oi-data-transfer-download"></i>
-                                <span class="ml-1">Export</span>
-                            </button>
+                             <a href="{{ route("payrolls.export") }}" class="btn btn-light">
+                                <i class="far fa-file-excel"></i>
+                                <span class="ml-1">Export as excel</span>
+                            </a>
                         </div>
                     </div>
                 </header>

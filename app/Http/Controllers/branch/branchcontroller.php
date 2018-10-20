@@ -11,9 +11,15 @@ class branchcontroller extends Controller
 {
     public function index()
     {
-        $pagetitle="Branches";
-        $branches = branch::paginate(10);
 
+        $branches=Branch::latest()
+            ->when(request("q"), function($query){
+                return $query
+                    ->where("branchname", "LIKE", "%". request("q") ."%")
+                    ->orWhere("branchlocation", "LIKE", "%". request("q") ."%");
+
+            })
+            ->paginate();
         return view('branch.index', compact('pagetitle','branches'));
     }
 
@@ -43,7 +49,7 @@ class branchcontroller extends Controller
        // $mailer->sendTicketInformation(Auth::user(), $ticket);
 
         $pagetitle="Branches";
-        $branches = branch::paginate(10);
+        $branches = Branch::paginate(10);
          return view('branch.index', compact('pagetitle','branches'))->with("status", "A Branch with Title has been created.");
 
        // return redirect()->back()->with("status", "A Branch with Title has been created.");
@@ -51,7 +57,7 @@ class branchcontroller extends Controller
  public function show($branchid)
     {   
         $pagetitle="branch View";
-        $branch= branch::where('id', $branchid)->firstOrFail();
+        $branch= Branch::where('id', $branchid)->firstOrFail();
 
         //$comments = $ticket->comments;
 
@@ -65,7 +71,7 @@ class branchcontroller extends Controller
      public function edit($branchid)
     {   
         $pagetitle="Edit Branch";
-        $branch= branch::where('id', $branchid)->firstOrFail();
+        $branch= Branch::where('id', $branchid)->firstOrFail();
         
         return view('branch.edit', compact('branch','pagetitle'));
     }
@@ -81,7 +87,7 @@ class branchcontroller extends Controller
         ]);
        
 
-            $branch = branch::where('id', $branchid)->firstOrFail();
+            $branch = Branch::where('id', $branchid)->firstOrFail();
 
              $branch->branchname    =$request->input('branchname');
              $branch->branclocation   =$request->input('branclocation');
@@ -91,7 +97,7 @@ class branchcontroller extends Controller
 
        // $mailer->sendTicketInformation(Auth::user(), $ticket);
          $pagetitle="Branches";
-        $branches = branch::paginate(10);
+        $branches = Branch::paginate(10);
 
           return view('branch.index', compact('pagetitle','branches'))->with("status", "A branch Title has been Updated.");
 
@@ -101,7 +107,7 @@ class branchcontroller extends Controller
 
      public function destroy($branchid)
         {
-    $branches = branch::findOrFail($branchid);
+    $branches = Branch::findOrFail($branchid);
 
     $branches->delete();
 

@@ -33,6 +33,7 @@
 <body>
 <!-- .app -->
 <div id="app">
+    
     <!-- .app-header -->
     @include('layouts.app_header')
 

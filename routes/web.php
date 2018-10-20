@@ -193,6 +193,10 @@ Route::prefix('reports')->group(function () {
     ]);
 });
 
+  Route::get("payrolls/export", [
+        "as" => "payrolls.export",
+        "uses" => "PayrollsReportsController@export"
+    ]);
 Route::prefix('settings')->group(function () {
     
     Route::post("groups/{group}/products", [
@@ -327,6 +331,11 @@ Route::prefix('settings')->group(function () {
 
     Route::post('addcompany','company\companiesController@store');
     Route::get('createcompany','company\companiesController@create');
+    Route::get('viewcompany','company\companiesController@index');
+    Route::get('editcompany/{id}','company\companiesController@edit');
+    Route::post('updatecompany/{id}','company\companiesController@update');
+    Route::get('showcompany/{id}','company\companiesController@show');
+    Route::get('deletecompany/{id}','company\companiesController@destroy');
 
     Route::post('addsss','sss\SssController@store');
     Route::get('editsss/{id}','sss\SssController@edit');

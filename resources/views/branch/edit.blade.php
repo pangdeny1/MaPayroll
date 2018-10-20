@@ -1,13 +1,6 @@
- @extends('layouts.pagelayout')
+@extends("layouts.master")
 
-@section('template_title')
-  Create New User
-@endsection
-
-@section('template_fastload_css')
-@endsection
-
-@section('content')
+@section("content")
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">

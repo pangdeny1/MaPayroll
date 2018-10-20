@@ -1,6 +1,6 @@
 @extends("layouts.master")
 @section("content")
-    @if($branches->count())
+    @if($companies->count())
         <div class="wrapper">
             <div class="page">
                 <div class="page-inner">
@@ -13,13 +13,13 @@
                                     </a>
                                 </li>
                                 <li class="breadcrumb-item active">
-                                 Branches
+                                 Companies
                                 </li>
                             </ol>
                         </nav>
                         <div class="d-sm-flex align-items-sm-center">
                             <h1 class="page-title mr-sm-auto mb-0">
-                               Branches 
+                               Companies 
                                 
                             </h1>
                             <div class="btn-toolbar">
@@ -28,10 +28,10 @@
                                     <span class="ml-1">Export as excel</span>
                                 </a>
                                 
-                                @can("create", \App\Models\Branch::class)
-                                <a href="{{url('createbranch')}}" class="btn btn-primary">
+                                @can("create", \App\Models\Company::class)
+                                <a href="{{url('createcompany')}}" class="btn btn-primary">
                                     <span class="fas fa-plus mr-1"></span>
-                                    New Branches
+                                    New Companies
                                 </a>
                                 @endcan
                             </div>
@@ -43,7 +43,7 @@
                             <header class="card-header">
                                 <ul class="nav nav-tabs card-header-tabs">
                                     <li class="nav-item">
-                                        <a class="nav-link {{ request()->query("status") ? "" : "active" }}" href="{{ url("viewbranch") }}">
+                                        <a class="nav-link {{ request()->query("status") ? "" : "active" }}" href="{{ url("viewcompany") }}">
                                             All
                                         </a>
                                     </li>
@@ -67,7 +67,7 @@
 
                                 <!-- .table-responsive -->
 
-                                 <div class="text-muted">  Showing {{ $branches->firstItem() }} to {{ $branches->lastItem() }} of {{ $branches->total() }} entries </div>
+                                 <div class="text-muted">  Showing {{ $companies->firstItem() }} to {{ $companies->lastItem() }} of {{ $companies->total() }} entries </div>
 
                                 
                                 <div class="text-muted"> 
@@ -79,9 +79,13 @@
                                     <table class="table">
                                         <thead>
                                    <tr>
-                                    <th>Branch Name</th>
-                                    <th>Location</th>
-                                    <th>Last Updated</th>
+                                    <th>#</th>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th>Address </th>
+                                    <th>Phone</th>
+                                     <th>Fax </th>
+                                    <th>Email</th>
                                     
                                     <th>Action</th>
                                     
@@ -89,24 +93,37 @@
                                         </thead>
                                         <tbody>
                                          
-                                             @foreach ($branches as $branch)
-                                       <td>
-                                        <a href="{{ url('showbranch/'. $branch->id) }}">
-                                            #{{ $branch->id }} - {{ $branch->branchname }}
-                                        </a>
+                                             @foreach ($companies as $company)
+                                           <td>
+                                  
+                            
                                     </td>
-                                   <td>{{ $branch->branclocation }}</td>
-                                    <td>{{ $branch->updated_at }}</td>
+                                    <td>
+                                   {{$company->coycode}}
+                                    </td>
+                                    <td>
+                                  {{ $company->coyname}}
+                                    </td>
+                                    <td>
+                                        {{ $company->regoffice1}}
+                                    </td>
+                                    <td>
+                                        {{ $company->telephone}}
+                                    </td>
+                                    <td>
+                                        {{ $company->fax}}
+                                    </td>
+                                    <td>{{ $company->email}}</td>
                                     <td class="align-middle text-right">
-                                                    @can("edit", \App\Models\Branch::class)
-                                                    <a href="{{ url('editbranch/'.$branch->id) }}" class="btn btn-sm btn-secondary">
+                                                    @can("edit", \App\Models\Company::class)
+                                                    <a href="{{ url('editcompany/'.$company->id) }}" class="btn btn-sm btn-secondary">
                                                         <i class="fa fa-pencil-alt"></i>
                                                         <span class="sr-only">Edit</span>
                                                     </a>
                                                     @endcan
 
-                                                    @can("delete", \App\Models\Branch::class)
-                                                    <a href="{{ url('deletebranch/'.$branch->id) }}" onclick="return confirm('Are you sure you want to Delete this record')"  class="btn btn-sm btn-secondary">
+                                                    @can("delete", \App\Models\Company::class)
+                                                    <a href="{{ url('deletecompany/'.$company->id) }}" onclick="return confirm('Are you sure you want to Delete this record')"  class="btn btn-sm btn-secondary">
                                                         <i class="far fa-trash-alt"></i>
                                                         <span class="sr-only">Remove</span>
                                                     </a>
@@ -119,7 +136,7 @@
                                 </div>
 
                                 <!-- .pagination -->
-                                  {{ $branches->links() }}
+                                  {{ $companies->links() }}
                                 
                             </div>
                         </section>
@@ -144,9 +161,9 @@
                     <p class="state-description lead text-muted">
                         Use the button below to Register new .
                     </p>
-                    @can("create", \App\Models\Branch::class)
+                    @can("create", \App\Models\Company::class)
                     <div class="state-action">
-                        <a href="{{url('createbranch')}}" class="btn btn-primary">Register new</a>
+                        <a href="{{url('createcompany')}}" class="btn btn-primary">Register new</a>
                     </div>
                     @endcan
                 </div>

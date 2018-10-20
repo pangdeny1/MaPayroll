@@ -16,7 +16,7 @@
                             </li>
                         </ol>
                     </nav>
-                    <h1 class="page-title">Add Company</h1>
+                    <h1 class="page-title">Edit Company</h1>
                 </header>
 
                 <!-- .page-section -->
@@ -30,7 +30,7 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <form action="{{ url("addcompany") }}" method="post">
+                                <form action="{{ url("updatecompany/".$company->id) }}" method="post">
                                     @csrf
                                    
                                     <div class="card border-0">
@@ -43,7 +43,7 @@
                                                            name="companycode"
                                                            id="companycode"
                                                            class="form-control  {{ $errors->has('companycode') ? "is-invalid" : "" }}"
-                                                           value="{{ old("companycode") }}"
+                                                           value="{{ old("companycode",$company->coycode) }}"
                                                            placeholder="code..."
                                                     >
                                                     @if ($errors->has('companycode'))
@@ -61,7 +61,7 @@
                                                            name="companyname"
                                                            id="companyname"
                                                            class="form-control  {{ $errors->has('companyname') ? "is-invalid" : "" }}"
-                                                           value="{{ old("companyname") }}"
+                                                           value="{{ old("companyname",$company->coyname) }}"
                                                            placeholder="name..."
                                                     >
                                                     @if ($errors->has('companyname'))
@@ -79,7 +79,7 @@
                                                name="companynumber"
                                                id="companynumber"
                                                class="form-control {{ $errors->has('companynumber') ? 'is-invalid' : '' }}"
-                                               value="{{ old("companynumber") }}"
+                                               value="{{ old("companynumber",$company->companynumber) }}"
                                                placeholder="employee contr..."
                                         >
                                         @if ($errors->has('companynumber'))
@@ -94,7 +94,7 @@
                                                name="companytaxnumber"
                                                id="companytaxnumber"
                                                class="form-control {{ $errors->has('companytaxnumber') ? 'is-invalid' : '' }}"
-                                               value="{{ old("companytaxnumber") }}"
+                                               value="{{ old("companytaxnumber",$company->gstno) }}"
                                                placeholder="employer contr..."
                                         >
                                         @if ($errors->has('companytaxnumber'))
@@ -111,7 +111,7 @@
                                                name="companyaddress"
                                                id="companyaddress"
                                                class="form-control {{ $errors->has('companyaddress') ? 'is-invalid' : '' }}"
-                                               value="{{ old("companyaddress") }}"
+                                               value="{{ old("companyaddress",$company->regoffice1) }}"
                                                placeholder="range from..."
                                         >
                                         @if ($errors->has('companyaddress'))
@@ -126,7 +126,7 @@
                                                name="companytelephone"
                                                id="companytelephone"
                                                class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}"
-                                               value="{{ old("companytelephone") }}"
+                                               value="{{ old("companytelephone",$company->telephone) }}"
                                                placeholder="range to.."
                                         >
                                         @if ($errors->has('companytelephone'))
@@ -143,7 +143,7 @@
                                                name="companyfax"
                                                id="companyfax"
                                                class="form-control {{ $errors->has('companyfax') ? 'is-invalid' : '' }}"
-                                               value="{{ old("companyfax") }}"
+                                               value="{{ old("companyfax",$company->fax) }}"
                                                placeholder="range from..."
                                         >
                                         @if ($errors->has('companyfax'))
@@ -158,7 +158,7 @@
                                                name="companyemail"
                                                id="companyemail"
                                                class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
-                                               value="{{ old("companyemail") }}"
+                                               value="{{ old("companyemail",$company->email) }}"
                                                placeholder="range to.."
                                         >
                                         @if ($errors->has('companyemail'))

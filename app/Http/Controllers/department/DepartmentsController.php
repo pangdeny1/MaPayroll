@@ -13,7 +13,14 @@ class DepartmentsController extends Controller
 	public function index()
     {
          $pagetitle="Departments";
-        $departments = department::paginate(10);
+        $departments=Department::latest()
+            ->when(request("q"), function($query){
+                return $query
+                    ->where("departmentname", "LIKE", "%". request("q") ."%")
+                    ->orWhere("departmentlocation", "LIKE", "%". request("q") ."%");
+
+            })
+            ->paginate();
 
         return view('departments.index', compact('pagetitle','departments'));
 
@@ -107,9 +114,9 @@ class DepartmentsController extends Controller
 
      public function destroy($departmentid)
         {
-    $departments = department::findOrFail($departmentid);
+    $department = department::findOrFail($departmentid);
 
-    $departments->delete();
+    $department->delete();
 
       // return redirect()->route('tasks.index');
      return redirect()->back()->with("status", "department successfully deleted!");

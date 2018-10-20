@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 use App\prltransaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Exports\PayrollsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PayrollsReportsController extends Controller
 {
@@ -41,5 +43,10 @@ class PayrollsReportsController extends Controller
             $queryBuilder->where("payroll_id",$payroll_id );
         }
         return view("reports.payrolls", compact("payrolls"));
+    }
+
+      public function export() 
+    {
+        return Excel::download(new PayrollsExport, 'Payroll.xlsx');
     }
 }

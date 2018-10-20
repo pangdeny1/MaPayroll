@@ -152,6 +152,24 @@
 
                             <div class="dropdown-divider"></div>
 
+                            
+
+                            @can("view", \App\Models\Company::class)
+                            <a href="{{ url('viewcompany') }}" class="dropdown-item ">
+                                <i class="fas fa-users"></i> Companies
+                            </a>
+                            @endcan
+
+                            @can("view", \App\Models\Branch::class)
+                            <a href="{{ url('viewbranches') }}" class="dropdown-item ">
+                                <i class="fas fa-users"></i> Branches
+                            @endcan
+
+                            @can("view", \App\Models\Department::class)
+                            <a href="{{ url('viewdepartments') }}" class="dropdown-item ">
+                                <i class="fas fa-users"></i> Departments
+                            </a>
+                            @endcan
                             @can("view", \App\User::class)
                             <a href="{{ route("users.index") }}" class="dropdown-item ">
                                 <i class="fas fa-users"></i> Users
@@ -164,6 +182,8 @@
                             </a>
                             @endcan
                         </div>
+
+
                     </li>
                 </ul>
                 <div class="dropdown">

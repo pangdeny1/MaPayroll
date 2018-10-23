@@ -1,89 +1,142 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <title>Mapayroll App</title>
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    <!-- End Required meta tags -->
+    <title>{{ config('app.name', 'Homeveg') }}</title>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
+    <!-- Favicons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/apple-touch-icon.png">
+    <link rel="shortcut icon" href="assets/favicon.ico">
+    <meta name="theme-color" content="#3063A0">
 
-            .full-height {
-                height: 100vh;
-            }
+    <!-- BEGIN BASE STYLES -->
+    <link rel="stylesheet" href="{{ asset("themes/looper/assets/vendor/bootstrap/css/bootstrap.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("themes/looper/assets/vendor/font-awesome/css/fontawesome-all.min.css") }}">
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+    <!-- BEGIN THEME STYLES -->
+    <link rel="stylesheet" href="{{ asset("themes/looper/assets/stylesheets/main.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("themes/looper/assets/stylesheets/custom.css") }}">
+</head>
+<body>
+<!-- .auth -->
+<main class="auth auth-floated">
+    <!-- form -->
+    <form class="auth-form" method="POST" action="{{ route('login') }}">
+        @csrf
+        <div class="mb-4">
+            <div class="mb-3">
+                <img class="rounded" src="{{ asset("themes/looper/assets/homev_logo.jpg") }}" alt="" height="72">
+            </div>
+            <h1 class="h3"> Sign In </h1>
+        </div>
+        
 
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ route('home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        
-                    @endauth
-                </div>
+        <div class="form-group mb-4">
+            <label for="email" class="d-block text-left">Email address</label>
+            <input id="email"
+                   type="email"
+                   class="form-control form-control-lg {{ $errors->has('email') ? 'is-invalid' : '' }}"
+                   name="email"
+                   value="{{ old('email') }}"
+                   required
+                   autofocus
+            >
+            @if ($errors->has('email'))
+                <span class="invalid-feedback">
+                    <strong>{{ $errors->first('email') }}</strong>
+                </span>
             @endif
+        </div>
 
-            <div class="content">
-                <div class="title m-b-md">
-                   Mapayroll App
-                </div>
+        <div class="form-group mb-4">
+            <label for="password" class="d-block text-left">
+                Password
+                <a href="{{ route('password.request') }}" class="float-right small">I forgot password</a>
+            </label>
+            <input type="password"
+                   name="password"
+                   id="password"
+                   class="form-control form-control-lg {{ $errors->has('password') ? 'is-invalid' : '' }}"
+                   required
+            >
+            @if ($errors->has('password'))
+                <span class="invalid-feedback">
+                    <strong>{{ $errors->first('password') }}</strong>
+                </span>
+            @endif
+        </div>
 
-                <div class="links"></div>
+        <div class="form-group mb-4">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+        </div>
+
+        <div class="form-group text-left">
+            <div class="custom-control custom-control-inline custom-checkbox">
+                <input type="checkbox"
+                       class="custom-control-input"
+                       name="remember"
+                       id="remember"
+                      {{ old('remember') ? 'checked' : '' }}
+                >
+                <label class="custom-control-label" for="remember">
+                    Keep me sign in
+                </label>
             </div>
         </div>
-    </body>
+
+        <!-- /recovery links -->
+        <p class="py-3">
+            <a href="#" class="link">Forgot Username?</a>
+            <span class="mx-2">·</span>
+            <a href="{{ route('password.request') }}" class="link">
+                {{ __('Forgot Your Password?') }}
+            </a>
+        </p>
+        
+        <!-- copyright -->
+        <p class="px-3 text-muted text-center">
+             &copy; 2018-<?php echo date("Y"); ?> Ardoa Tanzania ,All Rights Reserved.
+            <a href="#">Privacy</a> and <a href="#">Terms</a>
+        </p>
+    </form>
+
+    <!-- .auth-announcement -->
+    <section id="announcement" class="auth-announcement" style="background-image: url({{ asset("themes/looper/assets/images/illustration/img-1.png") }});">
+        <div class="announcement-body">
+            <h2 class="announcement-title"> How to Prepare for an Automated Future </h2>
+            <a href="#" class="btn btn-warning">
+                <i class="fa fa-fw fa-angle-right"></i> Check Out Now
+            </a>
+        </div>
+    </section>
+</main>
+<!-- /.auth -->
+<!-- BEGIN PLUGINS JS -->
+<script src="{{ asset("themes/looper/assets/vendor/particles.js/particles.min.js") }}"></script>
+<script>
+    /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
+    particlesJS.load('announcement', 'themes/looper/assets/javascript/particles.json');
+</script>
+<!-- END PLUGINS JS -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-116692175-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-116692175-1');
+</script>
+</body>
 </html>
+
+

@@ -102,7 +102,7 @@
         
         <!-- copyright -->
         <p class="px-3 text-muted text-center">
-             &copy; 2018-<?php echo date("Y"); ?> Homeveg Tanzania ,All Rights Reserved.
+             &copy; 2018-<?php echo date("Y"); ?> Ardoa Tanzania ,All Rights Reserved.
             <a href="#">Privacy</a> and <a href="#">Terms</a>
         </p>
     </form>

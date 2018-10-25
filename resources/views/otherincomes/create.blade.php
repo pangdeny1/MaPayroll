@@ -154,6 +154,10 @@
                                 @endif
                             </div>
                         </div>
+
+                        <div class="form-group">
+                          <label class="control-label" for="flatpickr03">Human-friendly Dates</label>
+                          <input id="flatpickr03" type="text" class="form-control"> </div>
  
                             <div class="form-group{{ $errors->has('DateTo') ? ' has-error' : '' }}">
                             <label for="title" class="col-md-4 control-label">To Date</label>

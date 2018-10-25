@@ -54,6 +54,7 @@
                         <span class="menu-text">Browse a list</span>
                     </a>
 
+                  
                     @can("create", \App\Employee::class)
                     <a href="{{ route("employee.create")}}" class="menu-link mb-2">
                         <i class="fas fa-plus text-muted mr-2"></i>

@@ -58,6 +58,7 @@
 <script src="{{ asset("themes/looper/assets/vendor/flatpickr/flatpickr.min.js") }}"></script>
 <script src="{{ asset("themes/looper/assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js") }}"></script>
 <script src="{{ asset("themes/looper/assets/vendor/chart.js/Chart.min.js") }}"></script>
+<script src="{{ asset("themes/looper/assets/vendor/flatpickr.min.js") }}"></script>
 
 <!-- VUE.JS -->
 <script src="{{ asset("js/app.js") }}"></script>
@@ -68,6 +69,14 @@
 <!-- BEGIN PAGE LEVEL JS -->
 <script src="{{ asset("themes/looper/assets/javascript/pages/easypiechart-demo.js") }}"></script>
 <script src="{{ asset("themes/looper/assets/javascript/pages/dashboard-demo.js") }}"></script>
+
+
+    <script src="{{ asset("themes/looper/assets/javascript/pages/typeahead-demo.js") }}"></script>
+    <script src="{{ asset("themes/looper/assets/javascript/pages/select2-demo.js") }}"></script>
+    <script src="{{ asset("themes/looper/assets/javascript/pages/atwho-demo.js") }}"></script>
+   <script src="{{ asset("themes/looper/assets/javascript/pages/tribute-demo.js") }}"></script>
+
+   <script src="{{ asset("themes/looper/assets/javascript/pages/flatpickr-demo.js") }}"></script>
 
 
 

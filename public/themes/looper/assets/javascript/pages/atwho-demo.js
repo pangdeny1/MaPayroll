@@ -21,7 +21,7 @@ var atwhoDemo = {
     });
 
     // names
-    var names = ['Jacob', 'Isabella', 'Ethan', 'Emma', 'Michael', 'Olivia', 'Alexander', 'Sophia', 'William', 'Ava', 'Joshua', 'Emily', 'Daniel', 'Madison', 'Jayden', 'Abigail', 'Noah', 'Chloe', 'ä½ å¥½', 'ä½ ä½ ä½ ', 'JÃ©rÃ©my', 'ê°€'];
+    var names = ['Jacob', 'Isabella', 'Ethan', 'Emma', 'Michael', 'Olivia', 'Alexander', 'Sophia', 'William', 'Ava', 'Joshua', 'Emily', 'Daniel', 'Madison', 'Jayden', 'Abigail', 'Noah', 'Chloe', '你好', '你你你', 'Jérémy', '가'];
     names = $.map(names, function (value, i) {
       return { 'id': i, 'name': value, 'email': value.toLowerCase() + '@email.com' };
     });
@@ -29,7 +29,7 @@ var atwhoDemo = {
     var at_config = {
       at: '@',
       data: names,
-      headerTpl: '<div class="atwho-header">Member List<small>â†‘&nbspâ†“&nbsp</small></div>',
+      headerTpl: '<div class="atwho-header">Member List<small>↑&nbsp↓&nbsp</small></div>',
       insertTpl: '${name}',
       displayTpl: '<li>${name} <small>${email}</small></li>',
       limit: 200

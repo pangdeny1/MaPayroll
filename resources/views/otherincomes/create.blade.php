@@ -145,7 +145,7 @@
                             <label for="title" class="col-md-4 control-label">From Date</label>
 
                             <div class="col-md-6">
-                                <input type="date" name="DateFrom" class="form-control datepicker"  value="{{old('DateFrom')}}">
+                                <input id="flatpickr03" name="DateFrom" type="text" class="form-control" value="{{old('DateFrom')}}">
 
                                 @if ($errors->has('DateFrom'))
                                     <span class="help-block">
@@ -154,16 +154,13 @@
                                 @endif
                             </div>
                         </div>
-
-                        <div class="form-group">
-                          <label class="control-label" for="flatpickr03">Human-friendly Dates</label>
-                          <input id="flatpickr03" type="text" class="form-control"> </div>
+                        
  
                             <div class="form-group{{ $errors->has('DateTo') ? ' has-error' : '' }}">
                             <label for="title" class="col-md-4 control-label">To Date</label>
 
                             <div class="col-md-6">
-                                <input type="date" name="DateTo" class="form-control datepicker" value="{{old('DateTo')}}">
+                                <input type="text" id="flatpickr03" name="DateTo" class="form-control datepicker" value="{{old('DateTo')}}">
 
                                 @if ($errors->has('DateTo'))
                                     <span class="help-block">

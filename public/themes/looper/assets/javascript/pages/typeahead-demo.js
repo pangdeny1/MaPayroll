@@ -143,7 +143,7 @@ var typeaheadDemo = {
       source: bestPictures,
       templates: {
         empty: ['<div class="empty-message">', 'unable to find any Best Picture winners that match the current query', '</div>'].join('\n'),
-        suggestion: Handlebars.compile('<div><strong>{{value}}</strong> â€“ {{year}}</div>')
+        suggestion: Handlebars.compile('<div><strong>{{value}}</strong> – {{year}}</div>')
       }
     });
   },

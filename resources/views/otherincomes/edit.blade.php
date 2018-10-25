@@ -164,7 +164,7 @@
                             <label for="title" class="col-md-4 control-label">From Date</label>
 
                             <div class="col-md-6">
-                                <input type="date" name="DateFrom" class="form-control datepicker" value="{{$otherincome->othdate}}">
+                                <input type="text" id="flatpickr03" name="DateFrom" class="form-control datepicker" value="{{$otherincome->othdate}}">
 
                                 @if ($errors->has('DateFrom'))
                                     <span class="help-block">
@@ -178,7 +178,7 @@
                             <label for="title" class="col-md-4 control-label">To Date</label>
 
                             <div class="col-md-6">
-                                <input type="date" name="DateTo" class="form-control datepicker" value="{{$otherincome->stopdate}}">
+                                <input type="text" id="flatpickr03"name="DateTo" class="form-control datepicker" value="{{$otherincome->stopdate}}">
 
                                 @if ($errors->has('DateTo'))
                                     <span class="help-block">

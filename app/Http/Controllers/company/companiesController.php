@@ -9,6 +9,12 @@ use App\Http\Controllers\Controller;
 
 class companiesController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
 	public function index()
     {
      $pagetitle="company";

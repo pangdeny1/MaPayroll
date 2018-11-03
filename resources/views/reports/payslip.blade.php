@@ -24,14 +24,14 @@
     </section>
 
     <section>
-        <h6 class="mb-4">Payslip for month {{$payrollperiod->payrolldesc}}</h6>
+        <h6 class="mb-4">Payslip for month </h6>
 
         <table class="table table-sm table-bordered mb-4">
             <tbody>
                 <tr>
                     <th width="12.5%">Employee</th>
                     <td width="12.5%" class="text-right">
-                     {{$employee->first_name}} {{$employee->last_name}}  
+                      
                     </td>
                     <th width="12.5%">Variety</th>
                     <td width="12.5%" class="text-right">

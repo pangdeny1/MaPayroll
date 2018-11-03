@@ -134,7 +134,7 @@ public function payslip(Request $request)
      $employeeid=$request->input('employee');
      $headertype=$request->input('Report');
      $period=$request->input('period');
-     $payrollperiod= payroll::where('id', $period)->firstOrFail();
+     $payrollperiod= Payroll::where('id', $period)->firstOrFail();
     // $company=Company::where('id',1)->firstOrFail();
      $prltransaction=prltransaction::where('employee_id',$employeeid)->where('payroll_id',$payrollperiod->id)->firstOrFail();
      $employee=Employee::where('id',$employeeid)->firstOrFail();

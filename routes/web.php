@@ -369,7 +369,7 @@ Route::prefix('settings')->group(function () {
      Route::post('employeebio','report\reportscontroller@employeebio');
      Route::get('reportform','report\reportscontroller@reportform');
      Route::get('payslipform','report\reportscontroller@payslipform');
-     Route::post('payslip','report\reportscontroller@payslip');
+     Route::get('payslip','report\reportscontroller@payslip');
      Route::get('payrollregisterform','report\reportscontroller@payrollregisterform');
      Route::post('payrollregister','report\reportscontroller@payrollregister');
      Route::get('payrollregisterformpdf','report\reportscontroller@payrollregisterformpdf');
